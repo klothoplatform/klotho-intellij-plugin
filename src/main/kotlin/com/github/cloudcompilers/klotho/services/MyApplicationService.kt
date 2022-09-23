@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.cloudcompilers.klotho.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.cloudcompilers.klotho.MyBundle
 
 class MyApplicationService {
 

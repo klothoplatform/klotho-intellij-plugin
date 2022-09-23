@@ -1,7 +1,7 @@
-package org.jetbrains.plugins.template.services
+package com.github.cloudcompilers.klotho.services
 
 import com.intellij.openapi.project.Project
-import org.jetbrains.plugins.template.MyBundle
+import com.github.cloudcompilers.klotho.MyBundle
 
 class MyProjectService(project: Project) {
 
