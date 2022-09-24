@@ -11,14 +11,14 @@ import static com.github.cloudcompilers.klotho.language.psi.KlothoTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.cloudcompilers.klotho.language.psi.*;
 
-public class KlothoValueImpl extends ASTWrapperPsiElement implements KlothoValue {
+public class KlothoArrayImpl extends ASTWrapperPsiElement implements KlothoArray {
 
-  public KlothoValueImpl(@NotNull ASTNode node) {
+  public KlothoArrayImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull KlothoVisitor visitor) {
-    visitor.visitValue(this);
+    visitor.visitArray(this);
   }
 
   @Override
@@ -28,21 +28,15 @@ public class KlothoValueImpl extends ASTWrapperPsiElement implements KlothoValue
   }
 
   @Override
-  @Nullable
-  public PsiElement getMultilineString() {
-    return findChildByType(MULTILINE_STRING);
+  @NotNull
+  public List<KlothoStarPrefix> getStarPrefixList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoStarPrefix.class);
   }
 
   @Override
-  @Nullable
-  public PsiElement getNumber() {
-    return findChildByType(NUMBER);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getString() {
-    return findChildByType(STRING);
+  @NotNull
+  public List<KlothoValue> getValueList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoValue.class);
   }
 
 }

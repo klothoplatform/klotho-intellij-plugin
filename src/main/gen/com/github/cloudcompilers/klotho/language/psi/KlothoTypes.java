@@ -11,14 +11,18 @@ import com.github.cloudcompilers.klotho.language.psi.impl.*;
 public interface KlothoTypes {
 
   IElementType ANNOTATION_BODY = new KlothoElementType("ANNOTATION_BODY");
+  IElementType ANNOTATION_CONTENT = new KlothoElementType("ANNOTATION_CONTENT");
   IElementType ANNOTATION_EXPR = new KlothoElementType("ANNOTATION_EXPR");
+  IElementType ARRAY = new KlothoElementType("ARRAY");
   IElementType ASSIGNMENT_EXPR = new KlothoElementType("ASSIGNMENT_EXPR");
   IElementType CAPABILITY = new KlothoElementType("CAPABILITY");
   IElementType C_STYLE_COMMENT_BLOCK = new KlothoElementType("C_STYLE_COMMENT_BLOCK");
-  IElementType EXPR = new KlothoElementType("EXPR");
+  IElementType HEADER_ID = new KlothoElementType("HEADER_ID");
   IElementType JSDOC_COMMENT_BLOCK = new KlothoElementType("JSDOC_COMMENT_BLOCK");
   IElementType KEY = new KlothoElementType("KEY");
+  IElementType SECTION_HEADER = new KlothoElementType("SECTION_HEADER");
   IElementType STAR_PREFIX = new KlothoElementType("STAR_PREFIX");
+  IElementType STATEMENT = new KlothoElementType("STATEMENT");
   IElementType VALUE = new KlothoElementType("VALUE");
 
   IElementType ANNOTATION = new KlothoTokenType("@klotho");
@@ -29,6 +33,7 @@ public interface KlothoTypes {
   IElementType LEFT_BRACKET = new KlothoTokenType("[");
   IElementType MULTILINE_COMMENT_END = new KlothoTokenType("*/");
   IElementType MULTILINE_COMMENT_START = new KlothoTokenType("MULTILINE_COMMENT_START");
+  IElementType MULTILINE_STRING = new KlothoTokenType("MULTILINE_STRING");
   IElementType NUMBER = new KlothoTokenType("number");
   IElementType PERIOD = new KlothoTokenType(".");
   IElementType RIGHT_BRACE = new KlothoTokenType("}");
@@ -44,8 +49,14 @@ public interface KlothoTypes {
       if (type == ANNOTATION_BODY) {
         return new KlothoAnnotationBodyImpl(node);
       }
+      else if (type == ANNOTATION_CONTENT) {
+        return new KlothoAnnotationContentImpl(node);
+      }
       else if (type == ANNOTATION_EXPR) {
         return new KlothoAnnotationExprImpl(node);
+      }
+      else if (type == ARRAY) {
+        return new KlothoArrayImpl(node);
       }
       else if (type == ASSIGNMENT_EXPR) {
         return new KlothoAssignmentExprImpl(node);
@@ -56,8 +67,8 @@ public interface KlothoTypes {
       else if (type == C_STYLE_COMMENT_BLOCK) {
         return new KlothoCStyleCommentBlockImpl(node);
       }
-      else if (type == EXPR) {
-        return new KlothoExprImpl(node);
+      else if (type == HEADER_ID) {
+        return new KlothoHeaderIdImpl(node);
       }
       else if (type == JSDOC_COMMENT_BLOCK) {
         return new KlothoJsdocCommentBlockImpl(node);
@@ -65,8 +76,14 @@ public interface KlothoTypes {
       else if (type == KEY) {
         return new KlothoKeyImpl(node);
       }
+      else if (type == SECTION_HEADER) {
+        return new KlothoSectionHeaderImpl(node);
+      }
       else if (type == STAR_PREFIX) {
         return new KlothoStarPrefixImpl(node);
+      }
+      else if (type == STATEMENT) {
+        return new KlothoStatementImpl(node);
       }
       else if (type == VALUE) {
         return new KlothoValueImpl(node);

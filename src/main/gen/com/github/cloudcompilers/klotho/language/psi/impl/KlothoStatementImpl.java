@@ -11,14 +11,14 @@ import static com.github.cloudcompilers.klotho.language.psi.KlothoTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.cloudcompilers.klotho.language.psi.*;
 
-public class KlothoValueImpl extends ASTWrapperPsiElement implements KlothoValue {
+public class KlothoStatementImpl extends ASTWrapperPsiElement implements KlothoStatement {
 
-  public KlothoValueImpl(@NotNull ASTNode node) {
+  public KlothoStatementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull KlothoVisitor visitor) {
-    visitor.visitValue(this);
+    visitor.visitStatement(this);
   }
 
   @Override
@@ -29,20 +29,32 @@ public class KlothoValueImpl extends ASTWrapperPsiElement implements KlothoValue
 
   @Override
   @Nullable
-  public PsiElement getMultilineString() {
-    return findChildByType(MULTILINE_STRING);
+  public KlothoArray getArray() {
+    return findChildByClass(KlothoArray.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getNumber() {
-    return findChildByType(NUMBER);
+  public KlothoAssignmentExpr getAssignmentExpr() {
+    return findChildByClass(KlothoAssignmentExpr.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getString() {
-    return findChildByType(STRING);
+  public KlothoSectionHeader getSectionHeader() {
+    return findChildByClass(KlothoSectionHeader.class);
+  }
+
+  @Override
+  @NotNull
+  public KlothoStarPrefix getStarPrefix() {
+    return findNotNullChildByClass(KlothoStarPrefix.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getTomlComment() {
+    return findChildByType(TOML_COMMENT);
   }
 
 }

@@ -24,7 +24,8 @@
     STAR='*'
     PERIOD='.'
 
-    string="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
+    string="regexp:('(([^'][^']|[^'\\])|\\.)*'|\"(([^\"][^\"]|[^\"\\])|\\.)*\")"
+    MULTILINE_STRING="regexp:('''|\"\"\")(.*?\r?\n?)*('''|\"\"\")"
     number='regexp:\d+\.?\d*'
 
     TOML_COMMENT='regexp:(#.*\n)'
@@ -49,16 +50,27 @@ c_style_comment_block ::= [MULTILINE_COMMENT_START] (star_prefix annotation_expr
 annotation_expr ::= ANNOTATION '::' capability [ annotation_body ]
 
 
-annotation_body ::= star_prefix '{' [expr *] star_prefix '}'
+annotation_body ::= star_prefix '{' annotation_content star_prefix '}'
 
-expr ::= star_prefix ((assignment_expr TOML_COMMENT) | TOML_COMMENT | assignment_expr)
+annotation_content ::=  [statement *]
+
+statement ::= star_prefix (((assignment_expr | section_header) TOML_COMMENT) | TOML_COMMENT | any_expr)
+
+private any_expr ::= assignment_expr | section_header | array
 
 assignment_expr ::= key '=' value
 
-value ::= string | number
-
 star_prefix ::=  ['*' *]
+
+section_header ::= '[' header_id ']'
+
+array ::= '[' ([(value ( [star_prefix] ',' [star_prefix] )) * [star_prefix] [value] !','] )  ']'
+
+value ::= string | number | MULTILINE_STRING
 
 capability ::= ID
 
 key ::= ID
+
+header_id ::= ID
+

@@ -11,7 +11,15 @@ public class KlothoVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitAnnotationContent(@NotNull KlothoAnnotationContent o) {
+    visitPsiElement(o);
+  }
+
   public void visitAnnotationExpr(@NotNull KlothoAnnotationExpr o) {
+    visitPsiElement(o);
+  }
+
+  public void visitArray(@NotNull KlothoArray o) {
     visitPsiElement(o);
   }
 
@@ -27,7 +35,7 @@ public class KlothoVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitExpr(@NotNull KlothoExpr o) {
+  public void visitHeaderId(@NotNull KlothoHeaderId o) {
     visitPsiElement(o);
   }
 
@@ -39,7 +47,15 @@ public class KlothoVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitSectionHeader(@NotNull KlothoSectionHeader o) {
+    visitPsiElement(o);
+  }
+
   public void visitStarPrefix(@NotNull KlothoStarPrefix o) {
+    visitPsiElement(o);
+  }
+
+  public void visitStatement(@NotNull KlothoStatement o) {
     visitPsiElement(o);
   }
 

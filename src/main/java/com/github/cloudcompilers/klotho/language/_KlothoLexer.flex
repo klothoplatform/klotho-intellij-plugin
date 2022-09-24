@@ -26,7 +26,8 @@ EOL=\R
 WHITE_SPACE=\s+
 
 SPACE=[ \t\n\x0B\f\r]+
-STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
+STRING=('(([^'][^']|[^'\\])|\\.)*'|\"(([^\"][^\"]|[^\"\\])|\\.)*\")
+MULTILINE_STRING=('''|\"\"\")(.*?\r?\n?)*('''|\"\"\")
 NUMBER=[0-9]+\.?[0-9]*
 TOML_COMMENT=(#.*\n)
 ID=[:letter:][a-zA-Z_0-9]*
@@ -50,6 +51,7 @@ MULTILINE_COMMENT_START="/"\*(\r?\n|(\r\n)?)
 
   {SPACE}                        { return SPACE; }
   {STRING}                       { return STRING; }
+  {MULTILINE_STRING}             { return MULTILINE_STRING; }
   {NUMBER}                       { return NUMBER; }
   {TOML_COMMENT}                 { return TOML_COMMENT; }
   {ID}                           { return ID; }

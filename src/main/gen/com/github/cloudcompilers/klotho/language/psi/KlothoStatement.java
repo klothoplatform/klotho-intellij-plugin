@@ -5,10 +5,16 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface KlothoExpr extends PsiElement {
+public interface KlothoStatement extends PsiElement {
+
+  @Nullable
+  KlothoArray getArray();
 
   @Nullable
   KlothoAssignmentExpr getAssignmentExpr();
+
+  @Nullable
+  KlothoSectionHeader getSectionHeader();
 
   @NotNull
   KlothoStarPrefix getStarPrefix();
