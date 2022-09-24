@@ -34,6 +34,7 @@ ID=[:letter:][a-zA-Z_0-9]*
 CAPABILITY=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabilities
 JSDOC_COMMENT_START="/"\*\*\r?\n
 MULTILINE_COMMENT_START="/"\*(\r?\n|(\r\n)?)
+C_LINE_COMMENT=\/\/
 
 // identifier variants
 ID=[:letter:][a-zA-Z_0-9]*
@@ -66,6 +67,7 @@ SECTION_HEADER=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabi
   {TOML_COMMENT}                 { return TOML_COMMENT; }
   {JSDOC_COMMENT_START}          { return JSDOC_COMMENT_START; }
   {MULTILINE_COMMENT_START}      { return MULTILINE_COMMENT_START; }
+  {C_LINE_COMMENT}               { return C_LINE_COMMENT; }
 
 }
 
@@ -74,7 +76,7 @@ SECTION_HEADER=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabi
 }
 
 <capability_name> {
-  {CAPABILITY}                           { yybegin(normal); return CAPABILITY; }
+  {CAPABILITY}                  { yybegin(normal); return CAPABILITY; }
 }
 
 [^] { return BAD_CHARACTER; }

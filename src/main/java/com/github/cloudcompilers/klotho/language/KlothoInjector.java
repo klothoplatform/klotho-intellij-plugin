@@ -15,7 +15,7 @@ public final class KlothoInjector implements LanguageInjectionContributor {
 public @Nullable Injection getInjection(@NotNull PsiElement context) {
     if (shouldInjectKlotho(context)) {
         return new SimpleInjection(
-                KlothoLanguage.INSTANCE, "", "", null
+                KlothoLanguage.INSTANCE, "hello", "there", null
         );
     }
     return null;

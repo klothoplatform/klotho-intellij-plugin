@@ -28,7 +28,7 @@
     MULTILINE_STRING="regexp:('''|\"\"\")(.*?\r?\n?)*('''|\"\"\")"
     number='regexp:\d+\.?\d*'
 
-    TOML_COMMENT='regexp:(#.*\n)'
+    TOML_COMMENT='regexp:#.*\n'
 
     ANNOTATION='@klotho'
     SEPARATOR='::'
@@ -39,19 +39,21 @@
     JSDOC_COMMENT_START='regexp:/\*\*\r?\n'
     MULTILINE_COMMENT_START='regexp:/\*(\r?\n|(\r\n)?)'
     MULTILINE_COMMENT_END='*/'
+    C_LINE_COMMENT  = '//'
   ]
 }
 
 // see Grammar Kit: https://github.com/JetBrains/Grammar-Kit
 
-root ::= (jsdoc_comment_block | c_style_comment_block)
+root ::= (jsdoc_comment_block | c_style_comment_block | line_comment_block ) *
 
-jsdoc_comment_block ::= JSDOC_COMMENT_START (star_prefix annotation_expr) * MULTILINE_COMMENT_END
+jsdoc_comment_block ::= JSDOC_COMMENT_START (star_prefix annotation_expr) + MULTILINE_COMMENT_END
 
-c_style_comment_block ::= [MULTILINE_COMMENT_START] (star_prefix annotation_expr) * [MULTILINE_COMMENT_END]
+c_style_comment_block ::= MULTILINE_COMMENT_START (star_prefix annotation_expr) + MULTILINE_COMMENT_END
 
-annotation_expr ::= ANNOTATION '::' CAPABILITY [ annotation_body ]
+line_comment_block ::= ('*'  annotation_expr +) | ('//'  annotation_expr +)
 
+annotation_expr ::= '@klotho' '::' capability [ annotation_body ]
 
 annotation_body ::= star_prefix '{' annotation_content star_prefix '}'
 
@@ -63,7 +65,7 @@ private any_expr ::= assignment_expr | section_header | array
 
 assignment_expr ::= key '=' value
 
-star_prefix ::=  ['*' *]
+star_prefix ::=  ('*' | '//' ) *
 
 section_header ::= '[' header_id ']'
 
@@ -75,3 +77,5 @@ key ::= ID
 
 header_id ::= ID
 
+// this just helps with the live preview
+private capability ::= CAPABILITY | ID

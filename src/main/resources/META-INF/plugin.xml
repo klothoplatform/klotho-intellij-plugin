@@ -15,7 +15,8 @@
                 fieldName="INSTANCE"
                 language="Klotho"
                 extensions="klotho"/>
-        <languageInjectionContributor language="JavaScript" implementationClass="com.github.cloudcompilers.klotho.language.KlothoInjector"/>
+<!--        <languageInjectionContributor language="JavaScript" implementationClass="com.github.cloudcompilers.klotho.language.KlothoInjector"/>-->
+        <multiHostInjector implementation="com.github.cloudcompilers.klotho.language.KlothoMultiHostInjector"/>
         <lang.parserDefinition
                 language="Klotho"
                 implementationClass="com.github.cloudcompilers.klotho.language.KlothoParserDefinition"/>
@@ -27,6 +28,9 @@
         <completion.contributor
                 language="Klotho"
                 implementationClass="com.github.cloudcompilers.klotho.language.KlothoCompletionContributor"/>
+        <codeInsight.lineMarkerProvider
+                language="Klotho"
+                implementationClass="com.github.cloudcompilers.klotho.language.KlothoCapabilityMarkerProvider"/>
     </extensions>
 
     <extensions defaultExtensionNs="org.intellij.intelliLang">
