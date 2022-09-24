@@ -30,6 +30,9 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey ID =
             createTextAttributesKey("KLOTHO_ID", DefaultLanguageHighlighterColors.IDENTIFIER);
 
+    public static final TextAttributesKey CAPABILITY =
+            createTextAttributesKey("KLOTHO_CAPABILITY", DefaultLanguageHighlighterColors.CLASS_NAME);
+
     public static final TextAttributesKey TOML_COMMENT =
             createTextAttributesKey("KLOTHO_TOML_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
 
@@ -41,13 +44,16 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
 
     private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
     private static final TextAttributesKey[] SEPARATOR_KEYS = new TextAttributesKey[]{SEPARATOR};
+
     private static final TextAttributesKey[] ID_KEYS = new TextAttributesKey[]{ID};
+
+    private static final TextAttributesKey[] CAPABILITY_KEYS = new TextAttributesKey[]{CAPABILITY};
 
     private static final TextAttributesKey[] ANNOTATION_KEYS = new TextAttributesKey[]{ANNOTATION};
     private static final TextAttributesKey[] VALUE_KEYS = new TextAttributesKey[]{STRING};
 
     private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[]{NUMBER};
-    private static final TextAttributesKey[] COMMENT_BLOCK_KEYS = new TextAttributesKey[]{ STAR};
+    private static final TextAttributesKey[] COMMENT_BLOCK_KEYS = new TextAttributesKey[]{STAR};
 
     private static final TextAttributesKey[] TOML_COMMENT_KEYS = new TextAttributesKey[]{TOML_COMMENT};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
@@ -66,6 +72,9 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
         if (tokenType.equals(KlothoTypes.ANNOTATION)) {
             return ANNOTATION_KEYS;
         }
+        if (tokenType.equals(KlothoTypes.CAPABILITY)) {
+            return CAPABILITY_KEYS;
+        }
         if (tokenType.equals(KlothoTypes.ID)) {
             return ID_KEYS;
         }
@@ -77,7 +86,7 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
                 KlothoTypes.MULTILINE_COMMENT_START,
                 KlothoTypes.MULTILINE_COMMENT_END,
                 KlothoTypes.STAR
-        ).contains(tokenType)){
+        ).contains(tokenType)) {
             return COMMENT_BLOCK_KEYS;
         }
         if (tokenType.equals(KlothoTypes.TOML_COMMENT)) {

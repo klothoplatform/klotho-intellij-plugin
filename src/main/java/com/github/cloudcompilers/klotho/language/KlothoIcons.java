@@ -6,6 +6,6 @@ import javax.swing.*;
 
 public class KlothoIcons {
 
-  public static final Icon FILE = IconLoader.getIcon("/icons/pluginIcon.svg", KlothoIcons.class);
+  public static final Icon FILE = IconLoader.getIcon("/icons/Klotho.svg", KlothoIcons.class);
 
 }

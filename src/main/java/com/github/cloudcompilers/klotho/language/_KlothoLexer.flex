@@ -31,11 +31,21 @@ MULTILINE_STRING=('''|\"\"\")(.*?\r?\n?)*('''|\"\"\")
 NUMBER=[0-9]+\.?[0-9]*
 TOML_COMMENT=(#.*\n)
 ID=[:letter:][a-zA-Z_0-9]*
+CAPABILITY=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabilities
 JSDOC_COMMENT_START="/"\*\*\r?\n
 MULTILINE_COMMENT_START="/"\*(\r?\n|(\r\n)?)
 
+// identifier variants
+ID=[:letter:][a-zA-Z_0-9]*
+CAPABILITY=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabilities
+SECTION_HEADER=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabilities
+
+// states
+%xstate capability_name normal
+
+
 %%
-<YYINITIAL> {
+<YYINITIAL, normal> {
   {WHITE_SPACE}                  { return WHITE_SPACE; }
 
   "{"                            { return LEFT_BRACE; }
@@ -46,7 +56,7 @@ MULTILINE_COMMENT_START="/"\*(\r?\n|(\r\n)?)
   "*"                            { return STAR; }
   "."                            { return PERIOD; }
   "@klotho"                      { return ANNOTATION; }
-  "::"                           { return SEPARATOR; }
+  "::"                           { yybegin(capability_name); return SEPARATOR; }
   "*/"                           { return MULTILINE_COMMENT_END; }
 
   {SPACE}                        { return SPACE; }
@@ -54,10 +64,17 @@ MULTILINE_COMMENT_START="/"\*(\r?\n|(\r\n)?)
   {MULTILINE_STRING}             { return MULTILINE_STRING; }
   {NUMBER}                       { return NUMBER; }
   {TOML_COMMENT}                 { return TOML_COMMENT; }
-  {ID}                           { return ID; }
   {JSDOC_COMMENT_START}          { return JSDOC_COMMENT_START; }
   {MULTILINE_COMMENT_START}      { return MULTILINE_COMMENT_START; }
 
+}
+
+<normal> {
+  {ID}                           { return ID; }
+}
+
+<capability_name> {
+  {CAPABILITY}                           { yybegin(normal); return CAPABILITY; }
 }
 
 [^] { return BAD_CHARACTER; }

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class KlothoCompletionContributor extends CompletionContributor {
 
   public KlothoCompletionContributor() {
-    extend(CompletionType.BASIC, PlatformPatterns.psiElement(KlothoTypes.ID),
+    extend(CompletionType.BASIC, PlatformPatterns.psiElement(KlothoTypes.CAPABILITY),
             new CompletionProvider<>() {
               public void addCompletions(@NotNull CompletionParameters parameters,
                                          @NotNull ProcessingContext context,

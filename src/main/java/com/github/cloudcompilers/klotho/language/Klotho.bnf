@@ -32,7 +32,10 @@
 
     ANNOTATION='@klotho'
     SEPARATOR='::'
+
     ID='regexp:\p{Alpha}\w*'
+    CAPABILITY // defined in lexer
+
     JSDOC_COMMENT_START='regexp:/\*\*\r?\n'
     MULTILINE_COMMENT_START='regexp:/\*(\r?\n|(\r\n)?)'
     MULTILINE_COMMENT_END='*/'
@@ -47,7 +50,7 @@ jsdoc_comment_block ::= JSDOC_COMMENT_START (star_prefix annotation_expr) * MULT
 
 c_style_comment_block ::= [MULTILINE_COMMENT_START] (star_prefix annotation_expr) * [MULTILINE_COMMENT_END]
 
-annotation_expr ::= ANNOTATION '::' capability [ annotation_body ]
+annotation_expr ::= ANNOTATION '::' CAPABILITY [ annotation_body ]
 
 
 annotation_body ::= star_prefix '{' annotation_content star_prefix '}'
@@ -67,8 +70,6 @@ section_header ::= '[' header_id ']'
 array ::= '[' ([(value ( [star_prefix] ',' [star_prefix] )) * [star_prefix] [value] !','] )  ']'
 
 value ::= string | number | MULTILINE_STRING
-
-capability ::= ID
 
 key ::= ID
 
