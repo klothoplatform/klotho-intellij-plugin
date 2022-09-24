@@ -1,0 +1,64 @@
+{
+  parserClass="com.github.cloudcompilers.klotho.language.psi.KlothoParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Klotho"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.github.cloudcompilers.klotho.language.psi"
+  psiImplPackage="com.github.cloudcompilers.klotho.language.psi.impl"
+
+  elementTypeHolderClass="com.github.cloudcompilers.klotho.language.psi.KlothoTypes"
+  elementTypeClass="com.github.cloudcompilers.klotho.language.KlothoElementType"
+  tokenTypeClass="com.github.cloudcompilers.klotho.language.KlothoTokenType"
+
+//  psiImplUtilClass="com.github.cloudcompilers.klotho.language.KlothoPsiImplUtil"
+
+  tokens=[
+    LEFT_BRACE='{'
+    RIGHT_BRACE='}'
+    space='regexp:\s+'
+    EQ='='
+    LEFT_BRACKET='['
+    RIGHT_BRACKET=']'
+    STAR='*'
+    PERIOD='.'
+
+    string="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
+    number='regexp:\d+\.?\d*'
+
+    TOML_COMMENT='regexp:(#.*\n)'
+
+    ANNOTATION='@klotho'
+    SEPARATOR='::'
+    ID='regexp:\p{Alpha}\w*'
+    JSDOC_COMMENT_START='regexp:/\*\*\r?\n'
+    MULTILINE_COMMENT_START='regexp:/\*(\r?\n|(\r\n)?)'
+    MULTILINE_COMMENT_END='*/'
+  ]
+}
+
+// see Grammar Kit: https://github.com/JetBrains/Grammar-Kit
+
+root ::= (jsdoc_comment_block | c_style_comment_block)
+
+jsdoc_comment_block ::= JSDOC_COMMENT_START (star_prefix annotation_expr) * MULTILINE_COMMENT_END
+
+c_style_comment_block ::= [MULTILINE_COMMENT_START] (star_prefix annotation_expr) * [MULTILINE_COMMENT_END]
+
+annotation_expr ::= ANNOTATION '::' capability [ annotation_body ]
+
+
+annotation_body ::= star_prefix '{' [expr *] star_prefix '}'
+
+expr ::= star_prefix ((assignment_expr TOML_COMMENT) | TOML_COMMENT | assignment_expr)
+
+assignment_expr ::= key '=' value
+
+value ::= string | number
+
+star_prefix ::=  ['*' *]
+
+capability ::= ID
+
+key ::= ID

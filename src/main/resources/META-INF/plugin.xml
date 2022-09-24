@@ -1,18 +1,36 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.cloudcompilers.klothointellijplugin</id>
+    <id>com.github.cloudcompilers.klotho</id>
     <name>Klotho</name>
     <vendor>Klotho</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>JavaScript</depends>
+<!--    <depends optional="true" config-file="injections/typescript-injections.xml">org.intellij.intelliLang</depends>-->
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.cloudcompilers.klothointellijplugin.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.cloudcompilers.klothointellijplugin.services.MyProjectService"/>
+        <fileType
+                name="Klotho File"
+                implementationClass="com.github.cloudcompilers.klotho.language.KlothoFileType"
+                fieldName="INSTANCE"
+                language="Klotho"
+                extensions="klotho"/>
+        <languageInjectionContributor language="JavaScript" implementationClass="com.github.cloudcompilers.klotho.language.KlothoInjector"/>
+        <lang.parserDefinition
+                language="Klotho"
+                implementationClass="com.github.cloudcompilers.klotho.language.KlothoParserDefinition"/>
+        <lang.syntaxHighlighterFactory
+                language="Klotho"
+                implementationClass="com.github.cloudcompilers.klotho.language.highlighting.KlothoSyntaxHighlighterFactory"/>
+        <colorSettingsPage
+                implementation="com.github.cloudcompilers.klotho.language.highlighting.KlothoColorSettingsPage"/>
+        <completion.contributor
+                language="Klotho"
+                implementationClass="com.github.cloudcompilers.klotho.language.KlothoCompletionContributor"/>
     </extensions>
 
-    <applicationListeners>
-        <listener class="com.github.cloudcompilers.klothointellijplugin.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
+    <extensions defaultExtensionNs="org.intellij.intelliLang">
+        <injectionConfig config="injections/typescript-injections.xml"/>
+    </extensions>
+
 </idea-plugin>
