@@ -5,6 +5,7 @@ import com.github.cloudcompilers.klotho.language.psi.KlothoTypes;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider;
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
+import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +18,7 @@ public class KlothoCapabilityMarkerProvider extends RelatedItemLineMarkerProvide
     protected void collectNavigationMarkers(@NotNull PsiElement element,
                                             @NotNull Collection<? super RelatedItemLineMarkerInfo<?>> result) {
         // This must be a capability with an annotation expression as a parent
-        if (!(element instanceof LeafPsiElement && ((LeafPsiElement) element).getElementType() == KlothoTypes.CAPABILITY) || !(element.getParent() instanceof KlothoAnnotationExpr)) {
+        if (!(element instanceof ASTNode && ((ASTNode) element).getElementType() == KlothoTypes.CAPABILITY)) {
             return;
         }
 

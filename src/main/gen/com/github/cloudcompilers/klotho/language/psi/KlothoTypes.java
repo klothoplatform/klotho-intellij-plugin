@@ -19,7 +19,6 @@ public interface KlothoTypes {
   IElementType HEADER_ID = new KlothoElementType("HEADER_ID");
   IElementType JSDOC_COMMENT_BLOCK = new KlothoElementType("JSDOC_COMMENT_BLOCK");
   IElementType KEY = new KlothoElementType("KEY");
-  IElementType LINE_COMMENT_BLOCK = new KlothoElementType("LINE_COMMENT_BLOCK");
   IElementType SECTION_HEADER = new KlothoElementType("SECTION_HEADER");
   IElementType STATEMENT = new KlothoElementType("STATEMENT");
 
@@ -33,10 +32,11 @@ public interface KlothoTypes {
   IElementType LEFT_BRACE = new KlothoTokenType("{");
   IElementType LEFT_BRACKET = new KlothoTokenType("[");
   IElementType MULTILINE_COMMENT_END = new KlothoTokenType("*/");
-  IElementType MULTILINE_COMMENT_START = new KlothoTokenType("MULTILINE_COMMENT_START");
+  IElementType MULTILINE_COMMENT_START = new KlothoTokenType("/*");
   IElementType MULTILINE_STRING = new KlothoTokenType("MULTILINE_STRING");
   IElementType NUMBER = new KlothoTokenType("number");
   IElementType PERIOD = new KlothoTokenType(".");
+  IElementType PY_COMMENT = new KlothoTokenType("#");
   IElementType RIGHT_BRACE = new KlothoTokenType("}");
   IElementType RIGHT_BRACKET = new KlothoTokenType("]");
   IElementType SEPARATOR = new KlothoTokenType("::");
@@ -73,9 +73,6 @@ public interface KlothoTypes {
       }
       else if (type == KEY) {
         return new KlothoKeyImpl(node);
-      }
-      else if (type == LINE_COMMENT_BLOCK) {
-        return new KlothoLineCommentBlockImpl(node);
       }
       else if (type == SECTION_HEADER) {
         return new KlothoSectionHeaderImpl(node);

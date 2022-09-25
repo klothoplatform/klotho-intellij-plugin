@@ -33,10 +33,4 @@ public class KlothoCStyleCommentBlockImpl extends ASTWrapperPsiElement implement
     return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoAnnotationExpr.class);
   }
 
-  @Override
-  @NotNull
-  public PsiElement getMultilineCommentStart() {
-    return findNotNullChildByType(MULTILINE_COMMENT_START);
-  }
-
 }

@@ -32,7 +32,7 @@
         <codeInsight.lineMarkerProvider
                 language="Klotho"
                 implementationClass="com.github.cloudcompilers.klotho.language.KlothoCapabilityMarkerProvider"/>
-        <annotator language="Python" implementationClass="com.github.cloudcompilers.klotho.language.KlothoAnnotator"/>
+<!--        <annotator language="Python" implementationClass="com.github.cloudcompilers.klotho.language.KlothoAnnotator"/>-->
     </extensions>
 
     <extensions defaultExtensionNs="org.intellij.intelliLang">

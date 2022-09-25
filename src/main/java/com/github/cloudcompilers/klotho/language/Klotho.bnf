@@ -37,24 +37,23 @@
     ID='regexp:\p{Alpha}\w*'
     CAPABILITY // defined in lexer
 
-    JSDOC_COMMENT_START='regexp:/\*\*\r?\n'
-    MULTILINE_COMMENT_START='regexp:/\*(\r?\n|(\r\n)?)'
+    JSDOC_COMMENT_START='regexp:/\*\*\s?'
+    MULTILINE_COMMENT_START='/*'
     MULTILINE_COMMENT_END='*/'
     C_LINE_COMMENT  = '//'
+    PY_COMMENT = '#'
   ]
 }
 
 // see Grammar Kit: https://github.com/JetBrains/Grammar-Kit
 
-root ::= (jsdoc_comment_block | c_style_comment_block | anything_goes) +
+root ::= (jsdoc_comment_block | c_style_comment_block | line_comment) +
 
 jsdoc_comment_block ::= JSDOC_COMMENT_START (star_prefix annotation_expr) + MULTILINE_COMMENT_END
 
 c_style_comment_block ::= MULTILINE_COMMENT_START (star_prefix annotation_expr) + MULTILINE_COMMENT_END
 
-//line_comment_block ::= ('*'  annotation_expr +) | ('//'  annotation_expr +)
-
-private anything_goes ::=  star_prefix ('@klotho' '::' capability) | '{' | statement | '}'
+private line_comment ::= ('#' |'//') | star_prefix ('@klotho' '::' capability) | '{' | statement | '}'
 
 annotation_expr ::= '@klotho' '::' capability [ annotation_body ] {pin=3}
 
@@ -74,7 +73,7 @@ section_header ::= '[' header_id ']' {pin=1}
 
 private value ::= simple_value | array
 
-array ::= '[' ([(value ( [star_prefix] ',' [star_prefix] )) * [star_prefix] [value] !','] )  ']'
+array ::= '[' ([(value ( [star_prefix] ',' [star_prefix] )) * [star_prefix] [value] !','] )  ']' {pin=2}
 
 private simple_value ::=  number | string | MULTILINE_STRING
 

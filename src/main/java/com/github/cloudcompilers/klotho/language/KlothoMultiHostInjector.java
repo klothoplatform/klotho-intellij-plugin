@@ -30,9 +30,9 @@ public final class KlothoMultiHostInjector implements MultiHostInjector {
             return;
         }
 
-        if (singleLineTypes.contains(((PsiComment) context).getTokenType()) && shouldInjectSingle((PsiComment) context)) {
+        if (context.getLanguage().getDisplayName().equals("Python") || singleLineTypes.contains(((PsiComment) context).getTokenType()) && shouldInjectSingle((PsiComment) context)) {
             registrar.startInjecting(KlothoLanguage.INSTANCE);
-            registrar.addPlace(null, null, (PsiLanguageInjectionHost) context, TextRange.create(findStartOffset(context), context.getTextLength()));
+            registrar.addPlace(null, null, (PsiLanguageInjectionHost) context, TextRange.create(0, context.getTextLength()));
             registrar.doneInjecting();
         }
 
@@ -40,7 +40,7 @@ public final class KlothoMultiHostInjector implements MultiHostInjector {
                 || JSTokenTypes.C_STYLE_COMMENT.equals(((PsiComment) context).getTokenType())) {
             if (context.getText().contains("@klotho::")) {
                 registrar.startInjecting(KlothoLanguage.INSTANCE);
-                registrar.addPlace(null, null, (PsiLanguageInjectionHost) context, TextRange.create(findStartOffset(context), context.getTextLength()));
+                registrar.addPlace(null, null, (PsiLanguageInjectionHost) context, TextRange.create(0, context.getTextLength()));
                 registrar.doneInjecting();
             }
         }

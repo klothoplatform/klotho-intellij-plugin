@@ -43,10 +43,6 @@ public class KlothoVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitLineCommentBlock(@NotNull KlothoLineCommentBlock o) {
-    visitPsiElement(o);
-  }
-
   public void visitSectionHeader(@NotNull KlothoSectionHeader o) {
     visitPsiElement(o);
   }
