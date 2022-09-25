@@ -28,9 +28,9 @@ public class KlothoSectionHeaderImpl extends ASTWrapperPsiElement implements Klo
   }
 
   @Override
-  @NotNull
+  @Nullable
   public KlothoHeaderId getHeaderId() {
-    return findNotNullChildByClass(KlothoHeaderId.class);
+    return findChildByClass(KlothoHeaderId.class);
   }
 
 }

@@ -7,10 +7,19 @@ import com.intellij.psi.PsiElement;
 
 public interface KlothoAssignmentExpr extends PsiElement {
 
+  @Nullable
+  KlothoArray getArray();
+
   @NotNull
   KlothoKey getKey();
 
-  @NotNull
-  KlothoValue getValue();
+  @Nullable
+  PsiElement getMultilineString();
+
+  @Nullable
+  PsiElement getNumber();
+
+  @Nullable
+  PsiElement getString();
 
 }

@@ -8,16 +8,10 @@ import com.intellij.psi.PsiElement;
 public interface KlothoStatement extends PsiElement {
 
   @Nullable
-  KlothoArray getArray();
-
-  @Nullable
   KlothoAssignmentExpr getAssignmentExpr();
 
   @Nullable
   KlothoSectionHeader getSectionHeader();
-
-  @NotNull
-  KlothoStarPrefix getStarPrefix();
 
   @Nullable
   PsiElement getTomlComment();

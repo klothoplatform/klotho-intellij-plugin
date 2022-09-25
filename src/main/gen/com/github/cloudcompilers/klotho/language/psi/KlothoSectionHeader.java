@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface KlothoSectionHeader extends PsiElement {
 
-  @NotNull
+  @Nullable
   KlothoHeaderId getHeaderId();
 
 }

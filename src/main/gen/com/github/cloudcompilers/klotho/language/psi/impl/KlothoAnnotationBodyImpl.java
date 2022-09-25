@@ -28,15 +28,9 @@ public class KlothoAnnotationBodyImpl extends ASTWrapperPsiElement implements Kl
   }
 
   @Override
-  @NotNull
+  @Nullable
   public KlothoAnnotationContent getAnnotationContent() {
-    return findNotNullChildByClass(KlothoAnnotationContent.class);
-  }
-
-  @Override
-  @NotNull
-  public List<KlothoStarPrefix> getStarPrefixList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoStarPrefix.class);
+    return findChildByClass(KlothoAnnotationContent.class);
   }
 
 }

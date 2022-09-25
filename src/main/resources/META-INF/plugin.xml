@@ -6,7 +6,8 @@
 
     <depends>com.intellij.modules.platform</depends>
     <depends>JavaScript</depends>
-<!--    <depends optional="true" config-file="injections/typescript-injections.xml">org.intellij.intelliLang</depends>-->
+    <depends optional="true" config-file="injections/typescript-injections.xml">org.intellij.intelliLang</depends>
+    <depends optional="true" config-file="injections/java-injections.xml">org.intellij.intelliLang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType
@@ -15,7 +16,7 @@
                 fieldName="INSTANCE"
                 language="Klotho"
                 extensions="klotho"/>
-<!--        <languageInjectionContributor language="JavaScript" implementationClass="com.github.cloudcompilers.klotho.language.KlothoInjector"/>-->
+        <languageInjectionContributor language="JAVA" implementationClass="com.github.cloudcompilers.klotho.language.KlothoInjector"/>
         <multiHostInjector implementation="com.github.cloudcompilers.klotho.language.KlothoMultiHostInjector"/>
         <lang.parserDefinition
                 language="Klotho"
@@ -31,6 +32,7 @@
         <codeInsight.lineMarkerProvider
                 language="Klotho"
                 implementationClass="com.github.cloudcompilers.klotho.language.KlothoCapabilityMarkerProvider"/>
+        <annotator language="Python" implementationClass="com.github.cloudcompilers.klotho.language.KlothoAnnotator"/>
     </extensions>
 
     <extensions defaultExtensionNs="org.intellij.intelliLang">

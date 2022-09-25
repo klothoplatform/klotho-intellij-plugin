@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface KlothoArray extends PsiElement {
 
   @NotNull
-  List<KlothoStarPrefix> getStarPrefixList();
-
-  @NotNull
-  List<KlothoValue> getValueList();
+  List<KlothoArray> getArrayList();
 
 }

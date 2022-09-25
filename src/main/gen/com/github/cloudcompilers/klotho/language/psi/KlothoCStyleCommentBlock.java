@@ -11,9 +11,6 @@ public interface KlothoCStyleCommentBlock extends PsiElement {
   List<KlothoAnnotationExpr> getAnnotationExprList();
 
   @NotNull
-  List<KlothoStarPrefix> getStarPrefixList();
-
-  @NotNull
   PsiElement getMultilineCommentStart();
 
 }

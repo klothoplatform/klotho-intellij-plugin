@@ -29,12 +29,6 @@ public class KlothoStatementImpl extends ASTWrapperPsiElement implements KlothoS
 
   @Override
   @Nullable
-  public KlothoArray getArray() {
-    return findChildByClass(KlothoArray.class);
-  }
-
-  @Override
-  @Nullable
   public KlothoAssignmentExpr getAssignmentExpr() {
     return findChildByClass(KlothoAssignmentExpr.class);
   }
@@ -43,12 +37,6 @@ public class KlothoStatementImpl extends ASTWrapperPsiElement implements KlothoS
   @Nullable
   public KlothoSectionHeader getSectionHeader() {
     return findChildByClass(KlothoSectionHeader.class);
-  }
-
-  @Override
-  @NotNull
-  public KlothoStarPrefix getStarPrefix() {
-    return findNotNullChildByClass(KlothoStarPrefix.class);
   }
 
   @Override

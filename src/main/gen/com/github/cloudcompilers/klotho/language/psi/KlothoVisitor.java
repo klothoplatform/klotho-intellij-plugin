@@ -51,15 +51,7 @@ public class KlothoVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitStarPrefix(@NotNull KlothoStarPrefix o) {
-    visitPsiElement(o);
-  }
-
   public void visitStatement(@NotNull KlothoStatement o) {
-    visitPsiElement(o);
-  }
-
-  public void visitValue(@NotNull KlothoValue o) {
     visitPsiElement(o);
   }
 

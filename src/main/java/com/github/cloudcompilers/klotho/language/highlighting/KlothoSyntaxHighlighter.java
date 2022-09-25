@@ -50,7 +50,7 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] CAPABILITY_KEYS = new TextAttributesKey[]{CAPABILITY};
 
     private static final TextAttributesKey[] ANNOTATION_KEYS = new TextAttributesKey[]{ANNOTATION};
-    private static final TextAttributesKey[] VALUE_KEYS = new TextAttributesKey[]{STRING};
+    private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[]{STRING};
 
     private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[]{NUMBER};
     private static final TextAttributesKey[] COMMENT_BLOCK_KEYS = new TextAttributesKey[]{STAR};
@@ -78,8 +78,8 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
         if (tokenType.equals(KlothoTypes.ID)) {
             return ID_KEYS;
         }
-        if (tokenType.equals(KlothoTypes.VALUE)) {
-            return VALUE_KEYS;
+        if (tokenType.equals(KlothoTypes.STRING)) {
+            return STRING_KEYS;
         }
         if (List.of(
                 KlothoTypes.JSDOC_COMMENT_START,

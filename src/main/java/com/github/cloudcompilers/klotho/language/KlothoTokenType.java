@@ -12,7 +12,7 @@ public class KlothoTokenType extends IElementType {
 
   @Override
   public String toString() {
-    return "KlothoType." + super.toString();
+    return super.toString();
   }
 
 }

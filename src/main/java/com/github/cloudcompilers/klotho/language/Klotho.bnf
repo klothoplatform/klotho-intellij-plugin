@@ -23,12 +23,13 @@
     RIGHT_BRACKET=']'
     STAR='*'
     PERIOD='.'
+    COMMA=','
 
     string="regexp:('(([^'][^']|[^'\\])|\\.)*'|\"(([^\"][^\"]|[^\"\\])|\\.)*\")"
     MULTILINE_STRING="regexp:('''|\"\"\")(.*?\r?\n?)*('''|\"\"\")"
     number='regexp:\d+\.?\d*'
 
-    TOML_COMMENT='regexp:#.*\n'
+    TOML_COMMENT='regexp:#.*'
 
     ANNOTATION='@klotho'
     SEPARATOR='::'
@@ -45,37 +46,41 @@
 
 // see Grammar Kit: https://github.com/JetBrains/Grammar-Kit
 
-root ::= (jsdoc_comment_block | c_style_comment_block | line_comment_block ) *
+root ::= (jsdoc_comment_block | c_style_comment_block | anything_goes) +
 
 jsdoc_comment_block ::= JSDOC_COMMENT_START (star_prefix annotation_expr) + MULTILINE_COMMENT_END
 
 c_style_comment_block ::= MULTILINE_COMMENT_START (star_prefix annotation_expr) + MULTILINE_COMMENT_END
 
-line_comment_block ::= ('*'  annotation_expr +) | ('//'  annotation_expr +)
+//line_comment_block ::= ('*'  annotation_expr +) | ('//'  annotation_expr +)
 
-annotation_expr ::= '@klotho' '::' capability [ annotation_body ]
+private anything_goes ::=  star_prefix ('@klotho' '::' capability) | '{' | statement | '}'
 
-annotation_body ::= star_prefix '{' annotation_content star_prefix '}'
+annotation_expr ::= '@klotho' '::' capability [ annotation_body ] {pin=3}
+
+annotation_body ::= star_prefix '{' annotation_content star_prefix '}' {pin=2}
 
 annotation_content ::=  [statement *]
 
 statement ::= star_prefix (((assignment_expr | section_header) TOML_COMMENT) | TOML_COMMENT | any_expr)
 
-private any_expr ::= assignment_expr | section_header | array
+private any_expr ::= assignment_expr | section_header
 
-assignment_expr ::= key '=' value
+assignment_expr ::= key '=' value {pin=2}
 
-star_prefix ::=  ('*' | '//' ) *
+private star_prefix ::=  ('*' | '//' ) *
 
-section_header ::= '[' header_id ']'
+section_header ::= '[' header_id ']' {pin=1}
+
+private value ::= simple_value | array
 
 array ::= '[' ([(value ( [star_prefix] ',' [star_prefix] )) * [star_prefix] [value] !','] )  ']'
 
-value ::= string | number | MULTILINE_STRING
+private simple_value ::=  number | string | MULTILINE_STRING
 
 key ::= ID
 
 header_id ::= ID
 
-// this just helps with the live preview
+// this just helps with the live preview. the lexer distinguishes between capability and id
 private capability ::= CAPABILITY | ID

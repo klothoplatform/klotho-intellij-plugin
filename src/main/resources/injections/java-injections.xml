@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component name="LanguageInjectionConfiguration">
+    <injection language="Klotho" injector-id="java">
+        <display-name>Klotho Annotations</display-name>
+        <place><![CDATA[psiComment().withText("@klotho")]]></place>
+    </injection>
+
+</component>
+

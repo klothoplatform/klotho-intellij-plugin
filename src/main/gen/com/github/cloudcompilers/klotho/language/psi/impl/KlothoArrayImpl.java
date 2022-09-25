@@ -29,14 +29,8 @@ public class KlothoArrayImpl extends ASTWrapperPsiElement implements KlothoArray
 
   @Override
   @NotNull
-  public List<KlothoStarPrefix> getStarPrefixList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoStarPrefix.class);
-  }
-
-  @Override
-  @NotNull
-  public List<KlothoValue> getValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoValue.class);
+  public List<KlothoArray> getArrayList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoArray.class);
   }
 
 }

@@ -21,12 +21,11 @@ public interface KlothoTypes {
   IElementType KEY = new KlothoElementType("KEY");
   IElementType LINE_COMMENT_BLOCK = new KlothoElementType("LINE_COMMENT_BLOCK");
   IElementType SECTION_HEADER = new KlothoElementType("SECTION_HEADER");
-  IElementType STAR_PREFIX = new KlothoElementType("STAR_PREFIX");
   IElementType STATEMENT = new KlothoElementType("STATEMENT");
-  IElementType VALUE = new KlothoElementType("VALUE");
 
   IElementType ANNOTATION = new KlothoTokenType("@klotho");
   IElementType CAPABILITY = new KlothoTokenType("CAPABILITY");
+  IElementType COMMA = new KlothoTokenType(",");
   IElementType C_LINE_COMMENT = new KlothoTokenType("//");
   IElementType EQ = new KlothoTokenType("=");
   IElementType ID = new KlothoTokenType("ID");
@@ -81,14 +80,8 @@ public interface KlothoTypes {
       else if (type == SECTION_HEADER) {
         return new KlothoSectionHeaderImpl(node);
       }
-      else if (type == STAR_PREFIX) {
-        return new KlothoStarPrefixImpl(node);
-      }
       else if (type == STATEMENT) {
         return new KlothoStatementImpl(node);
-      }
-      else if (type == VALUE) {
-        return new KlothoValueImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

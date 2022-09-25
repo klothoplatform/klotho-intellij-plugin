@@ -29,7 +29,7 @@ SPACE=[ \t\n\x0B\f\r]+
 STRING=('(([^'][^']|[^'\\])|\\.)*'|\"(([^\"][^\"]|[^\"\\])|\\.)*\")
 MULTILINE_STRING=('''|\"\"\")(.*?\r?\n?)*('''|\"\"\")
 NUMBER=[0-9]+\.?[0-9]*
-TOML_COMMENT=(#.*\n)
+TOML_COMMENT=(#.*)
 ID=[:letter:][a-zA-Z_0-9]*
 CAPABILITY=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabilities
 JSDOC_COMMENT_START="/"\*\*\r?\n
@@ -56,6 +56,7 @@ SECTION_HEADER=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabi
   "]"                            { return RIGHT_BRACKET; }
   "*"                            { return STAR; }
   "."                            { return PERIOD; }
+  ","                            { return COMMA; }
   "@klotho"                      { return ANNOTATION; }
   "::"                           { yybegin(capability_name); return SEPARATOR; }
   "*/"                           { return MULTILINE_COMMENT_END; }

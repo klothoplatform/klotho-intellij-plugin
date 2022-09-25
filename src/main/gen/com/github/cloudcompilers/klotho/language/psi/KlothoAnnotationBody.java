@@ -7,10 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface KlothoAnnotationBody extends PsiElement {
 
-  @NotNull
+  @Nullable
   KlothoAnnotationContent getAnnotationContent();
-
-  @NotNull
-  List<KlothoStarPrefix> getStarPrefixList();
 
 }
