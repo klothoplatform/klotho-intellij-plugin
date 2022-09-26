@@ -14,6 +14,8 @@ plugins {
     id("org.jetbrains.changelog") version "1.3.1"
     // Gradle Qodana Plugin
     id("org.jetbrains.qodana") version "0.1.13"
+    // Gradle Grammar-Kit Plugin
+    id("org.jetbrains.grammarkit") version "2021.2.2"
 }
 
 group = properties("pluginGroup")
@@ -54,6 +56,24 @@ qodana {
     reportPath.set(projectDir.resolve("build/reports/inspections").canonicalPath)
     saveReport.set(true)
     showReport.set(System.getenv("QODANA_SHOW_REPORT")?.toBoolean() ?: false)
+}
+
+grammarKit {
+    tasks {
+        generateLexer {
+            source.set("src/main/grammars/_KlothoLexer.flex")
+            targetDir.set("src/main/gen/com/github/cloudcompilers/klotho/language")
+            targetClass.set("_KlothoLexer")
+        }
+
+        generateParser {
+            source.set("src/main/grammars/Klotho.bnf")
+            targetRoot.set("src/main/gen")
+            pathToParser.set("KlothoParser.java")
+            pathToPsiRoot.set("com/github/cloudcompilers/klotho/language/parser/psi")
+            purgeOldFiles.set(true)
+        }
+    }
 }
 
 tasks {
