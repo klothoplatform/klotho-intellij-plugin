@@ -34,15 +34,9 @@ public class KlothoAnnotationExprImpl extends ASTWrapperPsiElement implements Kl
   }
 
   @Override
-  @Nullable
+  @NotNull
   public PsiElement getCapability() {
-    return findChildByType(CAPABILITY);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getId() {
-    return findChildByType(ID);
+    return findNotNullChildByType(CAPABILITY);
   }
 
 }

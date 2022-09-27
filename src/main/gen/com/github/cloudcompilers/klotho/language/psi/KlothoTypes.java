@@ -19,13 +19,17 @@ public interface KlothoTypes {
   IElementType HEADER_ID = new KlothoElementType("HEADER_ID");
   IElementType JSDOC_COMMENT_BLOCK = new KlothoElementType("JSDOC_COMMENT_BLOCK");
   IElementType KEY = new KlothoElementType("KEY");
+  IElementType NUMBER = new KlothoElementType("NUMBER");
   IElementType SECTION_HEADER = new KlothoElementType("SECTION_HEADER");
   IElementType STATEMENT = new KlothoElementType("STATEMENT");
 
+  IElementType ADD = new KlothoTokenType("+");
   IElementType ANNOTATION = new KlothoTokenType("@klotho");
+  IElementType BOOLEAN = new KlothoTokenType("BOOLEAN");
   IElementType CAPABILITY = new KlothoTokenType("CAPABILITY");
   IElementType COMMA = new KlothoTokenType(",");
   IElementType C_LINE_COMMENT = new KlothoTokenType("//");
+  IElementType DIGIT = new KlothoTokenType("digit");
   IElementType EQ = new KlothoTokenType("=");
   IElementType ID = new KlothoTokenType("ID");
   IElementType JSDOC_COMMENT_START = new KlothoTokenType("JSDOC_COMMENT_START");
@@ -34,7 +38,6 @@ public interface KlothoTypes {
   IElementType MULTILINE_COMMENT_END = new KlothoTokenType("*/");
   IElementType MULTILINE_COMMENT_START = new KlothoTokenType("/*");
   IElementType MULTILINE_STRING = new KlothoTokenType("MULTILINE_STRING");
-  IElementType NUMBER = new KlothoTokenType("number");
   IElementType PERIOD = new KlothoTokenType(".");
   IElementType PY_COMMENT = new KlothoTokenType("#");
   IElementType RIGHT_BRACE = new KlothoTokenType("}");
@@ -42,6 +45,7 @@ public interface KlothoTypes {
   IElementType SEPARATOR = new KlothoTokenType("::");
   IElementType STAR = new KlothoTokenType("*");
   IElementType STRING = new KlothoTokenType("string");
+  IElementType SUB = new KlothoTokenType("-");
   IElementType TOML_COMMENT = new KlothoTokenType("TOML_COMMENT");
 
   class Factory {
@@ -73,6 +77,9 @@ public interface KlothoTypes {
       }
       else if (type == KEY) {
         return new KlothoKeyImpl(node);
+      }
+      else if (type == NUMBER) {
+        return new KlothoNumberImpl(node);
       }
       else if (type == SECTION_HEADER) {
         return new KlothoSectionHeaderImpl(node);

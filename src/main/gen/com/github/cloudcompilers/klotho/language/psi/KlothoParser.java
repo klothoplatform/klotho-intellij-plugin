@@ -36,6 +36,80 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // ['-' | '+'] digit + ['.' digit *]
+  public static boolean Number(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "Number")) return false;
+    boolean result_, pinned_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, NUMBER, "<number>");
+    result_ = Number_0(builder_, level_ + 1);
+    result_ = result_ && Number_1(builder_, level_ + 1);
+    pinned_ = result_; // pin = 2
+    result_ = result_ && Number_2(builder_, level_ + 1);
+    exit_section_(builder_, level_, marker_, result_, pinned_, null);
+    return result_ || pinned_;
+  }
+
+  // ['-' | '+']
+  private static boolean Number_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "Number_0")) return false;
+    Number_0_0(builder_, level_ + 1);
+    return true;
+  }
+
+  // '-' | '+'
+  private static boolean Number_0_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "Number_0_0")) return false;
+    boolean result_;
+    result_ = consumeToken(builder_, SUB);
+    if (!result_) result_ = consumeToken(builder_, ADD);
+    return result_;
+  }
+
+  // digit +
+  private static boolean Number_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "Number_1")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, DIGIT);
+    while (result_) {
+      int pos_ = current_position_(builder_);
+      if (!consumeToken(builder_, DIGIT)) break;
+      if (!empty_element_parsed_guard_(builder_, "Number_1", pos_)) break;
+    }
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  // ['.' digit *]
+  private static boolean Number_2(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "Number_2")) return false;
+    Number_2_0(builder_, level_ + 1);
+    return true;
+  }
+
+  // '.' digit *
+  private static boolean Number_2_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "Number_2_0")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, PERIOD);
+    result_ = result_ && Number_2_0_1(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  // digit *
+  private static boolean Number_2_0_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "Number_2_0_1")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!consumeToken(builder_, DIGIT)) break;
+      if (!empty_element_parsed_guard_(builder_, "Number_2_0_1", pos_)) break;
+    }
+    return true;
+  }
+
+  /* ********************************************************** */
   // star_prefix '{' annotation_content star_prefix '}'
   public static boolean annotation_body(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "annotation_body")) return false;
@@ -268,14 +342,9 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CAPABILITY | ID
+  // CAPABILITY
   static boolean capability(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "capability")) return false;
-    if (!nextTokenIs(builder_, "", CAPABILITY, ID)) return false;
-    boolean result_;
-    result_ = consumeToken(builder_, CAPABILITY);
-    if (!result_) result_ = consumeToken(builder_, ID);
-    return result_;
+    return consumeToken(builder_, CAPABILITY);
   }
 
   /* ********************************************************** */
@@ -430,13 +499,14 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // number | string | MULTILINE_STRING
+  // Number | string | MULTILINE_STRING | BOOLEAN
   static boolean simple_value(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "simple_value")) return false;
     boolean result_;
-    result_ = consumeToken(builder_, NUMBER);
+    result_ = Number(builder_, level_ + 1);
     if (!result_) result_ = consumeToken(builder_, STRING);
     if (!result_) result_ = consumeToken(builder_, MULTILINE_STRING);
+    if (!result_) result_ = consumeToken(builder_, BOOLEAN);
     return result_;
   }
 

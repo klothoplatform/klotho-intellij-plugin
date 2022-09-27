@@ -27,6 +27,9 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey NUMBER =
             createTextAttributesKey("KLOTHO_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
 
+    public static final TextAttributesKey BOOLEAN =
+            createTextAttributesKey("KLOTHO_BOOLEAN", DefaultLanguageHighlighterColors.NUMBER);
+
     public static final TextAttributesKey ID =
             createTextAttributesKey("KLOTHO_ID", DefaultLanguageHighlighterColors.IDENTIFIER);
 
@@ -53,6 +56,8 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[]{STRING};
 
     private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[]{NUMBER};
+
+    private static final TextAttributesKey[] BOOLEAN_KEYS = new TextAttributesKey[]{BOOLEAN};
     private static final TextAttributesKey[] COMMENT_BLOCK_KEYS = new TextAttributesKey[]{STAR};
 
     private static final TextAttributesKey[] TOML_COMMENT_KEYS = new TextAttributesKey[]{TOML_COMMENT};
@@ -94,6 +99,9 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
         }
         if (tokenType.equals(KlothoTypes.NUMBER)) {
             return NUMBER_KEYS;
+        }
+        if (tokenType.equals(KlothoTypes.BOOLEAN)) {
+            return BOOLEAN_KEYS;
         }
         if (tokenType.equals(TokenType.BAD_CHARACTER)) {
             return BAD_CHAR_KEYS;

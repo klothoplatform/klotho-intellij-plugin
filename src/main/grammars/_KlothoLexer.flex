@@ -48,19 +48,18 @@ WHITE_SPACE=\s+
 SPACE=[ \t\n\x0B\f\r]+
 STRING=('(([^'][^']|[^'\\])|\\.)*'|\"(([^\"][^\"]|[^\"\\])|\\.)*\")
 MULTILINE_STRING=('''|\"\"\")(.*?\r?\n?)*('''|\"\"\")
-NUMBER=[0-9]+\.?[0-9]*
+DIGIT=\d
 TOML_COMMENT=(#.*)
-ID=[:letter:][a-zA-Z_0-9]*
 CAPABILITY=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabilities
 JSDOC_COMMENT_START="/"\*\*\s?
 MULTILINE_COMMENT_START="/*"
 C_LINE_COMMENT=\s*\/\/
 PY_COMMENT=#
-
 // identifier variants
-ID=[:letter:][a-zA-Z_0-9]*
+ID=[:letter:][a-zA-Z_0-9\-.]*
 CAPABILITY=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabilities
 SECTION_HEADER=[:letter:][a-zA-Z_0-9]*
+BOOLEAN=(true|false)
 
 // states
 %state multiline_comment line_comment raw annotation_decl line_content
@@ -90,13 +89,16 @@ SECTION_HEADER=[:letter:][a-zA-Z_0-9]*
 
 <multiline_comment, line_comment, line_content> {
   "="                            { return EQ; }
+  "+"                            { return ADD; }
+  "-"                            { return SUB; }
   "["                            { return LEFT_BRACKET; }
   "]"                            { return RIGHT_BRACKET; }
   "."                            { return PERIOD; }
   ","                            { return COMMA; }
   {STRING}                       { return STRING; }
   {MULTILINE_STRING}             { return MULTILINE_STRING; }
-  {NUMBER}                       { return NUMBER; }
+  {DIGIT}                       { return DIGIT; }
+  {BOOLEAN}                       { return BOOLEAN; }
   {TOML_COMMENT}                 { return TOML_COMMENT; }
   {ID}                           { return ID; }
   "@klotho"                      { yypushState(annotation_decl); return ANNOTATION; }

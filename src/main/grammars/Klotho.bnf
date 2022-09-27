@@ -24,18 +24,22 @@
     STAR='*'
     PERIOD='.'
     COMMA=','
+    ADD='+'
+    SUB='-'
+    BOOLEAN='regexp:(true|false)'
 
     string="regexp:('(([^'][^']|[^'\\])|\\.)*'|\"(([^\"][^\"]|[^\"\\])|\\.)*\")"
     MULTILINE_STRING="regexp:('''|\"\"\")(.*?\r?\n?)*('''|\"\"\")"
-    number='regexp:\d+\.?\d*'
+
+    digit = 'regexp:\d'
 
     TOML_COMMENT='regexp:#.*'
 
     ANNOTATION='@klotho'
     SEPARATOR='::'
 
-    ID='regexp:\p{Alpha}\w*'
-    CAPABILITY // defined in lexer
+    ID='regexp:\p{Alpha}[\w-.]*'
+    CAPABILITY='regexp:\p{Alpha}\w*'
 
     JSDOC_COMMENT_START='regexp:/\*\*\s?'
     MULTILINE_COMMENT_START='/*'
@@ -75,11 +79,13 @@ private value ::= simple_value | array
 
 array ::= '[' ([(value ( [star_prefix] ',' [star_prefix] )) * [star_prefix] [value] !','] )  ']' {pin=2}
 
-private simple_value ::=  number | string | MULTILINE_STRING
+private simple_value ::=  Number | string | MULTILINE_STRING | BOOLEAN
 
 key ::= ID
 
 header_id ::= ID
 
 // this just helps with the live preview. the lexer distinguishes between capability and id
-private capability ::= CAPABILITY | ID
+private capability ::= CAPABILITY
+
+Number ::= ['-' | '+'] digit + ['.' digit *] {pin=2}
