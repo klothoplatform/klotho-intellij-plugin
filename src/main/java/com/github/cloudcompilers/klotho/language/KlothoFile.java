@@ -1,5 +1,6 @@
 package com.github.cloudcompilers.klotho.language;
 
+import com.github.cloudcompilers.klotho.language.parsing.KlothoFileType;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;

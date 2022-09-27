@@ -4,8 +4,8 @@ package com.github.cloudcompilers.klotho.language.psi;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.PsiElement;
 import com.intellij.lang.ASTNode;
-import com.github.cloudcompilers.klotho.language.KlothoElementType;
-import com.github.cloudcompilers.klotho.language.KlothoTokenType;
+import com.github.cloudcompilers.klotho.language.parsing.KlothoElementType;
+import com.github.cloudcompilers.klotho.language.parsing.KlothoTokenType;
 import com.github.cloudcompilers.klotho.language.psi.impl.*;
 
 public interface KlothoTypes {

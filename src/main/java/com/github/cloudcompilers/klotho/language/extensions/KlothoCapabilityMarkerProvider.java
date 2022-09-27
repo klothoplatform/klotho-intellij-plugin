@@ -1,13 +1,12 @@
-package com.github.cloudcompilers.klotho.language;
+package com.github.cloudcompilers.klotho.language.extensions;
 
-import com.github.cloudcompilers.klotho.language.psi.KlothoAnnotationExpr;
+import com.github.cloudcompilers.klotho.language.KlothoIcons;
 import com.github.cloudcompilers.klotho.language.psi.KlothoTypes;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider;
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;

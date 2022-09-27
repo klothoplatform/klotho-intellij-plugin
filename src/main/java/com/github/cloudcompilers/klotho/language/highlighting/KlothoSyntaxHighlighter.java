@@ -1,6 +1,6 @@
 package com.github.cloudcompilers.klotho.language.highlighting;
 
-import com.github.cloudcompilers.klotho.language.KlothoLexerAdapter;
+import com.github.cloudcompilers.klotho.language.parsing.KlothoLexerAdapter;
 import com.github.cloudcompilers.klotho.language.psi.KlothoTypes;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;

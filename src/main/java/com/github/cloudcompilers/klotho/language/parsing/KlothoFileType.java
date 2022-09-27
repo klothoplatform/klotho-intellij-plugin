@@ -1,5 +1,7 @@
-package com.github.cloudcompilers.klotho.language;
+package com.github.cloudcompilers.klotho.language.parsing;
 
+import com.github.cloudcompilers.klotho.language.KlothoIcons;
+import com.github.cloudcompilers.klotho.language.KlothoLanguage;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

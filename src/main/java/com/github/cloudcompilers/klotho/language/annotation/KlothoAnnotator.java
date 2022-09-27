@@ -1,4 +1,4 @@
-package com.github.cloudcompilers.klotho.language;
+package com.github.cloudcompilers.klotho.language.annotation;
 
 import com.github.cloudcompilers.klotho.language.highlighting.KlothoSyntaxHighlighter;
 import com.intellij.lang.annotation.AnnotationHolder;

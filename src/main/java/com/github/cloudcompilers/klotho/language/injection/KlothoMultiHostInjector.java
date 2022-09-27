@@ -1,5 +1,6 @@
-package com.github.cloudcompilers.klotho.language;
+package com.github.cloudcompilers.klotho.language.injection;
 
+import com.github.cloudcompilers.klotho.language.KlothoLanguage;
 import com.intellij.lang.injection.MultiHostInjector;
 import com.intellij.lang.injection.MultiHostRegistrar;
 import com.intellij.lang.javascript.JSTokenTypes;

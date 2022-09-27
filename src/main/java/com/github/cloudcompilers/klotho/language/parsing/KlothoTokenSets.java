@@ -1,4 +1,4 @@
-package com.github.cloudcompilers.klotho.language;
+package com.github.cloudcompilers.klotho.language.parsing;
 
 import com.github.cloudcompilers.klotho.language.psi.KlothoTypes;
 import com.intellij.psi.tree.TokenSet;

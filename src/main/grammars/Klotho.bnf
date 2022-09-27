@@ -9,8 +9,8 @@
   psiImplPackage="com.github.cloudcompilers.klotho.language.psi.impl"
 
   elementTypeHolderClass="com.github.cloudcompilers.klotho.language.psi.KlothoTypes"
-  elementTypeClass="com.github.cloudcompilers.klotho.language.KlothoElementType"
-  tokenTypeClass="com.github.cloudcompilers.klotho.language.KlothoTokenType"
+  elementTypeClass="com.github.cloudcompilers.klotho.language.parsing.KlothoElementType"
+  tokenTypeClass="com.github.cloudcompilers.klotho.language.parsing.KlothoTokenType"
 
 //  psiImplUtilClass="com.github.cloudcompilers.klotho.language.KlothoPsiImplUtil"
 

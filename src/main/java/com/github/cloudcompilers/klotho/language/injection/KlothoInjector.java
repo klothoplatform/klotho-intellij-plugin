@@ -1,10 +1,10 @@
-package com.github.cloudcompilers.klotho.language;
+package com.github.cloudcompilers.klotho.language.injection;
 
+import com.github.cloudcompilers.klotho.language.KlothoLanguage;
 import com.intellij.lang.injection.general.Injection;
 import com.intellij.lang.injection.general.LanguageInjectionContributor;
 import com.intellij.lang.injection.general.SimpleInjection;
 import com.intellij.psi.PsiComment;
-import com.intellij.psi.PsiDocCommentBase;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

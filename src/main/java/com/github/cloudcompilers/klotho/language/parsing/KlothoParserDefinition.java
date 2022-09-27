@@ -1,5 +1,7 @@
-package com.github.cloudcompilers.klotho.language;
+package com.github.cloudcompilers.klotho.language.parsing;
 
+import com.github.cloudcompilers.klotho.language.KlothoFile;
+import com.github.cloudcompilers.klotho.language.KlothoLanguage;
 import com.github.cloudcompilers.klotho.language.psi.KlothoParser;
 import com.github.cloudcompilers.klotho.language.psi.KlothoTypes;
 import com.intellij.lang.ASTNode;

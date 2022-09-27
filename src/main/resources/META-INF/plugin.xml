@@ -12,15 +12,15 @@
     <extensions defaultExtensionNs="com.intellij">
         <fileType
                 name="Klotho File"
-                implementationClass="com.github.cloudcompilers.klotho.language.KlothoFileType"
+                implementationClass="com.github.cloudcompilers.klotho.language.parsing.KlothoFileType"
                 fieldName="INSTANCE"
                 language="Klotho"
                 extensions="klotho"/>
-        <languageInjectionContributor language="JAVA" implementationClass="com.github.cloudcompilers.klotho.language.KlothoInjector"/>
-        <multiHostInjector implementation="com.github.cloudcompilers.klotho.language.KlothoMultiHostInjector"/>
+        <languageInjectionContributor language="JAVA" implementationClass="com.github.cloudcompilers.klotho.language.injection.KlothoInjector"/>
+        <multiHostInjector implementation="com.github.cloudcompilers.klotho.language.injection.KlothoMultiHostInjector"/>
         <lang.parserDefinition
                 language="Klotho"
-                implementationClass="com.github.cloudcompilers.klotho.language.KlothoParserDefinition"/>
+                implementationClass="com.github.cloudcompilers.klotho.language.parsing.KlothoParserDefinition"/>
         <lang.syntaxHighlighterFactory
                 language="Klotho"
                 implementationClass="com.github.cloudcompilers.klotho.language.highlighting.KlothoSyntaxHighlighterFactory"/>
@@ -28,11 +28,11 @@
                 implementation="com.github.cloudcompilers.klotho.language.highlighting.KlothoColorSettingsPage"/>
         <completion.contributor
                 language="Klotho"
-                implementationClass="com.github.cloudcompilers.klotho.language.KlothoCompletionContributor"/>
+                implementationClass="com.github.cloudcompilers.klotho.language.extensions.KlothoCompletionContributor"/>
         <codeInsight.lineMarkerProvider
                 language="Klotho"
-                implementationClass="com.github.cloudcompilers.klotho.language.KlothoCapabilityMarkerProvider"/>
-<!--        <annotator language="Python" implementationClass="com.github.cloudcompilers.klotho.language.KlothoAnnotator"/>-->
+                implementationClass="com.github.cloudcompilers.klotho.language.extensions.KlothoCapabilityMarkerProvider"/>
+<!--        <annotator language="Python" implementationClass="com.github.cloudcompilers.klotho.language.annotation.KlothoAnnotator"/>-->
     </extensions>
 
     <extensions defaultExtensionNs="org.intellij.intelliLang">

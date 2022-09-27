@@ -1,4 +1,4 @@
-package com.github.cloudcompilers.klotho.language;
+package com.github.cloudcompilers.klotho.language.extensions;
 
 import com.github.cloudcompilers.klotho.language.psi.KlothoTypes;
 import com.intellij.codeInsight.completion.*;
