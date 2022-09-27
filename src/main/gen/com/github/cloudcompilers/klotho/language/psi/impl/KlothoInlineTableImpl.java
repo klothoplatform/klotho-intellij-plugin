@@ -11,14 +11,14 @@ import static com.github.cloudcompilers.klotho.language.psi.KlothoTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.cloudcompilers.klotho.language.psi.*;
 
-public class KlothoArrayImpl extends ASTWrapperPsiElement implements KlothoArray {
+public class KlothoInlineTableImpl extends ASTWrapperPsiElement implements KlothoInlineTable {
 
-  public KlothoArrayImpl(@NotNull ASTNode node) {
+  public KlothoInlineTableImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull KlothoVisitor visitor) {
-    visitor.visitArray(this);
+    visitor.visitInlineTable(this);
   }
 
   @Override
@@ -29,20 +29,8 @@ public class KlothoArrayImpl extends ASTWrapperPsiElement implements KlothoArray
 
   @Override
   @NotNull
-  public List<KlothoInlineTable> getInlineTableList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoInlineTable.class);
-  }
-
-  @Override
-  @NotNull
-  public List<KlothoNumber> getNumberList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoNumber.class);
-  }
-
-  @Override
-  @NotNull
-  public List<KlothoArray> getArrayList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoArray.class);
+  public List<KlothoAssignmentExpr> getAssignmentExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoAssignmentExpr.class);
   }
 
 }

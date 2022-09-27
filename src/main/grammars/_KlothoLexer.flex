@@ -62,7 +62,7 @@ SECTION_HEADER=[:letter:][a-zA-Z_0-9]*
 BOOLEAN=(true|false)
 
 // states
-%state multiline_comment line_comment raw annotation_decl line_content
+%state multiline_comment line_comment raw annotation_decl line_content inline_table
 %xstate capability_name
 
 
@@ -104,14 +104,34 @@ BOOLEAN=(true|false)
   "@klotho"                      { yypushState(annotation_decl); return ANNOTATION; }
   <annotation_decl> {
     "::"                           { yypushState(capability_name); return SEPARATOR; }
-    "{"                            { yypopState(); return LEFT_BRACE; }
   }
-  "}"                            { if (yystate() == line_content) yypopState(); return RIGHT_BRACE; }
+  "{"                            { yypushState(inline_table); return LEFT_BRACE;}
+  "}"                            { switch (yystate()) { case line_content: inline_table: {  yypopState(); break;}} return RIGHT_BRACE;}
+}
+
+<annotation_decl> {
+    "{"                            { yypopState(); return LEFT_BRACE; }
 }
 
 // special handling for capability names since they match the same pattern as other identifiers
 <capability_name> {
   {CAPABILITY}                  { yypopState(); return CAPABILITY; }
+}
+
+<inline_table> {
+  "="                            { return EQ; }
+  "+"                            { return ADD; }
+  "-"                            { return SUB; }
+  "["                            { return LEFT_BRACKET; }
+  "]"                            { return RIGHT_BRACKET; }
+  "."                            { return PERIOD; }
+  ","                            { return COMMA; }
+  {STRING}                       { return STRING; }
+  {MULTILINE_STRING}             { return MULTILINE_STRING; }
+  {DIGIT}                        { return DIGIT; }
+  {BOOLEAN}                      { return BOOLEAN; }
+  {ID}                           { return ID; }
+  "}"                            { yypopState(); return RIGHT_BRACE; }
 }
 
 // fallback if nothing matches

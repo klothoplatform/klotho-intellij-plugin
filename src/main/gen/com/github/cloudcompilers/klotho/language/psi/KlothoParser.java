@@ -36,6 +36,52 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // '{' [assignment_expr] (',' assignment_expr) * '}'
+  public static boolean InlineTable(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "InlineTable")) return false;
+    if (!nextTokenIs(builder_, LEFT_BRACE)) return false;
+    boolean result_, pinned_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, INLINE_TABLE, null);
+    result_ = consumeToken(builder_, LEFT_BRACE);
+    pinned_ = result_; // pin = 1
+    result_ = result_ && report_error_(builder_, InlineTable_1(builder_, level_ + 1));
+    result_ = pinned_ && report_error_(builder_, InlineTable_2(builder_, level_ + 1)) && result_;
+    result_ = pinned_ && consumeToken(builder_, RIGHT_BRACE) && result_;
+    exit_section_(builder_, level_, marker_, result_, pinned_, null);
+    return result_ || pinned_;
+  }
+
+  // [assignment_expr]
+  private static boolean InlineTable_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "InlineTable_1")) return false;
+    assignment_expr(builder_, level_ + 1);
+    return true;
+  }
+
+  // (',' assignment_expr) *
+  private static boolean InlineTable_2(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "InlineTable_2")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!InlineTable_2_0(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "InlineTable_2", pos_)) break;
+    }
+    return true;
+  }
+
+  // ',' assignment_expr
+  private static boolean InlineTable_2_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "InlineTable_2_0")) return false;
+    boolean result_, pinned_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_);
+    result_ = consumeToken(builder_, COMMA);
+    pinned_ = result_; // pin = 1
+    result_ = result_ && assignment_expr(builder_, level_ + 1);
+    exit_section_(builder_, level_, marker_, result_, pinned_, null);
+    return result_ || pinned_;
+  }
+
+  /* ********************************************************** */
   // ['-' | '+'] digit + ['.' digit *]
   public static boolean Number(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Number")) return false;
@@ -342,9 +388,14 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CAPABILITY
+  // CAPABILITY | ID
   static boolean capability(PsiBuilder builder_, int level_) {
-    return consumeToken(builder_, CAPABILITY);
+    if (!recursion_guard_(builder_, level_, "capability")) return false;
+    if (!nextTokenIs(builder_, "", CAPABILITY, ID)) return false;
+    boolean result_;
+    result_ = consumeToken(builder_, CAPABILITY);
+    if (!result_) result_ = consumeToken(builder_, ID);
+    return result_;
   }
 
   /* ********************************************************** */
@@ -412,14 +463,13 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ('#' |'//') | star_prefix ('@klotho' '::' capability) | '{' | statement | '}'
+  // ('#' |'//') | star_prefix ('@klotho' '::' capability  ['{']) | statement | '}'
   static boolean line_comment(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "line_comment")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = line_comment_0(builder_, level_ + 1);
     if (!result_) result_ = line_comment_1(builder_, level_ + 1);
-    if (!result_) result_ = consumeToken(builder_, LEFT_BRACE);
     if (!result_) result_ = statement(builder_, level_ + 1);
     if (!result_) result_ = consumeToken(builder_, RIGHT_BRACE);
     exit_section_(builder_, marker_, null, result_);
@@ -435,7 +485,7 @@ public class KlothoParser implements PsiParser, LightPsiParser {
     return result_;
   }
 
-  // star_prefix ('@klotho' '::' capability)
+  // star_prefix ('@klotho' '::' capability  ['{'])
   private static boolean line_comment_1(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "line_comment_1")) return false;
     boolean result_;
@@ -446,15 +496,23 @@ public class KlothoParser implements PsiParser, LightPsiParser {
     return result_;
   }
 
-  // '@klotho' '::' capability
+  // '@klotho' '::' capability  ['{']
   private static boolean line_comment_1_1(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "line_comment_1_1")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = consumeTokens(builder_, 0, ANNOTATION, SEPARATOR);
     result_ = result_ && capability(builder_, level_ + 1);
+    result_ = result_ && line_comment_1_1_3(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
+  }
+
+  // ['{']
+  private static boolean line_comment_1_1_3(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "line_comment_1_1_3")) return false;
+    consumeToken(builder_, LEFT_BRACE);
+    return true;
   }
 
   /* ********************************************************** */
@@ -576,12 +634,13 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // simple_value | array
+  // simple_value | array | InlineTable
   static boolean value(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "value")) return false;
     boolean result_;
     result_ = simple_value(builder_, level_ + 1);
     if (!result_) result_ = array(builder_, level_ + 1);
+    if (!result_) result_ = InlineTable(builder_, level_ + 1);
     return result_;
   }
 

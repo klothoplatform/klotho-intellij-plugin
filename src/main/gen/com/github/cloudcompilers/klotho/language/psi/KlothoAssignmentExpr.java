@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface KlothoAssignmentExpr extends PsiElement {
 
   @Nullable
+  KlothoInlineTable getInlineTable();
+
+  @Nullable
   KlothoNumber getNumber();
 
   @Nullable

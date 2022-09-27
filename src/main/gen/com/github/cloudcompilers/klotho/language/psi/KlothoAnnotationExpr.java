@@ -10,7 +10,10 @@ public interface KlothoAnnotationExpr extends PsiElement {
   @Nullable
   KlothoAnnotationBody getAnnotationBody();
 
-  @NotNull
+  @Nullable
   PsiElement getCapability();
+
+  @Nullable
+  PsiElement getId();
 
 }

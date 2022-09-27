@@ -7,6 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public class KlothoVisitor extends PsiElementVisitor {
 
+  public void visitInlineTable(@NotNull KlothoInlineTable o) {
+    visitPsiElement(o);
+  }
+
   public void visitNumber(@NotNull KlothoNumber o) {
     visitPsiElement(o);
   }

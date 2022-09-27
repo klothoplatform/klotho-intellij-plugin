@@ -17,6 +17,7 @@ public interface KlothoTypes {
   IElementType ASSIGNMENT_EXPR = new KlothoElementType("ASSIGNMENT_EXPR");
   IElementType C_STYLE_COMMENT_BLOCK = new KlothoElementType("C_STYLE_COMMENT_BLOCK");
   IElementType HEADER_ID = new KlothoElementType("HEADER_ID");
+  IElementType INLINE_TABLE = new KlothoElementType("INLINE_TABLE");
   IElementType JSDOC_COMMENT_BLOCK = new KlothoElementType("JSDOC_COMMENT_BLOCK");
   IElementType KEY = new KlothoElementType("KEY");
   IElementType NUMBER = new KlothoElementType("NUMBER");
@@ -71,6 +72,9 @@ public interface KlothoTypes {
       }
       else if (type == HEADER_ID) {
         return new KlothoHeaderIdImpl(node);
+      }
+      else if (type == INLINE_TABLE) {
+        return new KlothoInlineTableImpl(node);
       }
       else if (type == JSDOC_COMMENT_BLOCK) {
         return new KlothoJsdocCommentBlockImpl(node);

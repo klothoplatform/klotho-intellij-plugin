@@ -34,6 +34,7 @@ public final class KlothoMultiHostInjector implements MultiHostInjector {
             registrar.startInjecting(KlothoLanguage.INSTANCE);
             registrar.addPlace(null, null, (PsiLanguageInjectionHost) context, TextRange.create(0, context.getTextLength()));
             registrar.doneInjecting();
+            return;
         }
 
         if (context instanceof JSDocComment
@@ -42,7 +43,15 @@ public final class KlothoMultiHostInjector implements MultiHostInjector {
                 registrar.startInjecting(KlothoLanguage.INSTANCE);
                 registrar.addPlace(null, null, (PsiLanguageInjectionHost) context, TextRange.create(0, context.getTextLength()));
                 registrar.doneInjecting();
+                return;
             }
+        }
+
+        if (context.getText().contains("@klotho::")) {
+            registrar.startInjecting(KlothoLanguage.INSTANCE);
+            registrar.addPlace(null, null, (PsiLanguageInjectionHost) context, TextRange.create(0, context.getTextLength()));
+            registrar.doneInjecting();
+            return;
         }
     }
 

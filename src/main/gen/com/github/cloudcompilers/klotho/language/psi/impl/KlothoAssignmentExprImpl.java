@@ -29,6 +29,12 @@ public class KlothoAssignmentExprImpl extends ASTWrapperPsiElement implements Kl
 
   @Override
   @Nullable
+  public KlothoInlineTable getInlineTable() {
+    return findChildByClass(KlothoInlineTable.class);
+  }
+
+  @Override
+  @Nullable
   public KlothoNumber getNumber() {
     return findChildByClass(KlothoNumber.class);
   }

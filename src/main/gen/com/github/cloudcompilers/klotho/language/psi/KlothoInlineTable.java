@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface KlothoArray extends PsiElement {
+public interface KlothoInlineTable extends PsiElement {
 
   @NotNull
-  List<KlothoInlineTable> getInlineTableList();
-
-  @NotNull
-  List<KlothoNumber> getNumberList();
-
-  @NotNull
-  List<KlothoArray> getArrayList();
+  List<KlothoAssignmentExpr> getAssignmentExprList();
 
 }

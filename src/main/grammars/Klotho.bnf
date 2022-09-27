@@ -57,7 +57,7 @@ jsdoc_comment_block ::= JSDOC_COMMENT_START (star_prefix annotation_expr) + MULT
 
 c_style_comment_block ::= MULTILINE_COMMENT_START (star_prefix annotation_expr) + MULTILINE_COMMENT_END
 
-private line_comment ::= ('#' |'//') | star_prefix ('@klotho' '::' capability) | '{' | statement | '}'
+private line_comment ::= ('#' |'//') | star_prefix ('@klotho' '::' capability  ['{']) | statement | '}'
 
 annotation_expr ::= '@klotho' '::' capability [ annotation_body ] {pin=3}
 
@@ -67,7 +67,7 @@ annotation_content ::=  [statement *]
 
 statement ::= star_prefix (((assignment_expr | section_header) TOML_COMMENT) | TOML_COMMENT | any_expr)
 
-private any_expr ::= assignment_expr | section_header
+private any_expr ::=  assignment_expr | section_header
 
 assignment_expr ::= key '=' value {pin=2}
 
@@ -75,7 +75,9 @@ private star_prefix ::=  ('*' | '//' ) *
 
 section_header ::= '[' header_id ']' {pin=1}
 
-private value ::= simple_value | array
+private value ::= simple_value | array | InlineTable
+
+InlineTable ::= '{' [assignment_expr] (',' assignment_expr) * '}' {pin(".*")=1}
 
 array ::= '[' ([(value ( [star_prefix] ',' [star_prefix] )) * [star_prefix] [value] !','] )  ']' {pin=2}
 
@@ -86,6 +88,6 @@ key ::= ID
 header_id ::= ID
 
 // this just helps with the live preview. the lexer distinguishes between capability and id
-private capability ::= CAPABILITY
+private capability ::= CAPABILITY | ID
 
 Number ::= ['-' | '+'] digit + ['.' digit *] {pin=2}
