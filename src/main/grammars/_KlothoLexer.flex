@@ -61,9 +61,13 @@ CAPABILITY=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabiliti
 SECTION_HEADER=[:letter:][a-zA-Z_0-9]*
 BOOLEAN=(true|false)
 
+DIG0_7=[0-7]+
+DIG0_1=[0-1]+
+HEX_DIG=[A-Fa-f\d]+
+
 // states
 %state multiline_comment line_comment raw annotation_decl line_content inline_table
-%xstate capability_name
+%xstate capability_name bin_number oct_number hex_number
 
 
 %%
@@ -97,8 +101,11 @@ BOOLEAN=(true|false)
   ","                            { return COMMA; }
   {STRING}                       { return STRING; }
   {MULTILINE_STRING}             { return MULTILINE_STRING; }
-  {DIGIT}                       { return DIGIT; }
-  {BOOLEAN}                       { return BOOLEAN; }
+  "0x"                           {yypushState(hex_number); return HEX_PREFIX;}
+  "0o"                           {yypushState(oct_number); return OCT_PREFIX;}
+  "0b"                           {yypushState(bin_number); return BIN_PREFIX;}
+  {DIGIT}                        { return DIGIT; }
+  {BOOLEAN}                      { return BOOLEAN; }
   {TOML_COMMENT}                 { return TOML_COMMENT; }
   {ID}                           { return ID; }
   "@klotho"                      { yypushState(annotation_decl); return ANNOTATION; }
@@ -128,11 +135,27 @@ BOOLEAN=(true|false)
   ","                            { return COMMA; }
   {STRING}                       { return STRING; }
   {MULTILINE_STRING}             { return MULTILINE_STRING; }
+  "0x"                           {yypushState(hex_number); return HEX_PREFIX;}
+  "0o"                           {yypushState(oct_number); return OCT_PREFIX;}
+  "0b"                           {yypushState(bin_number); return BIN_PREFIX;}
   {DIGIT}                        { return DIGIT; }
   {BOOLEAN}                      { return BOOLEAN; }
   {ID}                           { return ID; }
   "}"                            { yypopState(); return RIGHT_BRACE; }
 }
+
+<hex_number> {
+  {HEX_DIG}                      { yypopState(); return HEX_DIG; }
+}
+
+<oct_number> {
+  {DIG0_7}                      { yypopState(); return DIG0_7; }
+}
+
+<bin_number> {
+  {DIG0_1}                      { yypopState(); return DIG0_1; }
+}
+
 
 // fallback if nothing matches
 [^] { return BAD_CHARACTER; }

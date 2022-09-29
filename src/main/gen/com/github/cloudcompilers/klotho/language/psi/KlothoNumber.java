@@ -7,4 +7,16 @@ import com.intellij.psi.PsiElement;
 
 public interface KlothoNumber extends PsiElement {
 
+  @Nullable
+  KlothoBinNumber getBinNumber();
+
+  @Nullable
+  KlothoHexNumber getHexNumber();
+
+  @Nullable
+  KlothoOctNumber getOctNumber();
+
+  @Nullable
+  KlothoPlainNumber getPlainNumber();
+
 }

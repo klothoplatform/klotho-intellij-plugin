@@ -31,7 +31,14 @@
     string="regexp:('(([^'][^']|[^'\\])|\\.)*'|\"(([^\"][^\"]|[^\"\\])|\\.)*\")"
     MULTILINE_STRING="regexp:('''|\"\"\")(.*?\r?\n?)*('''|\"\"\")"
 
-    digit = 'regexp:\d'
+    DIGIT = 'regexp:\d'
+    HEX_PREFIX = '0x'
+    OCT_PREFIX = '0o'
+    BIN_PREFIX = '0b'
+
+    DIG0_1 = 'regexp:[0-1]+'
+    DIG0_7 = 'regexp:[0-7]+'
+    HEX_DIG = 'regexp:[A-Fa-f]+'
 
     TOML_COMMENT='regexp:#.*'
 
@@ -90,4 +97,12 @@ header_id ::= ID
 // this just helps with the live preview. the lexer distinguishes between capability and id
 private capability ::= CAPABILITY | ID
 
-Number ::= ['-' | '+'] digit + ['.' digit *] {pin=2}
+Number ::= PlainNumber | HexNumber | BinNumber | OctNumber
+
+PlainNumber ::= ['-' | '+'] DIGIT + ['.' DIGIT *]  {pin=2}
+
+OctNumber ::= OCT_PREFIX DIG0_7 {pin=1}
+
+BinNumber ::= BIN_PREFIX DIG0_1 {pin=1}
+
+HexNumber ::= HEX_PREFIX HEX_DIG {pin=1}

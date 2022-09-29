@@ -7,11 +7,27 @@ import com.intellij.psi.PsiElement;
 
 public class KlothoVisitor extends PsiElementVisitor {
 
+  public void visitBinNumber(@NotNull KlothoBinNumber o) {
+    visitPsiElement(o);
+  }
+
+  public void visitHexNumber(@NotNull KlothoHexNumber o) {
+    visitPsiElement(o);
+  }
+
   public void visitInlineTable(@NotNull KlothoInlineTable o) {
     visitPsiElement(o);
   }
 
   public void visitNumber(@NotNull KlothoNumber o) {
+    visitPsiElement(o);
+  }
+
+  public void visitOctNumber(@NotNull KlothoOctNumber o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPlainNumber(@NotNull KlothoPlainNumber o) {
     visitPsiElement(o);
   }
 

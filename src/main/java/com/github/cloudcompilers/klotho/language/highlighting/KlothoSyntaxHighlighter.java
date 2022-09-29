@@ -24,8 +24,17 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey STRING =
             createTextAttributesKey("KLOTHO_STRING", DefaultLanguageHighlighterColors.STRING);
 
-    public static final TextAttributesKey NUMBER =
-            createTextAttributesKey("KLOTHO_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
+    public static final TextAttributesKey PLAIN_NUMBER =
+            createTextAttributesKey("KLOTHO_PLAIN_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
+
+    public static final TextAttributesKey HEX_NUMBER =
+            createTextAttributesKey("KLOTHO_HEX_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
+
+    public static final TextAttributesKey OCT_NUMBER =
+            createTextAttributesKey("KLOTHO_OCT_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
+
+    public static final TextAttributesKey BIN_NUMBER =
+            createTextAttributesKey("KLOTHO_BIN_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
 
     public static final TextAttributesKey BOOLEAN =
             createTextAttributesKey("KLOTHO_BOOLEAN", DefaultLanguageHighlighterColors.NUMBER);
@@ -55,7 +64,13 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] ANNOTATION_KEYS = new TextAttributesKey[]{ANNOTATION};
     private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[]{STRING};
 
-    private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[]{NUMBER};
+    private static final TextAttributesKey[] PLAIN_NUMBER_KEYS = new TextAttributesKey[]{PLAIN_NUMBER};
+
+    private static final TextAttributesKey[] OCT_NUMBER_KEYS = new TextAttributesKey[]{OCT_NUMBER, PLAIN_NUMBER};
+
+    private static final TextAttributesKey[] HEX_NUMBER_KEYS = new TextAttributesKey[]{HEX_NUMBER, PLAIN_NUMBER};
+
+    private static final TextAttributesKey[] BIN_NUMBER_KEYS = new TextAttributesKey[]{BIN_NUMBER, PLAIN_NUMBER};
 
     private static final TextAttributesKey[] BOOLEAN_KEYS = new TextAttributesKey[]{BOOLEAN};
     private static final TextAttributesKey[] COMMENT_BLOCK_KEYS = new TextAttributesKey[]{STAR};
@@ -97,8 +112,17 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
         if (tokenType.equals(KlothoTypes.TOML_COMMENT)) {
             return TOML_COMMENT_KEYS;
         }
-        if (tokenType.equals(KlothoTypes.NUMBER)) {
-            return NUMBER_KEYS;
+        if (tokenType.equals(KlothoTypes.OCT_PREFIX) || tokenType.equals(KlothoTypes.DIG0_7)) {
+            return OCT_NUMBER_KEYS;
+        }
+        if (tokenType.equals(KlothoTypes.BIN_PREFIX) || tokenType.equals(KlothoTypes.DIG0_1)) {
+            return BIN_NUMBER_KEYS;
+        }
+        if (tokenType.equals(KlothoTypes.HEX_PREFIX) || tokenType.equals(KlothoTypes.HEX_DIG)) {
+            return HEX_NUMBER_KEYS;
+        }
+        if (tokenType.equals(KlothoTypes.DIGIT)) {
+            return PLAIN_NUMBER_KEYS;
         }
         if (tokenType.equals(KlothoTypes.BOOLEAN)) {
             return BOOLEAN_KEYS;

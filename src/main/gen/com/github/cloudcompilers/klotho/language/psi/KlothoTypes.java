@@ -15,23 +15,32 @@ public interface KlothoTypes {
   IElementType ANNOTATION_EXPR = new KlothoElementType("ANNOTATION_EXPR");
   IElementType ARRAY = new KlothoElementType("ARRAY");
   IElementType ASSIGNMENT_EXPR = new KlothoElementType("ASSIGNMENT_EXPR");
+  IElementType BIN_NUMBER = new KlothoElementType("BIN_NUMBER");
   IElementType C_STYLE_COMMENT_BLOCK = new KlothoElementType("C_STYLE_COMMENT_BLOCK");
   IElementType HEADER_ID = new KlothoElementType("HEADER_ID");
+  IElementType HEX_NUMBER = new KlothoElementType("HEX_NUMBER");
   IElementType INLINE_TABLE = new KlothoElementType("INLINE_TABLE");
   IElementType JSDOC_COMMENT_BLOCK = new KlothoElementType("JSDOC_COMMENT_BLOCK");
   IElementType KEY = new KlothoElementType("KEY");
   IElementType NUMBER = new KlothoElementType("NUMBER");
+  IElementType OCT_NUMBER = new KlothoElementType("OCT_NUMBER");
+  IElementType PLAIN_NUMBER = new KlothoElementType("PLAIN_NUMBER");
   IElementType SECTION_HEADER = new KlothoElementType("SECTION_HEADER");
   IElementType STATEMENT = new KlothoElementType("STATEMENT");
 
   IElementType ADD = new KlothoTokenType("+");
   IElementType ANNOTATION = new KlothoTokenType("@klotho");
+  IElementType BIN_PREFIX = new KlothoTokenType("0b");
   IElementType BOOLEAN = new KlothoTokenType("BOOLEAN");
   IElementType CAPABILITY = new KlothoTokenType("CAPABILITY");
   IElementType COMMA = new KlothoTokenType(",");
   IElementType C_LINE_COMMENT = new KlothoTokenType("//");
-  IElementType DIGIT = new KlothoTokenType("digit");
+  IElementType DIG0_1 = new KlothoTokenType("DIG0_1");
+  IElementType DIG0_7 = new KlothoTokenType("DIG0_7");
+  IElementType DIGIT = new KlothoTokenType("DIGIT");
   IElementType EQ = new KlothoTokenType("=");
+  IElementType HEX_DIG = new KlothoTokenType("HEX_DIG");
+  IElementType HEX_PREFIX = new KlothoTokenType("0x");
   IElementType ID = new KlothoTokenType("ID");
   IElementType JSDOC_COMMENT_START = new KlothoTokenType("JSDOC_COMMENT_START");
   IElementType LEFT_BRACE = new KlothoTokenType("{");
@@ -39,6 +48,7 @@ public interface KlothoTypes {
   IElementType MULTILINE_COMMENT_END = new KlothoTokenType("*/");
   IElementType MULTILINE_COMMENT_START = new KlothoTokenType("/*");
   IElementType MULTILINE_STRING = new KlothoTokenType("MULTILINE_STRING");
+  IElementType OCT_PREFIX = new KlothoTokenType("0o");
   IElementType PERIOD = new KlothoTokenType(".");
   IElementType PY_COMMENT = new KlothoTokenType("#");
   IElementType RIGHT_BRACE = new KlothoTokenType("}");
@@ -67,11 +77,17 @@ public interface KlothoTypes {
       else if (type == ASSIGNMENT_EXPR) {
         return new KlothoAssignmentExprImpl(node);
       }
+      else if (type == BIN_NUMBER) {
+        return new KlothoBinNumberImpl(node);
+      }
       else if (type == C_STYLE_COMMENT_BLOCK) {
         return new KlothoCStyleCommentBlockImpl(node);
       }
       else if (type == HEADER_ID) {
         return new KlothoHeaderIdImpl(node);
+      }
+      else if (type == HEX_NUMBER) {
+        return new KlothoHexNumberImpl(node);
       }
       else if (type == INLINE_TABLE) {
         return new KlothoInlineTableImpl(node);
@@ -84,6 +100,12 @@ public interface KlothoTypes {
       }
       else if (type == NUMBER) {
         return new KlothoNumberImpl(node);
+      }
+      else if (type == OCT_NUMBER) {
+        return new KlothoOctNumberImpl(node);
+      }
+      else if (type == PLAIN_NUMBER) {
+        return new KlothoPlainNumberImpl(node);
       }
       else if (type == SECTION_HEADER) {
         return new KlothoSectionHeaderImpl(node);

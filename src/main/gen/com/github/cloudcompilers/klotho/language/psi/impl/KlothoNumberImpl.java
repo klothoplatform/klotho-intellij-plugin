@@ -27,4 +27,28 @@ public class KlothoNumberImpl extends ASTWrapperPsiElement implements KlothoNumb
     else super.accept(visitor);
   }
 
+  @Override
+  @Nullable
+  public KlothoBinNumber getBinNumber() {
+    return findChildByClass(KlothoBinNumber.class);
+  }
+
+  @Override
+  @Nullable
+  public KlothoHexNumber getHexNumber() {
+    return findChildByClass(KlothoHexNumber.class);
+  }
+
+  @Override
+  @Nullable
+  public KlothoOctNumber getOctNumber() {
+    return findChildByClass(KlothoOctNumber.class);
+  }
+
+  @Override
+  @Nullable
+  public KlothoPlainNumber getPlainNumber() {
+    return findChildByClass(KlothoPlainNumber.class);
+  }
+
 }
