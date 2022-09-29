@@ -4,25 +4,18 @@ import com.github.cloudcompilers.klotho.language.KlothoLanguage;
 import com.intellij.lang.injection.MultiHostInjector;
 import com.intellij.lang.injection.MultiHostRegistrar;
 import com.intellij.lang.javascript.JSTokenTypes;
-import com.intellij.lang.javascript.psi.jsdoc.JSDocComment;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import com.intellij.psi.tree.TokenSet;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 
-public final class KlothoMultiHostInjector implements MultiHostInjector {
+public abstract class KlothoMultiHostInjectorBase implements MultiHostInjector {
 
-    private static final TokenSet singleLineTypes = TokenSet.create(
-            JSTokenTypes.END_OF_LINE_COMMENT,
-            JavaTokenType.END_OF_LINE_COMMENT
-    );
     @Override
     public void getLanguagesToInject(@NotNull MultiHostRegistrar registrar,
                                      @NotNull PsiElement context) {
@@ -31,32 +24,18 @@ public final class KlothoMultiHostInjector implements MultiHostInjector {
             return;
         }
 
-        if (context.getLanguage().getDisplayName().equals("Python") || singleLineTypes.contains(((PsiComment) context).getTokenType()) && shouldInjectSingle((PsiComment) context)) {
-            registrar.startInjecting(KlothoLanguage.INSTANCE);
-            registrar.addPlace(null, null, (PsiLanguageInjectionHost) context, TextRange.create(0, context.getTextLength()));
-            registrar.doneInjecting();
+        List<InjectionLocation> locations = getLocationsToInject((PsiComment) context);
+        if (locations.isEmpty()) {
             return;
         }
-
-        if (context instanceof JSDocComment
-                || JSTokenTypes.C_STYLE_COMMENT.equals(((PsiComment) context).getTokenType())) {
-            if (context.getText().contains("@klotho::")) {
-                registrar.startInjecting(KlothoLanguage.INSTANCE);
-                registrar.addPlace(null, null, (PsiLanguageInjectionHost) context, TextRange.create(0, context.getTextLength()));
-                registrar.doneInjecting();
-                return;
-            }
-        }
-
-        if (context.getText().contains("@klotho::")) {
-            registrar.startInjecting(KlothoLanguage.INSTANCE);
-            registrar.addPlace(null, null, (PsiLanguageInjectionHost) context, TextRange.create(0, context.getTextLength()));
-            registrar.doneInjecting();
-            return;
-        }
+        registrar.startInjecting(KlothoLanguage.INSTANCE);
+        locations.forEach((l) -> registrar.addPlace(l.prefix, l.suffix, l.host, l.range));
+        registrar.doneInjecting();
     }
 
-    private boolean shouldInjectSingle(PsiComment context) {
+    protected abstract List<InjectionLocation> getLocationsToInject(@NotNull PsiComment context);
+
+    protected boolean shouldInjectSingle(PsiComment context) {
         if (context.getText().contains("@klotho::")) {
             return true;
         }
@@ -72,7 +51,7 @@ public final class KlothoMultiHostInjector implements MultiHostInjector {
         return false;
     }
 
-    private PsiElement prevUnbrokenNonWhitespaceSibling(PsiElement context) {
+    protected PsiElement prevUnbrokenNonWhitespaceSibling(PsiElement context) {
         PsiElement prev = context.getPrevSibling();
         int newLineCount = 0;
         while (prev instanceof PsiWhiteSpace) {
@@ -100,17 +79,17 @@ public final class KlothoMultiHostInjector implements MultiHostInjector {
         return List.of(PsiComment.class);
     }
 
-    private List<PsiElement> findComments(PsiElement element) {
-        PsiFile file = element.getContainingFile();
-        return Arrays.stream(file.getChildren()).filter(e -> e instanceof JSDocComment).collect(Collectors.toList());
-    }
+    protected static class InjectionLocation {
+        String prefix;
+        String suffix;
+        PsiLanguageInjectionHost host;
+        TextRange range;
 
-    private static boolean isClassPresent(String name) {
-        try {
-            return Class.forName(name) != null;
-        } catch (ClassNotFoundException e) {
-            return false;
+        public InjectionLocation(String prefix, String suffix, PsiLanguageInjectionHost host, TextRange range) {
+            this.prefix = prefix;
+            this.suffix = suffix;
+            this.host = host;
+            this.range = range;
         }
     }
-
 }

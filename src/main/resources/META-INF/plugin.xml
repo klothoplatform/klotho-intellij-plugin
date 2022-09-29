@@ -5,9 +5,8 @@
     <vendor>Klotho</vendor>
 
     <depends>com.intellij.modules.platform</depends>
-    <depends>JavaScript</depends>
-    <depends optional="true" config-file="injections/typescript-injections.xml">org.intellij.intelliLang</depends>
-    <depends optional="true" config-file="injections/java-injections.xml">org.intellij.intelliLang</depends>
+    <depends optional="true" config-file="klotho-withJavaScript.xml">JavaScript</depends>
+    <depends optional="true" config-file="klotho-withPython.xml">Pythonid</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType
@@ -16,8 +15,7 @@
                 fieldName="INSTANCE"
                 language="Klotho"
                 extensions="klotho"/>
-        <languageInjectionContributor language="JAVA" implementationClass="com.github.cloudcompilers.klotho.language.injection.KlothoInjector"/>
-        <multiHostInjector implementation="com.github.cloudcompilers.klotho.language.injection.KlothoMultiHostInjector"/>
+<!--        <multiHostInjector implementation="com.github.cloudcompilers.klotho.language.injection.KlothoMultiHostInjectorBase"/>-->
         <lang.parserDefinition
                 language="Klotho"
                 implementationClass="com.github.cloudcompilers.klotho.language.parsing.KlothoParserDefinition"/>
