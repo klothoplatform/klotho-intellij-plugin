@@ -1,6 +1,8 @@
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
-        <multiHostInjector
-                implementation="com.github.cloudcompilers.klotho.language.injection.PythonInjector"/>
+        <languageInjectionContributor language="Python"
+                                      implementationClass="com.github.cloudcompilers.klotho.language.injection.KlothoInjector"/>
+        <languageInjectionPerformer language="Python"
+                                    implementationClass="com.github.cloudcompilers.klotho.language.injection.PyInjectionPerformer"/>
     </extensions>
 </idea-plugin>

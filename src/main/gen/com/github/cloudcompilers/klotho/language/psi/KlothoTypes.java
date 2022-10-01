@@ -22,6 +22,7 @@ public interface KlothoTypes {
   IElementType INLINE_TABLE = new KlothoElementType("INLINE_TABLE");
   IElementType JSDOC_COMMENT_BLOCK = new KlothoElementType("JSDOC_COMMENT_BLOCK");
   IElementType KEY = new KlothoElementType("KEY");
+  IElementType LINE_COMMENT = new KlothoElementType("LINE_COMMENT");
   IElementType NUMBER = new KlothoElementType("NUMBER");
   IElementType OCT_NUMBER = new KlothoElementType("OCT_NUMBER");
   IElementType PLAIN_NUMBER = new KlothoElementType("PLAIN_NUMBER");
@@ -38,6 +39,7 @@ public interface KlothoTypes {
   IElementType DIG0_1 = new KlothoTokenType("DIG0_1");
   IElementType DIG0_7 = new KlothoTokenType("DIG0_7");
   IElementType DIGIT = new KlothoTokenType("DIGIT");
+  IElementType EOL = new KlothoTokenType("\\r\\n");
   IElementType EQ = new KlothoTokenType("=");
   IElementType HEX_DIG = new KlothoTokenType("HEX_DIG");
   IElementType HEX_PREFIX = new KlothoTokenType("0x");
@@ -97,6 +99,9 @@ public interface KlothoTypes {
       }
       else if (type == KEY) {
         return new KlothoKeyImpl(node);
+      }
+      else if (type == LINE_COMMENT) {
+        return new KlothoLineCommentImpl(node);
       }
       else if (type == NUMBER) {
         return new KlothoNumberImpl(node);

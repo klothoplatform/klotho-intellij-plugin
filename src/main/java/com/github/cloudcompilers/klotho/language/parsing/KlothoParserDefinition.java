@@ -38,7 +38,12 @@ public class KlothoParserDefinition implements ParserDefinition {
     return TokenSet.create(KlothoTypes.STRING);
   }
 
-  @NotNull
+    @Override
+    public @NotNull TokenSet getWhitespaceTokens() {
+        return KlothoTokenSets.WHITE_SPACE;
+    }
+
+    @NotNull
   @Override
   public PsiParser createParser(final Project project) {
     return new KlothoParser();

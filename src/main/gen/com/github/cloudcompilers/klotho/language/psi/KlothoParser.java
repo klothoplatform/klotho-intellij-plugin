@@ -108,6 +108,49 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // '#' + | '//' +
+  static boolean LineCommentPrefix(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "LineCommentPrefix")) return false;
+    if (!nextTokenIs(builder_, "", C_LINE_COMMENT, PY_COMMENT)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = LineCommentPrefix_0(builder_, level_ + 1);
+    if (!result_) result_ = LineCommentPrefix_1(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  // '#' +
+  private static boolean LineCommentPrefix_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "LineCommentPrefix_0")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, PY_COMMENT);
+    while (result_) {
+      int pos_ = current_position_(builder_);
+      if (!consumeToken(builder_, PY_COMMENT)) break;
+      if (!empty_element_parsed_guard_(builder_, "LineCommentPrefix_0", pos_)) break;
+    }
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  // '//' +
+  private static boolean LineCommentPrefix_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "LineCommentPrefix_1")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, C_LINE_COMMENT);
+    while (result_) {
+      int pos_ = current_position_(builder_);
+      if (!consumeToken(builder_, C_LINE_COMMENT)) break;
+      if (!empty_element_parsed_guard_(builder_, "LineCommentPrefix_1", pos_)) break;
+    }
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  /* ********************************************************** */
   // PlainNumber | HexNumber | BinNumber | OctNumber
   public static boolean Number(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Number")) return false;
@@ -246,7 +289,7 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // '@klotho' '::' capability [ annotation_body ]
+  // '@klotho' '::' capability [annotation_body]
   public static boolean annotation_expr(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "annotation_expr")) return false;
     if (!nextTokenIs(builder_, ANNOTATION)) return false;
@@ -260,7 +303,7 @@ public class KlothoParser implements PsiParser, LightPsiParser {
     return result_ || pinned_;
   }
 
-  // [ annotation_body ]
+  // [annotation_body]
   private static boolean annotation_expr_3(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "annotation_expr_3")) return false;
     annotation_body(builder_, level_ + 1);
@@ -516,56 +559,16 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ('#' |'//') | star_prefix ('@klotho' '::' capability  ['{']) | statement | '}'
-  static boolean line_comment(PsiBuilder builder_, int level_) {
+  // LineCommentPrefix annotation_expr
+  public static boolean line_comment(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "line_comment")) return false;
+    if (!nextTokenIs(builder_, "<line comment>", C_LINE_COMMENT, PY_COMMENT)) return false;
     boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = line_comment_0(builder_, level_ + 1);
-    if (!result_) result_ = line_comment_1(builder_, level_ + 1);
-    if (!result_) result_ = statement(builder_, level_ + 1);
-    if (!result_) result_ = consumeToken(builder_, RIGHT_BRACE);
-    exit_section_(builder_, marker_, null, result_);
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, LINE_COMMENT, "<line comment>");
+    result_ = LineCommentPrefix(builder_, level_ + 1);
+    result_ = result_ && annotation_expr(builder_, level_ + 1);
+    exit_section_(builder_, level_, marker_, result_, false, null);
     return result_;
-  }
-
-  // '#' |'//'
-  private static boolean line_comment_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "line_comment_0")) return false;
-    boolean result_;
-    result_ = consumeToken(builder_, PY_COMMENT);
-    if (!result_) result_ = consumeToken(builder_, C_LINE_COMMENT);
-    return result_;
-  }
-
-  // star_prefix ('@klotho' '::' capability  ['{'])
-  private static boolean line_comment_1(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "line_comment_1")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = star_prefix(builder_, level_ + 1);
-    result_ = result_ && line_comment_1_1(builder_, level_ + 1);
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
-  }
-
-  // '@klotho' '::' capability  ['{']
-  private static boolean line_comment_1_1(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "line_comment_1_1")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = consumeTokens(builder_, 0, ANNOTATION, SEPARATOR);
-    result_ = result_ && capability(builder_, level_ + 1);
-    result_ = result_ && line_comment_1_1_3(builder_, level_ + 1);
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
-  }
-
-  // ['{']
-  private static boolean line_comment_1_1_3(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "line_comment_1_1_3")) return false;
-    consumeToken(builder_, LEFT_BRACE);
-    return true;
   }
 
   /* ********************************************************** */
@@ -622,7 +625,7 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ('*' | '//' ) *
+  // ('*' + | LineCommentPrefix) *
   static boolean star_prefix(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "star_prefix")) return false;
     while (true) {
@@ -633,28 +636,46 @@ public class KlothoParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // '*' | '//'
+  // '*' + | LineCommentPrefix
   private static boolean star_prefix_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "star_prefix_0")) return false;
     boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = star_prefix_0_0(builder_, level_ + 1);
+    if (!result_) result_ = LineCommentPrefix(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  // '*' +
+  private static boolean star_prefix_0_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "star_prefix_0_0")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, STAR);
-    if (!result_) result_ = consumeToken(builder_, C_LINE_COMMENT);
+    while (result_) {
+      int pos_ = current_position_(builder_);
+      if (!consumeToken(builder_, STAR)) break;
+      if (!empty_element_parsed_guard_(builder_, "star_prefix_0_0", pos_)) break;
+    }
+    exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
   /* ********************************************************** */
-  // star_prefix (((assignment_expr | section_header) TOML_COMMENT) | TOML_COMMENT | any_expr)
+  // star_prefix ((any_expr TOML_COMMENT) | TOML_COMMENT | any_expr) [EOL]
   public static boolean statement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "statement")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_, level_, _NONE_, STATEMENT, "<statement>");
     result_ = star_prefix(builder_, level_ + 1);
     result_ = result_ && statement_1(builder_, level_ + 1);
+    result_ = result_ && statement_2(builder_, level_ + 1);
     exit_section_(builder_, level_, marker_, result_, false, null);
     return result_;
   }
 
-  // ((assignment_expr | section_header) TOML_COMMENT) | TOML_COMMENT | any_expr
+  // (any_expr TOML_COMMENT) | TOML_COMMENT | any_expr
   private static boolean statement_1(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "statement_1")) return false;
     boolean result_;
@@ -666,24 +687,22 @@ public class KlothoParser implements PsiParser, LightPsiParser {
     return result_;
   }
 
-  // (assignment_expr | section_header) TOML_COMMENT
+  // any_expr TOML_COMMENT
   private static boolean statement_1_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "statement_1_0")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
-    result_ = statement_1_0_0(builder_, level_ + 1);
+    result_ = any_expr(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, TOML_COMMENT);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
-  // assignment_expr | section_header
-  private static boolean statement_1_0_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "statement_1_0_0")) return false;
-    boolean result_;
-    result_ = assignment_expr(builder_, level_ + 1);
-    if (!result_) result_ = section_header(builder_, level_ + 1);
-    return result_;
+  // [EOL]
+  private static boolean statement_2(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "statement_2")) return false;
+    consumeToken(builder_, EOL);
+    return true;
   }
 
   /* ********************************************************** */

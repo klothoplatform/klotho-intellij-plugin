@@ -15,6 +15,7 @@
 //  psiImplUtilClass="com.github.cloudcompilers.klotho.language.KlothoPsiImplUtil"
 
   tokens=[
+    EOL='\r\n'
     LEFT_BRACE='{'
     RIGHT_BRACE='}'
     space='regexp:\s+'
@@ -64,21 +65,23 @@ jsdoc_comment_block ::= JSDOC_COMMENT_START (star_prefix annotation_expr) + MULT
 
 c_style_comment_block ::= MULTILINE_COMMENT_START (star_prefix annotation_expr) + MULTILINE_COMMENT_END
 
-private line_comment ::= ('#' |'//') | star_prefix ('@klotho' '::' capability  ['{']) | statement | '}'
+line_comment ::= LineCommentPrefix annotation_expr
 
 annotation_expr ::= '@klotho' '::' capability [ annotation_body ] {pin=3}
 
-annotation_body ::= star_prefix '{' annotation_content star_prefix '}' {pin=2}
+annotation_body ::= star_prefix '{' [EOL] annotation_content [EOL] star_prefix '}' [EOL] {pin=2}
 
 annotation_content ::=  [statement *]
 
-statement ::= star_prefix (((assignment_expr | section_header) TOML_COMMENT) | TOML_COMMENT | any_expr)
+statement ::= star_prefix ((any_expr TOML_COMMENT) | TOML_COMMENT | any_expr) [EOL]
 
 private any_expr ::=  assignment_expr | section_header
 
 assignment_expr ::= key '=' value {pin=2}
 
-private star_prefix ::=  ('*' | '//' ) *
+private star_prefix ::=  ('*' + | LineCommentPrefix) *
+
+private LineCommentPrefix ::= '#' + | '//' +
 
 section_header ::= '[' header_id ']' {pin=1}
 

@@ -1,6 +1,8 @@
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
-        <multiHostInjector
-                implementation="com.github.cloudcompilers.klotho.language.injection.JavaScriptInjector"/>
+        <languageInjectionContributor language="JavaScript"
+                                      implementationClass="com.github.cloudcompilers.klotho.language.injection.KlothoInjector"/>
+        <languageInjectionPerformer language="JavaScript"
+                                    implementationClass="com.github.cloudcompilers.klotho.language.injection.JSInjectionPerformer"/>
     </extensions>
 </idea-plugin>

@@ -1,12 +1,13 @@
 package com.github.cloudcompilers.klotho.language.parsing;
 
 import com.github.cloudcompilers.klotho.language.psi.KlothoTypes;
+import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.TokenSet;
 
 public interface KlothoTokenSets {
 
-//  TokenSet COMMENT_BLOCK = TokenSet.create(KlothoTypes.JSDOC_COMMENT_BLOCK);
-
   TokenSet COMMENTS = TokenSet.create(KlothoTypes.TOML_COMMENT);
+
+  TokenSet WHITE_SPACE = TokenSet.create(TokenType.WHITE_SPACE, KlothoTypes.EOL);
 
 }

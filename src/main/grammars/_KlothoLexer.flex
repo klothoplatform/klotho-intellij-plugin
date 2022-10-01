@@ -33,6 +33,12 @@ import java.util.Stack;
       stack.push(newState);
       yybegin(newState);
     }
+
+  public void yyresetState(int newState) {
+      stack.clear();
+      stack.push(newState);
+      yybegin(newState);
+  }
 %}
 
 %public
@@ -43,7 +49,7 @@ import java.util.Stack;
 %unicode
 
 EOL=\R
-WHITE_SPACE=\s+
+WHITE_SPACE=[^\S\R]+
 
 SPACE=[ \t\n\x0B\f\r]+
 STRING=('(([^'][^']|[^'\\])|\\.)*'|\"(([^\"][^\"]|[^\"\\])|\\.)*\")
@@ -72,9 +78,6 @@ HEX_DIG=[A-Fa-f\d]+
 
 %%
 
-// matches all states
-{WHITE_SPACE}                  { return WHITE_SPACE; }
-
 <YYINITIAL> {
   {JSDOC_COMMENT_START}          { yypushState(multiline_comment); return JSDOC_COMMENT_START; }
   {MULTILINE_COMMENT_START}      { yypushState(multiline_comment); return MULTILINE_COMMENT_START; }
@@ -83,12 +86,17 @@ HEX_DIG=[A-Fa-f\d]+
 }
 
 <multiline_comment> {
-  "*/"                           { yypushState(YYINITIAL); return MULTILINE_COMMENT_END; }
+  "*/"                           { yyresetState(YYINITIAL); return MULTILINE_COMMENT_END; }
   "*"                            { yypushState(line_content); return STAR;}
 }
 
 <line_content> {
   "*"                            { return STAR;}
+}
+
+<line_comment> {
+ {EOL}               { yyresetState(YYINITIAL); return WHITE_SPACE;}
+ {WHITE_SPACE}       {return WHITE_SPACE;}
 }
 
 <multiline_comment, line_comment, line_content> {
@@ -156,6 +164,9 @@ HEX_DIG=[A-Fa-f\d]+
   {DIG0_1}                      { yypopState(); return DIG0_1; }
 }
 
+// matches all states
+{WHITE_SPACE}                  { return WHITE_SPACE; }
+{EOL}                          { return WHITE_SPACE; }
 
 // fallback if nothing matches
 [^] { return BAD_CHARACTER; }
