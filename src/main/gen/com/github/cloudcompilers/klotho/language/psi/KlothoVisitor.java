@@ -7,35 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public class KlothoVisitor extends PsiElementVisitor {
 
-  public void visitBinNumber(@NotNull KlothoBinNumber o) {
-    visitPsiElement(o);
-  }
-
-  public void visitHexNumber(@NotNull KlothoHexNumber o) {
-    visitPsiElement(o);
-  }
-
-  public void visitInlineTable(@NotNull KlothoInlineTable o) {
-    visitPsiElement(o);
-  }
-
-  public void visitNumber(@NotNull KlothoNumber o) {
-    visitPsiElement(o);
-  }
-
-  public void visitOctNumber(@NotNull KlothoOctNumber o) {
-    visitPsiElement(o);
-  }
-
-  public void visitPlainNumber(@NotNull KlothoPlainNumber o) {
-    visitPsiElement(o);
-  }
-
   public void visitAnnotationBody(@NotNull KlothoAnnotationBody o) {
-    visitPsiElement(o);
-  }
-
-  public void visitAnnotationContent(@NotNull KlothoAnnotationContent o) {
     visitPsiElement(o);
   }
 
@@ -51,6 +23,10 @@ public class KlothoVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitBinNumber(@NotNull KlothoBinNumber o) {
+    visitPsiElement(o);
+  }
+
   public void visitCStyleCommentBlock(@NotNull KlothoCStyleCommentBlock o) {
     visitPsiElement(o);
   }
@@ -59,7 +35,15 @@ public class KlothoVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitJsdocCommentBlock(@NotNull KlothoJsdocCommentBlock o) {
+  public void visitHexNumber(@NotNull KlothoHexNumber o) {
+    visitPsiElement(o);
+  }
+
+  public void visitInlineTable(@NotNull KlothoInlineTable o) {
+    visitPsiElement(o);
+  }
+
+  public void visitJSDocCommentBlock(@NotNull KlothoJSDocCommentBlock o) {
     visitPsiElement(o);
   }
 
@@ -68,6 +52,18 @@ public class KlothoVisitor extends PsiElementVisitor {
   }
 
   public void visitLineComment(@NotNull KlothoLineComment o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNumber(@NotNull KlothoNumber o) {
+    visitPsiElement(o);
+  }
+
+  public void visitOctNumber(@NotNull KlothoOctNumber o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPlainNumber(@NotNull KlothoPlainNumber o) {
     visitPsiElement(o);
   }
 

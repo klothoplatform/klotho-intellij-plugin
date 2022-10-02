@@ -11,7 +11,6 @@ import com.github.cloudcompilers.klotho.language.psi.impl.*;
 public interface KlothoTypes {
 
   IElementType ANNOTATION_BODY = new KlothoElementType("ANNOTATION_BODY");
-  IElementType ANNOTATION_CONTENT = new KlothoElementType("ANNOTATION_CONTENT");
   IElementType ANNOTATION_EXPR = new KlothoElementType("ANNOTATION_EXPR");
   IElementType ARRAY = new KlothoElementType("ARRAY");
   IElementType ASSIGNMENT_EXPR = new KlothoElementType("ASSIGNMENT_EXPR");
@@ -20,7 +19,7 @@ public interface KlothoTypes {
   IElementType HEADER_ID = new KlothoElementType("HEADER_ID");
   IElementType HEX_NUMBER = new KlothoElementType("HEX_NUMBER");
   IElementType INLINE_TABLE = new KlothoElementType("INLINE_TABLE");
-  IElementType JSDOC_COMMENT_BLOCK = new KlothoElementType("JSDOC_COMMENT_BLOCK");
+  IElementType JS_DOC_COMMENT_BLOCK = new KlothoElementType("JS_DOC_COMMENT_BLOCK");
   IElementType KEY = new KlothoElementType("KEY");
   IElementType LINE_COMMENT = new KlothoElementType("LINE_COMMENT");
   IElementType NUMBER = new KlothoElementType("NUMBER");
@@ -67,9 +66,6 @@ public interface KlothoTypes {
       if (type == ANNOTATION_BODY) {
         return new KlothoAnnotationBodyImpl(node);
       }
-      else if (type == ANNOTATION_CONTENT) {
-        return new KlothoAnnotationContentImpl(node);
-      }
       else if (type == ANNOTATION_EXPR) {
         return new KlothoAnnotationExprImpl(node);
       }
@@ -94,8 +90,8 @@ public interface KlothoTypes {
       else if (type == INLINE_TABLE) {
         return new KlothoInlineTableImpl(node);
       }
-      else if (type == JSDOC_COMMENT_BLOCK) {
-        return new KlothoJsdocCommentBlockImpl(node);
+      else if (type == JS_DOC_COMMENT_BLOCK) {
+        return new KlothoJSDocCommentBlockImpl(node);
       }
       else if (type == KEY) {
         return new KlothoKeyImpl(node);

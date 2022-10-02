@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface KlothoAnnotationBody extends PsiElement {
 
-  @Nullable
-  KlothoAnnotationContent getAnnotationContent();
+  @NotNull
+  List<KlothoStatement> getStatementList();
 
 }

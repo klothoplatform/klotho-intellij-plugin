@@ -11,14 +11,14 @@ import static com.github.cloudcompilers.klotho.language.psi.KlothoTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.cloudcompilers.klotho.language.psi.*;
 
-public class KlothoJsdocCommentBlockImpl extends ASTWrapperPsiElement implements KlothoJsdocCommentBlock {
+public class KlothoJSDocCommentBlockImpl extends ASTWrapperPsiElement implements KlothoJSDocCommentBlock {
 
-  public KlothoJsdocCommentBlockImpl(@NotNull ASTNode node) {
+  public KlothoJSDocCommentBlockImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull KlothoVisitor visitor) {
-    visitor.visitJsdocCommentBlock(this);
+    visitor.visitJSDocCommentBlock(this);
   }
 
   @Override

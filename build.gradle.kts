@@ -70,7 +70,7 @@ grammarKit {
             source.set("src/main/grammars/Klotho.bnf")
             targetRoot.set("src/main/gen")
             pathToParser.set("KlothoParser.java")
-            pathToPsiRoot.set("com/github/cloudcompilers/klotho/language/parser/psi")
+            pathToPsiRoot.set("com/github/cloudcompilers/klotho/language/psi")
             purgeOldFiles.set(true)
         }
     }

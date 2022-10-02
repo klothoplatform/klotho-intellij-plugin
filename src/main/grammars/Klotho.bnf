@@ -59,46 +59,46 @@
 
 // see Grammar Kit: https://github.com/JetBrains/Grammar-Kit
 
-root ::= (jsdoc_comment_block | c_style_comment_block | line_comment) +
+Root ::= (JSDocCommentBlock | CStyleCommentBlock | LineComment) +
 
-jsdoc_comment_block ::= JSDOC_COMMENT_START (star_prefix annotation_expr) + MULTILINE_COMMENT_END
+JSDocCommentBlock ::= JSDOC_COMMENT_START (StarPrefix AnnotationExpr) + MULTILINE_COMMENT_END
 
-c_style_comment_block ::= MULTILINE_COMMENT_START (star_prefix annotation_expr) + MULTILINE_COMMENT_END
+CStyleCommentBlock ::= MULTILINE_COMMENT_START (StarPrefix AnnotationExpr) + MULTILINE_COMMENT_END
 
-line_comment ::= LineCommentPrefix annotation_expr
+LineComment ::= LineCommentPrefix AnnotationExpr
 
-annotation_expr ::= '@klotho' '::' capability [ annotation_body ] {pin=3}
+AnnotationExpr ::= '@klotho' '::' Capability [ AnnotationBody ] {pin=3}
 
-annotation_body ::= star_prefix '{' [EOL] annotation_content [EOL] star_prefix '}' [EOL] {pin=2}
+AnnotationBody ::= StarPrefix '{' [EOL] AnnotationContent [EOL] StarPrefix '}' [EOL] {pin=2}
 
-annotation_content ::=  [statement *]
+private AnnotationContent ::=  [Statement *]
 
-statement ::= star_prefix ((any_expr TOML_COMMENT) | TOML_COMMENT | any_expr) [EOL]
+Statement ::= StarPrefix ((AnyExpr [TOML_COMMENT]) | TOML_COMMENT)  [EOL]
 
-private any_expr ::=  assignment_expr | section_header
+private AnyExpr ::=  AssignmentExpr | SectionHeader
 
-assignment_expr ::= key '=' value {pin=2}
+AssignmentExpr ::= Key '=' Value {pin=2}
 
-private star_prefix ::=  ('*' + | LineCommentPrefix) *
+private StarPrefix ::=  ('*' + | LineCommentPrefix) *
 
 private LineCommentPrefix ::= '#' + | '//' +
 
-section_header ::= '[' header_id ']' {pin=1}
+SectionHeader ::= '[' HeaderId ']' {pin=1}
 
-private value ::= simple_value | array | InlineTable
+private Value ::= SimpleValue | Array | InlineTable
 
-InlineTable ::= '{' [assignment_expr] (',' assignment_expr) * '}' {pin(".*")=1}
+InlineTable ::= '{' [AssignmentExpr] (',' AssignmentExpr) * '}' {pin(".*")=1}
 
-array ::= '[' ([(value ( [star_prefix] ',' [star_prefix] )) * [star_prefix] [value] !','] )  ']' {pin=2}
+Array ::= '[' ([(Value ( [StarPrefix] ',' [StarPrefix] )) * [StarPrefix] [Value] !','] )  ']' {pin=2}
 
-private simple_value ::=  Number | string | MULTILINE_STRING | BOOLEAN
+private SimpleValue ::=  Number | string | MULTILINE_STRING | BOOLEAN
 
-key ::= ID
+Key ::= ID
 
-header_id ::= ID
+HeaderId ::= ID
 
 // this just helps with the live preview. the lexer distinguishes between capability and id
-private capability ::= CAPABILITY | ID
+private Capability ::= CAPABILITY | ID
 
 Number ::= PlainNumber | HexNumber | BinNumber | OctNumber
 

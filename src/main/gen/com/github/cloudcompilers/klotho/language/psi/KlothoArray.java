@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface KlothoArray extends PsiElement {
 
   @NotNull
+  List<KlothoArray> getArrayList();
+
+  @NotNull
   List<KlothoInlineTable> getInlineTableList();
 
   @NotNull
   List<KlothoNumber> getNumberList();
-
-  @NotNull
-  List<KlothoArray> getArrayList();
 
 }

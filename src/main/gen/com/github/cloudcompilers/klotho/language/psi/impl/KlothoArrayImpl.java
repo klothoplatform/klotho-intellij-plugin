@@ -29,6 +29,12 @@ public class KlothoArrayImpl extends ASTWrapperPsiElement implements KlothoArray
 
   @Override
   @NotNull
+  public List<KlothoArray> getArrayList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoArray.class);
+  }
+
+  @Override
+  @NotNull
   public List<KlothoInlineTable> getInlineTableList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoInlineTable.class);
   }
@@ -37,12 +43,6 @@ public class KlothoArrayImpl extends ASTWrapperPsiElement implements KlothoArray
   @NotNull
   public List<KlothoNumber> getNumberList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoNumber.class);
-  }
-
-  @Override
-  @NotNull
-  public List<KlothoArray> getArrayList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoArray.class);
   }
 
 }

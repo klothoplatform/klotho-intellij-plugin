@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface KlothoJsdocCommentBlock extends PsiElement {
+public interface KlothoJSDocCommentBlock extends PsiElement {
 
   @NotNull
   List<KlothoAnnotationExpr> getAnnotationExprList();
