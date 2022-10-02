@@ -8,6 +8,9 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * SAMPLE :: do not enable this annotator without a proper implementation
+ */
 public class KlothoAnnotator implements Annotator {
 
   // Define strings for the Klotho language prefix - used for annotations, line markers, etc.
