@@ -5,7 +5,6 @@
     <vendor>Klotho</vendor>
 
     <depends>com.intellij.modules.platform</depends>
-    <depends>com.intellij.modules.lang</depends>
     <depends optional="true" config-file="klotho-withJavaScript.xml">JavaScript</depends>
     <depends optional="true" config-file="klotho-withPython.xml">Pythonid</depends>
 
