@@ -23,6 +23,8 @@ public class KlothoColorSettingsPage implements ColorSettingsPage {
           new AttributesDescriptor("String", KlothoSyntaxHighlighter.STRING),
           new AttributesDescriptor("Number", KlothoSyntaxHighlighter.PLAIN_NUMBER),
           new AttributesDescriptor("Embedded comment", KlothoSyntaxHighlighter.TOML_COMMENT),
+          new AttributesDescriptor("Braces", KlothoSyntaxHighlighter.BRACES),
+          new AttributesDescriptor("Brackets", KlothoSyntaxHighlighter.BRACKETS),
           new AttributesDescriptor("Bad value", KlothoSyntaxHighlighter.BAD_CHARACTER)
   };
 

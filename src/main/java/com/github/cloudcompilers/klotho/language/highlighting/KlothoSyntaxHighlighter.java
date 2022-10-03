@@ -50,6 +50,13 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
 
     public static final TextAttributesKey STAR =
             createTextAttributesKey("KLOTHO_STAR", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
+
+    public static final TextAttributesKey BRACES =
+            createTextAttributesKey("KLOTHO_BRACES", DefaultLanguageHighlighterColors.BRACES);
+
+    public static final TextAttributesKey BRACKETS =
+            createTextAttributesKey("KLOTHO_BRACKETS", DefaultLanguageHighlighterColors.BRACKETS);
+
     public static final TextAttributesKey BAD_CHARACTER =
             createTextAttributesKey("KLOTHO_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 
@@ -76,6 +83,10 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] COMMENT_BLOCK_KEYS = new TextAttributesKey[]{STAR};
 
     private static final TextAttributesKey[] TOML_COMMENT_KEYS = new TextAttributesKey[]{TOML_COMMENT};
+
+    private static final TextAttributesKey[] BRACES_KEYS = new TextAttributesKey[]{BRACES};
+
+    private static final TextAttributesKey[] BRACKETS_KEYS = new TextAttributesKey[]{BRACKETS};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
     @NotNull
@@ -86,51 +97,42 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
 
     @Override
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
-        if (tokenType.equals(KlothoTypes.SEPARATOR)) {
+        if (KlothoTypes.SEPARATOR.equals(tokenType)) {
             return SEPARATOR_KEYS;
-        }
-        if (tokenType.equals(KlothoTypes.ANNOTATION)) {
+        } else if (KlothoTypes.ANNOTATION.equals(tokenType)) {
             return ANNOTATION_KEYS;
-        }
-        if (tokenType.equals(KlothoTypes.CAPABILITY)) {
+        } else if (KlothoTypes.CAPABILITY.equals(tokenType)) {
             return CAPABILITY_KEYS;
-        }
-        if (tokenType.equals(KlothoTypes.ID)) {
+        } else if (KlothoTypes.ID.equals(tokenType)) {
             return ID_KEYS;
-        }
-        if (tokenType.equals(KlothoTypes.STRING)) {
+        } else if (KlothoTypes.STRING.equals(tokenType)) {
             return STRING_KEYS;
-        }
-        if (List.of(
+        } else if (List.of(
                 KlothoTypes.JSDOC_COMMENT_START,
                 KlothoTypes.MULTILINE_COMMENT_START,
                 KlothoTypes.MULTILINE_COMMENT_END,
                 KlothoTypes.STAR
         ).contains(tokenType)) {
             return COMMENT_BLOCK_KEYS;
-        }
-        if (tokenType.equals(KlothoTypes.TOML_COMMENT)) {
+        } else if (KlothoTypes.TOML_COMMENT.equals(tokenType)) {
             return TOML_COMMENT_KEYS;
-        }
-        if (tokenType.equals(KlothoTypes.OCT_PREFIX) || tokenType.equals(KlothoTypes.DIG0_7)) {
+        } else if (KlothoTypes.OCT_PREFIX.equals(tokenType) || KlothoTypes.DIG0_7.equals(tokenType)) {
             return OCT_NUMBER_KEYS;
-        }
-        if (tokenType.equals(KlothoTypes.BIN_PREFIX) || tokenType.equals(KlothoTypes.DIG0_1)) {
+        } else if (KlothoTypes.BIN_PREFIX.equals(tokenType) || KlothoTypes.DIG0_1.equals(tokenType)) {
             return BIN_NUMBER_KEYS;
-        }
-        if (tokenType.equals(KlothoTypes.HEX_PREFIX) || tokenType.equals(KlothoTypes.HEX_DIG)) {
+        } else if (KlothoTypes.HEX_PREFIX.equals(tokenType) || KlothoTypes.HEX_DIG.equals(tokenType)) {
             return HEX_NUMBER_KEYS;
-        }
-        if (tokenType.equals(KlothoTypes.PLAIN_NUMBER)) {
+        } else if (KlothoTypes.PLAIN_NUMBER.equals(tokenType)) {
             return PLAIN_NUMBER_KEYS;
-        }
-        if (tokenType.equals(KlothoTypes.BOOLEAN)) {
+        } else if (KlothoTypes.BOOLEAN.equals(tokenType)) {
             return BOOLEAN_KEYS;
-        }
-        if (tokenType.equals(TokenType.BAD_CHARACTER)) {
+        } else if (KlothoTypes.LEFT_BRACE.equals(tokenType) || KlothoTypes.RIGHT_BRACE.equals(tokenType)) {
+            return BRACES_KEYS;
+        } else if (KlothoTypes.LEFT_BRACKET.equals(tokenType) || KlothoTypes.RIGHT_BRACKET.equals(tokenType)) {
+            return BRACKETS_KEYS;
+        } else if (TokenType.BAD_CHARACTER.equals(tokenType)) {
             return BAD_CHAR_KEYS;
         }
         return EMPTY_KEYS;
     }
-
 }
