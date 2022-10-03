@@ -29,6 +29,7 @@
         <codeInsight.lineMarkerProvider
                 language="Klotho"
                 implementationClass="com.github.cloudcompilers.klotho.language.extensions.KlothoCapabilityMarkerProvider"/>
+        <lang.commenter language="Klotho" implementationClass="com.github.cloudcompilers.klotho.language.KlothoCommenter"/>
 <!--        <lang.formatter-->
 <!--                language="Klotho"-->
 <!--                implementationClass="com.github.cloudcompilers.klotho.language.formatting.KlothoFormattingModelBuilder"/>-->
