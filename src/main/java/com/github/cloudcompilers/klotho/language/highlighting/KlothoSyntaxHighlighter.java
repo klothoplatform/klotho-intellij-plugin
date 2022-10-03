@@ -60,8 +60,8 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey BAD_CHARACTER =
             createTextAttributesKey("KLOTHO_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 
-
     private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
+
     private static final TextAttributesKey[] SEPARATOR_KEYS = new TextAttributesKey[]{SEPARATOR};
 
     private static final TextAttributesKey[] ID_KEYS = new TextAttributesKey[]{ID};
@@ -80,6 +80,7 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] BIN_NUMBER_KEYS = new TextAttributesKey[]{BIN_NUMBER, PLAIN_NUMBER};
 
     private static final TextAttributesKey[] BOOLEAN_KEYS = new TextAttributesKey[]{BOOLEAN};
+
     private static final TextAttributesKey[] COMMENT_BLOCK_KEYS = new TextAttributesKey[]{STAR};
 
     private static final TextAttributesKey[] TOML_COMMENT_KEYS = new TextAttributesKey[]{TOML_COMMENT};
@@ -87,6 +88,7 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] BRACES_KEYS = new TextAttributesKey[]{BRACES};
 
     private static final TextAttributesKey[] BRACKETS_KEYS = new TextAttributesKey[]{BRACKETS};
+
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
     @NotNull
@@ -105,7 +107,7 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
             return CAPABILITY_KEYS;
         } else if (KlothoTypes.ID.equals(tokenType)) {
             return ID_KEYS;
-        } else if (KlothoTypes.STRING.equals(tokenType)) {
+        } else if (KlothoTypes.STRING.equals(tokenType) || KlothoTypes.MULTILINE_STRING.equals(tokenType)) {
             return STRING_KEYS;
         } else if (List.of(
                 KlothoTypes.JSDOC_COMMENT_START,
