@@ -17,6 +17,6 @@ public interface KlothoNumber extends PsiElement {
   KlothoOctNumber getOctNumber();
 
   @Nullable
-  KlothoPlainNumber getPlainNumber();
+  PsiElement getPlainNumber();
 
 }

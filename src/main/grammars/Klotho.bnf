@@ -23,16 +23,13 @@
     LEFT_BRACKET='['
     RIGHT_BRACKET=']'
     STAR='*'
-    PERIOD='.'
     COMMA=','
-    ADD='+'
-    SUB='-'
     BOOLEAN='regexp:(true|false)'
 
     string="regexp:('(([^'][^']|[^'\\])|\\.)*'|\"(([^\"][^\"]|[^\"\\])|\\.)*\")"
     MULTILINE_STRING="regexp:('''|\"\"\")(.*?\r?\n?)*('''|\"\"\")"
 
-    DIGIT = 'regexp:\d'
+    PLAIN_NUMBER = 'regexp:\d'
     HEX_PREFIX = '0x'
     OCT_PREFIX = '0o'
     BIN_PREFIX = '0b'
@@ -100,9 +97,7 @@ HeaderId ::= ID
 // this just helps with the live preview. the lexer distinguishes between capability and id
 private Capability ::= CAPABILITY | ID
 
-Number ::= PlainNumber | HexNumber | BinNumber | OctNumber
-
-PlainNumber ::= ['-' | '+'] DIGIT + ['.' DIGIT *]  {pin=2}
+Number ::= PLAIN_NUMBER | HexNumber | BinNumber | OctNumber
 
 OctNumber ::= OCT_PREFIX DIG0_7 {pin=1}
 

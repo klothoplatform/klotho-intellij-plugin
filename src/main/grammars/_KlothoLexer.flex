@@ -28,15 +28,8 @@ import java.util.Stack;
     yybegin(stack.pop());
   }
 
-  public void yyswapState(int newState) {
-      stack.pop();
-      stack.push(newState);
-      yybegin(newState);
-    }
-
   public void yyresetState(int newState) {
       stack.clear();
-      stack.push(newState);
       yybegin(newState);
   }
 %}
@@ -49,12 +42,12 @@ import java.util.Stack;
 %unicode
 
 EOL=\R
-WHITE_SPACE=[^\S\R]+
+WHITE_SPACE=[^\S\R\r\n]+
 
 SPACE=[ \t\n\x0B\f\r]+
 STRING=('(([^'][^']|[^'\\])|\\.)*'|\"(([^\"][^\"]|[^\"\\])|\\.)*\")
 MULTILINE_STRING=('''|\"\"\")(.*?\r?\n?)*('''|\"\"\")
-DIGIT=\d
+PLAIN_NUMBER=(\+?|-?)((\d+\.?\d*)|(\.\d+))
 TOML_COMMENT=(#.*)
 CAPABILITY=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabilities
 JSDOC_COMMENT_START="/"\*\*\s?
@@ -72,9 +65,8 @@ DIG0_1=[0-1]+
 HEX_DIG=[A-Fa-f\d]+
 
 // states
-%state multiline_comment line_comment raw annotation_decl line_content inline_table
+%state multiline_comment line_comment raw annotation_decl line_content inline_table assignment array
 %xstate capability_name bin_number oct_number hex_number
-
 
 %%
 
@@ -88,68 +80,74 @@ HEX_DIG=[A-Fa-f\d]+
 <multiline_comment> {
   "*/"                           { yyresetState(YYINITIAL); return MULTILINE_COMMENT_END; }
   "*"                            { yypushState(line_content); return STAR;}
+  {TOML_COMMENT}                 { return TOML_COMMENT; }
 }
 
 <line_content> {
-  "*"                            { return STAR;}
+  {EOL}                          { yypopState(); return EOL; }
 }
 
 <line_comment> {
- {EOL}               { yyresetState(YYINITIAL); return WHITE_SPACE;}
- {WHITE_SPACE}       {return WHITE_SPACE;}
+ {EOL}                           { yyresetState(YYINITIAL); return WHITE_SPACE;}
+ {TOML_COMMENT}                 { return TOML_COMMENT; }
 }
 
 <multiline_comment, line_comment, line_content> {
-  "="                            { return EQ; }
-  "+"                            { return ADD; }
-  "-"                            { return SUB; }
-  "["                            { return LEFT_BRACKET; }
-  "]"                            { return RIGHT_BRACKET; }
-  "."                            { return PERIOD; }
-  ","                            { return COMMA; }
-  {STRING}                       { return STRING; }
-  {MULTILINE_STRING}             { return MULTILINE_STRING; }
-  "0x"                           {yypushState(hex_number); return HEX_PREFIX;}
-  "0o"                           {yypushState(oct_number); return OCT_PREFIX;}
-  "0b"                           {yypushState(bin_number); return BIN_PREFIX;}
-  {DIGIT}                        { return DIGIT; }
-  {BOOLEAN}                      { return BOOLEAN; }
+  "}"                            { return RIGHT_BRACE;}
+  "="                            { yypushState(assignment); return EQ; }
+  "["                            { return LEFT_BRACKET; } // section header start
+  "]"                            { return RIGHT_BRACKET; } // section header end
   {TOML_COMMENT}                 { return TOML_COMMENT; }
   {ID}                           { return ID; }
   "@klotho"                      { yypushState(annotation_decl); return ANNOTATION; }
-  <annotation_decl> {
-    "::"                           { yypushState(capability_name); return SEPARATOR; }
-  }
-  "{"                            { yypushState(inline_table); return LEFT_BRACE;}
-  "}"                            { switch (yystate()) { case line_content: inline_table: {  yypopState(); break;}} return RIGHT_BRACE;}
 }
 
 <annotation_decl> {
-    "{"                            { yypopState(); return LEFT_BRACE; }
-}
+    "::"                         { yypushState(capability_name); return SEPARATOR; }
+    "{"                          { yypopState(); return LEFT_BRACE; }
+  }
 
 // special handling for capability names since they match the same pattern as other identifiers
 <capability_name> {
-  {CAPABILITY}                  { yypopState(); return CAPABILITY; }
+  {CAPABILITY}                    { yypopState(); return CAPABILITY; }
+}
+
+<assignment> {
+    "{"                            { yypushState(inline_table); return LEFT_BRACE; }
+    "}"                            { return RIGHT_BRACE; } // end of annotation
+    {EOL}                          { yypopState(); switch (yystate()){ case line_comment:{ yyresetState(YYINITIAL); break;} case line_content:{yypopState(); break;}} return WHITE_SPACE; }
+    {STRING}                       { yypopState(); return STRING; }
+    {PLAIN_NUMBER}                 { yypopState(); return PLAIN_NUMBER; }
+    {BOOLEAN}                      { yypopState(); return BOOLEAN; }
+    {MULTILINE_STRING}             { return MULTILINE_STRING; } // probably not working right now
+    "0x"                           { yybegin(hex_number); return HEX_PREFIX; }
+    "0o"                           { yybegin(oct_number); return OCT_PREFIX; }
+    "0b"                           { yybegin(bin_number); return BIN_PREFIX; }
+
+    <array, inline_table> {
+        "["                            { yypushState(array); return LEFT_BRACKET; } // array start
+    }
+}
+
+<array> {
+   "]"                            { yypopState(); return RIGHT_BRACKET; } // array end
 }
 
 <inline_table> {
-  "="                            { return EQ; }
-  "+"                            { return ADD; }
-  "-"                            { return SUB; }
-  "["                            { return LEFT_BRACKET; }
-  "]"                            { return RIGHT_BRACKET; }
-  "."                            { return PERIOD; }
-  ","                            { return COMMA; }
-  {STRING}                       { return STRING; }
-  {MULTILINE_STRING}             { return MULTILINE_STRING; }
-  "0x"                           {yypushState(hex_number); return HEX_PREFIX;}
-  "0o"                           {yypushState(oct_number); return OCT_PREFIX;}
-  "0b"                           {yypushState(bin_number); return BIN_PREFIX;}
-  {DIGIT}                        { return DIGIT; }
-  {BOOLEAN}                      { return BOOLEAN; }
   {ID}                           { return ID; }
-  "}"                            { yypopState(); return RIGHT_BRACE; }
+   "="                           { return EQ; }
+   "}"                           { yypopState(); yypopState(); return RIGHT_BRACE;} // end of expression
+}
+
+<array, inline_table> {
+  "0x"                           { yypushState(hex_number); return HEX_PREFIX; }
+  "0o"                           { yypushState(oct_number); return OCT_PREFIX; }
+  "0b"                           { yypushState(bin_number); return BIN_PREFIX; }
+  {STRING}                       { return STRING; }
+  {PLAIN_NUMBER}                        { return PLAIN_NUMBER; }
+  {BOOLEAN}                      { return BOOLEAN; }
+  {MULTILINE_STRING}             { return MULTILINE_STRING; }  // probably not working right now
+   ","                           { return COMMA; }
 }
 
 <hex_number> {
@@ -165,8 +163,8 @@ HEX_DIG=[A-Fa-f\d]+
 }
 
 // matches all states
-{WHITE_SPACE}                  { return WHITE_SPACE; }
 {EOL}                          { return WHITE_SPACE; }
+{WHITE_SPACE}                  { return WHITE_SPACE; }
 
 // fallback if nothing matches
 [^] { return BAD_CHARACTER; }

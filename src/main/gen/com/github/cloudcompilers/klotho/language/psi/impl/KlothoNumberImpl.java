@@ -47,8 +47,8 @@ public class KlothoNumberImpl extends ASTWrapperPsiElement implements KlothoNumb
 
   @Override
   @Nullable
-  public KlothoPlainNumber getPlainNumber() {
-    return findChildByClass(KlothoPlainNumber.class);
+  public PsiElement getPlainNumber() {
+    return findChildByType(PLAIN_NUMBER);
   }
 
 }

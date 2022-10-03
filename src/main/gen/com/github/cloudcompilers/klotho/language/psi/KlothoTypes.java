@@ -24,11 +24,9 @@ public interface KlothoTypes {
   IElementType LINE_COMMENT = new KlothoElementType("LINE_COMMENT");
   IElementType NUMBER = new KlothoElementType("NUMBER");
   IElementType OCT_NUMBER = new KlothoElementType("OCT_NUMBER");
-  IElementType PLAIN_NUMBER = new KlothoElementType("PLAIN_NUMBER");
   IElementType SECTION_HEADER = new KlothoElementType("SECTION_HEADER");
   IElementType STATEMENT = new KlothoElementType("STATEMENT");
 
-  IElementType ADD = new KlothoTokenType("+");
   IElementType ANNOTATION = new KlothoTokenType("@klotho");
   IElementType BIN_PREFIX = new KlothoTokenType("0b");
   IElementType BOOLEAN = new KlothoTokenType("BOOLEAN");
@@ -37,7 +35,6 @@ public interface KlothoTypes {
   IElementType C_LINE_COMMENT = new KlothoTokenType("//");
   IElementType DIG0_1 = new KlothoTokenType("DIG0_1");
   IElementType DIG0_7 = new KlothoTokenType("DIG0_7");
-  IElementType DIGIT = new KlothoTokenType("DIGIT");
   IElementType EOL = new KlothoTokenType("\\r\\n");
   IElementType EQ = new KlothoTokenType("=");
   IElementType HEX_DIG = new KlothoTokenType("HEX_DIG");
@@ -50,14 +47,13 @@ public interface KlothoTypes {
   IElementType MULTILINE_COMMENT_START = new KlothoTokenType("/*");
   IElementType MULTILINE_STRING = new KlothoTokenType("MULTILINE_STRING");
   IElementType OCT_PREFIX = new KlothoTokenType("0o");
-  IElementType PERIOD = new KlothoTokenType(".");
+  IElementType PLAIN_NUMBER = new KlothoTokenType("PLAIN_NUMBER");
   IElementType PY_COMMENT = new KlothoTokenType("#");
   IElementType RIGHT_BRACE = new KlothoTokenType("}");
   IElementType RIGHT_BRACKET = new KlothoTokenType("]");
   IElementType SEPARATOR = new KlothoTokenType("::");
   IElementType STAR = new KlothoTokenType("*");
   IElementType STRING = new KlothoTokenType("string");
-  IElementType SUB = new KlothoTokenType("-");
   IElementType TOML_COMMENT = new KlothoTokenType("TOML_COMMENT");
 
   class Factory {
@@ -104,9 +100,6 @@ public interface KlothoTypes {
       }
       else if (type == OCT_NUMBER) {
         return new KlothoOctNumberImpl(node);
-      }
-      else if (type == PLAIN_NUMBER) {
-        return new KlothoPlainNumberImpl(node);
       }
       else if (type == SECTION_HEADER) {
         return new KlothoSectionHeaderImpl(node);

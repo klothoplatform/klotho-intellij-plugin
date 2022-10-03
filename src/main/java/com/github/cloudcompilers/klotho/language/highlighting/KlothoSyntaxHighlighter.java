@@ -121,7 +121,7 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
         if (tokenType.equals(KlothoTypes.HEX_PREFIX) || tokenType.equals(KlothoTypes.HEX_DIG)) {
             return HEX_NUMBER_KEYS;
         }
-        if (tokenType.equals(KlothoTypes.DIGIT)) {
+        if (tokenType.equals(KlothoTypes.PLAIN_NUMBER)) {
             return PLAIN_NUMBER_KEYS;
         }
         if (tokenType.equals(KlothoTypes.BOOLEAN)) {

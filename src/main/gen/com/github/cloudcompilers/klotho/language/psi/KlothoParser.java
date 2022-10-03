@@ -493,12 +493,12 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // PlainNumber | HexNumber | BinNumber | OctNumber
+  // PLAIN_NUMBER | HexNumber | BinNumber | OctNumber
   public static boolean Number(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Number")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_, level_, _NONE_, NUMBER, "<number>");
-    result_ = PlainNumber(builder_, level_ + 1);
+    result_ = consumeToken(builder_, PLAIN_NUMBER);
     if (!result_) result_ = HexNumber(builder_, level_ + 1);
     if (!result_) result_ = BinNumber(builder_, level_ + 1);
     if (!result_) result_ = OctNumber(builder_, level_ + 1);
@@ -517,80 +517,6 @@ public class KlothoParser implements PsiParser, LightPsiParser {
     pinned_ = result_; // pin = 1
     exit_section_(builder_, level_, marker_, result_, pinned_, null);
     return result_ || pinned_;
-  }
-
-  /* ********************************************************** */
-  // ['-' | '+'] DIGIT + ['.' DIGIT *]
-  public static boolean PlainNumber(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "PlainNumber")) return false;
-    boolean result_, pinned_;
-    Marker marker_ = enter_section_(builder_, level_, _NONE_, PLAIN_NUMBER, "<plain number>");
-    result_ = PlainNumber_0(builder_, level_ + 1);
-    result_ = result_ && PlainNumber_1(builder_, level_ + 1);
-    pinned_ = result_; // pin = 2
-    result_ = result_ && PlainNumber_2(builder_, level_ + 1);
-    exit_section_(builder_, level_, marker_, result_, pinned_, null);
-    return result_ || pinned_;
-  }
-
-  // ['-' | '+']
-  private static boolean PlainNumber_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "PlainNumber_0")) return false;
-    PlainNumber_0_0(builder_, level_ + 1);
-    return true;
-  }
-
-  // '-' | '+'
-  private static boolean PlainNumber_0_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "PlainNumber_0_0")) return false;
-    boolean result_;
-    result_ = consumeToken(builder_, SUB);
-    if (!result_) result_ = consumeToken(builder_, ADD);
-    return result_;
-  }
-
-  // DIGIT +
-  private static boolean PlainNumber_1(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "PlainNumber_1")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = consumeToken(builder_, DIGIT);
-    while (result_) {
-      int pos_ = current_position_(builder_);
-      if (!consumeToken(builder_, DIGIT)) break;
-      if (!empty_element_parsed_guard_(builder_, "PlainNumber_1", pos_)) break;
-    }
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
-  }
-
-  // ['.' DIGIT *]
-  private static boolean PlainNumber_2(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "PlainNumber_2")) return false;
-    PlainNumber_2_0(builder_, level_ + 1);
-    return true;
-  }
-
-  // '.' DIGIT *
-  private static boolean PlainNumber_2_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "PlainNumber_2_0")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = consumeToken(builder_, PERIOD);
-    result_ = result_ && PlainNumber_2_0_1(builder_, level_ + 1);
-    exit_section_(builder_, marker_, null, result_);
-    return result_;
-  }
-
-  // DIGIT *
-  private static boolean PlainNumber_2_0_1(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "PlainNumber_2_0_1")) return false;
-    while (true) {
-      int pos_ = current_position_(builder_);
-      if (!consumeToken(builder_, DIGIT)) break;
-      if (!empty_element_parsed_guard_(builder_, "PlainNumber_2_0_1", pos_)) break;
-    }
-    return true;
   }
 
   /* ********************************************************** */
