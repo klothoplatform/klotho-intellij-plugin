@@ -41,6 +41,12 @@ public class KlothoArrayImpl extends ASTWrapperPsiElement implements KlothoArray
 
   @Override
   @NotNull
+  public List<KlothoMultilineString> getMultilineStringList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoMultilineString.class);
+  }
+
+  @Override
+  @NotNull
   public List<KlothoNumber> getNumberList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoNumber.class);
   }

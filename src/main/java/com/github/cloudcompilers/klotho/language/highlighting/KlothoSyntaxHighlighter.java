@@ -119,7 +119,10 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
                 KlothoTypes.JSDOC_COMMENT_START,
                 KlothoTypes.MULTILINE_COMMENT_START,
                 KlothoTypes.MULTILINE_COMMENT_END,
-                KlothoTypes.STAR
+                KlothoTypes.STAR,
+                KlothoTypes.MULTILINE_LINE_SEPARATOR,
+                KlothoTypes.C_LINE_COMMENT,
+                KlothoTypes.PY_COMMENT
         ).contains(tokenType)) {
             return COMMENT_BLOCK_KEYS;
         } else if (KlothoTypes.RAW_COMMENT.equals(tokenType) || KlothoTypes.TOML_COMMENT.equals(tokenType)) {

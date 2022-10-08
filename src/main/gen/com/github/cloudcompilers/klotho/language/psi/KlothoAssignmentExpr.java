@@ -17,13 +17,13 @@ public interface KlothoAssignmentExpr extends PsiElement {
   KlothoKey getKey();
 
   @Nullable
+  KlothoMultilineString getMultilineString();
+
+  @Nullable
   KlothoNumber getNumber();
 
   @Nullable
   PsiElement getBoolean();
-
-  @Nullable
-  PsiElement getMultilineString();
 
   @Nullable
   PsiElement getString();

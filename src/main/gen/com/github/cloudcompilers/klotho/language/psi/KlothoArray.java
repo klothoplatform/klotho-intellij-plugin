@@ -14,6 +14,9 @@ public interface KlothoArray extends PsiElement {
   List<KlothoInlineTable> getInlineTableList();
 
   @NotNull
+  List<KlothoMultilineString> getMultilineStringList();
+
+  @NotNull
   List<KlothoNumber> getNumberList();
 
 }

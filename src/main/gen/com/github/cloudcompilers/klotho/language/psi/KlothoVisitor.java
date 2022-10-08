@@ -51,6 +51,10 @@ public class KlothoVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitMultilineString(@NotNull KlothoMultilineString o) {
+    visitPsiElement(o);
+  }
+
   public void visitNumber(@NotNull KlothoNumber o) {
     visitPsiElement(o);
   }

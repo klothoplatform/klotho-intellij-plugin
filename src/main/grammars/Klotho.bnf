@@ -27,8 +27,11 @@
     COMMA=','
     BOOLEAN='regexp:(true|false)'
 
+    TRIPLE_QUOTE
+    MULTILINE_STRING_CONTENT
+    MULTILINE_LINE_SEPARATOR
+
     string="regexp:('(([^'][^']|[^'\\])|\\.)*'|\"(([^\"][^\"]|[^\"\\])|\\.)*\")"
-    MULTILINE_STRING="regexp:('''|\"\"\")(.*?\r?\n?)*('''|\"\"\")"
 
     PLAIN_NUMBER = 'regexp:\d'
     HEX_PREFIX = '0x'
@@ -58,7 +61,7 @@
 
 // see Grammar Kit: https://github.com/JetBrains/Grammar-Kit
 
-Root ::= (JSDocCommentBlock | CStyleCommentBlock | LineComment | RawComment) +
+Root ::= (JSDocCommentBlock | CStyleCommentBlock | LineComment | RawComment) + <<eof>>
 
 JSDocCommentBlock ::= JSDOC_COMMENT_START EOL * RawComment *  (StarPrefix AnnotationExpr RawComment *) + MULTILINE_COMMENT_END
 
@@ -90,7 +93,7 @@ InlineTable ::= '{' [AssignmentExpr] (',' AssignmentExpr) * '}' {pin(".*")=1}
 
 Array ::= '[' ([(Value ( [StarPrefix] ',' [StarPrefix] )) * [StarPrefix] [Value] !','] )  ']' {pin=2}
 
-private SimpleValue ::=  Number | string | MULTILINE_STRING | BOOLEAN
+private SimpleValue ::=  Number | string | MultilineString | BOOLEAN
 
 Key ::= ID
 
@@ -106,3 +109,5 @@ BinNumber ::= BIN_PREFIX DIG0_1 {pin=1}
 HexNumber ::= HEX_PREFIX HEX_DIG {pin=1}
 
 RawComment ::= StarPrefix PLAINTEXT * EOL
+
+MultilineString ::= TRIPLE_QUOTE (MULTILINE_LINE_SEPARATOR | MULTILINE_STRING_CONTENT) * TRIPLE_QUOTE

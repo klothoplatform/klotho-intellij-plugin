@@ -21,6 +21,7 @@ public interface KlothoTypes {
   IElementType JS_DOC_COMMENT_BLOCK = new KlothoElementType("JS_DOC_COMMENT_BLOCK");
   IElementType KEY = new KlothoElementType("KEY");
   IElementType LINE_COMMENT = new KlothoElementType("LINE_COMMENT");
+  IElementType MULTILINE_STRING = new KlothoElementType("MULTILINE_STRING");
   IElementType NUMBER = new KlothoElementType("NUMBER");
   IElementType OCT_NUMBER = new KlothoElementType("OCT_NUMBER");
   IElementType RAW_COMMENT = new KlothoElementType("RAW_COMMENT");
@@ -46,7 +47,8 @@ public interface KlothoTypes {
   IElementType LEFT_BRACKET = new KlothoTokenType("[");
   IElementType MULTILINE_COMMENT_END = new KlothoTokenType("*/");
   IElementType MULTILINE_COMMENT_START = new KlothoTokenType("/*");
-  IElementType MULTILINE_STRING = new KlothoTokenType("MULTILINE_STRING");
+  IElementType MULTILINE_LINE_SEPARATOR = new KlothoTokenType("MULTILINE_LINE_SEPARATOR");
+  IElementType MULTILINE_STRING_CONTENT = new KlothoTokenType("MULTILINE_STRING_CONTENT");
   IElementType OCT_PREFIX = new KlothoTokenType("0o");
   IElementType PLAINTEXT = new KlothoTokenType("PLAINTEXT");
   IElementType PLAIN_NUMBER = new KlothoTokenType("PLAIN_NUMBER");
@@ -57,6 +59,7 @@ public interface KlothoTypes {
   IElementType STAR = new KlothoTokenType("*");
   IElementType STRING = new KlothoTokenType("string");
   IElementType TOML_COMMENT = new KlothoTokenType("TOML_COMMENT");
+  IElementType TRIPLE_QUOTE = new KlothoTokenType("TRIPLE_QUOTE");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
@@ -93,6 +96,9 @@ public interface KlothoTypes {
       }
       else if (type == LINE_COMMENT) {
         return new KlothoLineCommentImpl(node);
+      }
+      else if (type == MULTILINE_STRING) {
+        return new KlothoMultilineStringImpl(node);
       }
       else if (type == NUMBER) {
         return new KlothoNumberImpl(node);

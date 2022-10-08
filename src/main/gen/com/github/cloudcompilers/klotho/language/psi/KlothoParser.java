@@ -582,6 +582,40 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // TRIPLE_QUOTE (MULTILINE_LINE_SEPARATOR | MULTILINE_STRING_CONTENT) * TRIPLE_QUOTE
+  public static boolean MultilineString(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "MultilineString")) return false;
+    if (!nextTokenIs(builder_, TRIPLE_QUOTE)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, TRIPLE_QUOTE);
+    result_ = result_ && MultilineString_1(builder_, level_ + 1);
+    result_ = result_ && consumeToken(builder_, TRIPLE_QUOTE);
+    exit_section_(builder_, marker_, MULTILINE_STRING, result_);
+    return result_;
+  }
+
+  // (MULTILINE_LINE_SEPARATOR | MULTILINE_STRING_CONTENT) *
+  private static boolean MultilineString_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "MultilineString_1")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!MultilineString_1_0(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "MultilineString_1", pos_)) break;
+    }
+    return true;
+  }
+
+  // MULTILINE_LINE_SEPARATOR | MULTILINE_STRING_CONTENT
+  private static boolean MultilineString_1_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "MultilineString_1_0")) return false;
+    boolean result_;
+    result_ = consumeToken(builder_, MULTILINE_LINE_SEPARATOR);
+    if (!result_) result_ = consumeToken(builder_, MULTILINE_STRING_CONTENT);
+    return result_;
+  }
+
+  /* ********************************************************** */
   // PLAIN_NUMBER | HexNumber | BinNumber | OctNumber
   public static boolean Number(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Number")) return false;
@@ -633,24 +667,35 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (JSDocCommentBlock | CStyleCommentBlock | LineComment | RawComment) +
+  // (JSDocCommentBlock | CStyleCommentBlock | LineComment | RawComment) + <<eof>>
   static boolean Root(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Root")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = Root_0(builder_, level_ + 1);
+    result_ = result_ && eof(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  // (JSDocCommentBlock | CStyleCommentBlock | LineComment | RawComment) +
+  private static boolean Root_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "Root_0")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = Root_0_0(builder_, level_ + 1);
     while (result_) {
       int pos_ = current_position_(builder_);
-      if (!Root_0(builder_, level_ + 1)) break;
-      if (!empty_element_parsed_guard_(builder_, "Root", pos_)) break;
+      if (!Root_0_0(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "Root_0", pos_)) break;
     }
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
   // JSDocCommentBlock | CStyleCommentBlock | LineComment | RawComment
-  private static boolean Root_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Root_0")) return false;
+  private static boolean Root_0_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "Root_0_0")) return false;
     boolean result_;
     result_ = JSDocCommentBlock(builder_, level_ + 1);
     if (!result_) result_ = CStyleCommentBlock(builder_, level_ + 1);
@@ -673,13 +718,13 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Number | string | MULTILINE_STRING | BOOLEAN
+  // Number | string | MultilineString | BOOLEAN
   static boolean SimpleValue(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "SimpleValue")) return false;
     boolean result_;
     result_ = Number(builder_, level_ + 1);
     if (!result_) result_ = consumeToken(builder_, STRING);
-    if (!result_) result_ = consumeToken(builder_, MULTILINE_STRING);
+    if (!result_) result_ = MultilineString(builder_, level_ + 1);
     if (!result_) result_ = consumeToken(builder_, BOOLEAN);
     return result_;
   }

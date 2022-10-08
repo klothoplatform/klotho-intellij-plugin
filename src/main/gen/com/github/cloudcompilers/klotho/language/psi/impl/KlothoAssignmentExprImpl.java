@@ -47,6 +47,12 @@ public class KlothoAssignmentExprImpl extends ASTWrapperPsiElement implements Kl
 
   @Override
   @Nullable
+  public KlothoMultilineString getMultilineString() {
+    return findChildByClass(KlothoMultilineString.class);
+  }
+
+  @Override
+  @Nullable
   public KlothoNumber getNumber() {
     return findChildByClass(KlothoNumber.class);
   }
@@ -55,12 +61,6 @@ public class KlothoAssignmentExprImpl extends ASTWrapperPsiElement implements Kl
   @Nullable
   public PsiElement getBoolean() {
     return findChildByType(BOOLEAN);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getMultilineString() {
-    return findChildByType(MULTILINE_STRING);
   }
 
   @Override

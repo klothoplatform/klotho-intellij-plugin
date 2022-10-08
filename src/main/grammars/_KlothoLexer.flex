@@ -19,6 +19,7 @@ import java.util.Stack;
 
   private Stack<Integer> stack = new Stack<Integer>();
   private boolean inAnnotation = false;
+  private Character currentQuoteType = null;
 
   public void yypushState(int newState) {
     stack.push(yystate());
@@ -33,6 +34,15 @@ import java.util.Stack;
       stack.clear();
       yybegin(newState);
   }
+
+  public char yycurrentChar() {
+      return yycharat(zzCurrentPos-zzStartRead);
+  }
+
+  public char yyrelativeChar(int offset) {
+      return yycharat(zzCurrentPos-zzStartRead+offset);
+  }
+
 %}
 
 %public
@@ -46,8 +56,11 @@ EOL=[\R\r\n]
 WHITE_SPACE=[ \t]+
 PLAINTEXT=[^\r\n]
 
-STRING=('(([^'][^']|[^'\\])|\\.)*'|\"(([^\"][^\"]|[^\"\\])|\\.)*\")
-MULTILINE_STRING=('''|\"\"\")(.*?\r?\n?)*('''|\"\"\")
+STRING=('(([^'\r\n][^'\r\n]|[^'\\\r\n])|\\.)*'|\"(([^\"\r\n][^\"\r\n]|[^\"\\\r\n])|\\.)*\")
+TRIPLE_QUOTE='''|\"\"\"
+MULTILINE_STRING_CONTENT=[^\r\n'\\\"]+
+MULTILINE_LINE_SEPARATOR=([\r\n]|\r\n)+(\s*(#|\/\/|\*)?)
+
 PLAIN_NUMBER=(\+?|-?)((\d+\.?\d*)|(\.\d+))
 TOML_COMMENT=(#.*)
 CAPABILITY=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabilities
@@ -68,7 +81,7 @@ HEX_DIG=[A-Fa-f\d]+
 
 // states
 %state multiline_comment line_comment raw annotation_decl line_content inline_table assignment array header
-%xstate capability_name bin_number oct_number hex_number
+%xstate capability_name bin_number oct_number hex_number multiline_string
 
 %%
 
@@ -128,7 +141,7 @@ HEX_DIG=[A-Fa-f\d]+
     {STRING}                       { yypopState(); return STRING; }
     {PLAIN_NUMBER}                 { yypopState(); return PLAIN_NUMBER; }
     {BOOLEAN}                      { yypopState(); return BOOLEAN; }
-    {MULTILINE_STRING}             { return MULTILINE_STRING; } // probably not working right now
+    {TRIPLE_QUOTE}                 { currentQuoteType = yycurrentChar(); yybegin(multiline_string); return TRIPLE_QUOTE; } // probably not working right now
     "0x"                           { yybegin(hex_number); return HEX_PREFIX; }
     "0o"                           { yybegin(oct_number); return OCT_PREFIX; }
     "0b"                           { yybegin(bin_number); return BIN_PREFIX; }
@@ -138,8 +151,19 @@ HEX_DIG=[A-Fa-f\d]+
     }
 }
 
+<multiline_string> {
+  {TRIPLE_QUOTE}                   { if (currentQuoteType.equals(yycurrentChar())) { yypopState(); return TRIPLE_QUOTE; } return MULTILINE_STRING_CONTENT; }
+  {MULTILINE_LINE_SEPARATOR}       { return MULTILINE_LINE_SEPARATOR; }
+  {MULTILINE_STRING_CONTENT}       { return MULTILINE_STRING_CONTENT; }
+  "\\\""                           { return MULTILINE_STRING_CONTENT; }
+  "\\'"                            { return MULTILINE_STRING_CONTENT; }
+  "\""                             { return MULTILINE_STRING_CONTENT; }
+  "\\"                             { return MULTILINE_STRING_CONTENT; }
+  "'"                              { return MULTILINE_STRING_CONTENT; }
+}
+
 <array> {
-   "]"                            { yypopState(); return RIGHT_BRACKET; } // array end
+   "]"                           { yypopState(); return RIGHT_BRACKET; } // array end
 }
 
 <inline_table> {
@@ -153,9 +177,9 @@ HEX_DIG=[A-Fa-f\d]+
   "0o"                           { yypushState(oct_number); return OCT_PREFIX; }
   "0b"                           { yypushState(bin_number); return BIN_PREFIX; }
   {STRING}                       { return STRING; }
-  {PLAIN_NUMBER}                        { return PLAIN_NUMBER; }
+  {PLAIN_NUMBER}                 { return PLAIN_NUMBER; }
   {BOOLEAN}                      { return BOOLEAN; }
-  {MULTILINE_STRING}             { return MULTILINE_STRING; }  // probably not working right now
+  {TRIPLE_QUOTE}                 { return TRIPLE_QUOTE; }  // probably not working right now
    ","                           { return COMMA; }
 }
 
@@ -176,6 +200,5 @@ HEX_DIG=[A-Fa-f\d]+
 // matches all states
 {EOL}                          { return EOL; }
 {WHITE_SPACE}                  { return WHITE_SPACE; }
-
 // fallback if nothing matches
 [^] { return inAnnotation ? BAD_CHARACTER : PLAINTEXT; }
