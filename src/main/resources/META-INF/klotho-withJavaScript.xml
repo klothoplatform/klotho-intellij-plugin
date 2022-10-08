@@ -4,5 +4,6 @@
                                       implementationClass="com.github.cloudcompilers.klotho.language.injection.KlothoInjector"/>
         <languageInjectionPerformer language="JavaScript"
                                     implementationClass="com.github.cloudcompilers.klotho.language.injection.JSInjectionPerformer"/>
+        <defaultLiveTemplates file="/liveTemplates/Klotho_JavaScript.xml"/>
     </extensions>
 </idea-plugin>

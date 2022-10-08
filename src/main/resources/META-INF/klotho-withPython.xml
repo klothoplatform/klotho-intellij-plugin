@@ -4,5 +4,6 @@
                                       implementationClass="com.github.cloudcompilers.klotho.language.injection.KlothoInjector"/>
         <languageInjectionPerformer language="Python"
                                     implementationClass="com.github.cloudcompilers.klotho.language.injection.PyInjectionPerformer"/>
+        <defaultLiveTemplates file="/liveTemplates/Klotho_Python.xml"/>
     </extensions>
 </idea-plugin>
