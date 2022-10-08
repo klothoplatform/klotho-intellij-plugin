@@ -16,10 +16,11 @@ public class KlothoCompletionContributor extends CompletionContributor {
                                          @NotNull ProcessingContext context,
                                          @NotNull CompletionResultSet resultSet) {
                 resultSet.addElement(LookupElementBuilder.create("embed_assets"));
-                resultSet.addElement(LookupElementBuilder.create("exec_unit"));
+                resultSet.addElement(LookupElementBuilder.create("execution_unit"));
                 resultSet.addElement(LookupElementBuilder.create("expose"));
                 resultSet.addElement(LookupElementBuilder.create("persist"));
                 resultSet.addElement(LookupElementBuilder.create("pubsub"));
+                resultSet.addElement(LookupElementBuilder.create("static_unit"));
               }
             }
     );
