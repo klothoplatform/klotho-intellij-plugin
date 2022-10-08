@@ -1054,6 +1054,8 @@ public class _KlothoLexer implements FlexLexer {
                         break;
                     case 46:
                         {
+                            currentQuoteType = yycurrentChar();
+                            yypushState(multiline_string);
                             return TRIPLE_QUOTE;
                         }
                         // fall through

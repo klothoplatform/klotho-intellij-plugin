@@ -140,7 +140,7 @@ HEX_DIG=[A-Fa-f\d]+
     {STRING}                       { yypopState(); return STRING; }
     {PLAIN_NUMBER}                 { yypopState(); return PLAIN_NUMBER; }
     {BOOLEAN}                      { yypopState(); return BOOLEAN; }
-    {TRIPLE_QUOTE}                 { currentQuoteType = yycurrentChar(); yybegin(multiline_string); return TRIPLE_QUOTE; } // probably not working right now
+    {TRIPLE_QUOTE}                 { currentQuoteType = yycurrentChar(); yybegin(multiline_string); return TRIPLE_QUOTE; }
     "0x"                           { yybegin(hex_number); return HEX_PREFIX; }
     "0o"                           { yybegin(oct_number); return OCT_PREFIX; }
     "0b"                           { yybegin(bin_number); return BIN_PREFIX; }
@@ -178,8 +178,8 @@ HEX_DIG=[A-Fa-f\d]+
   {STRING}                       { return STRING; }
   {PLAIN_NUMBER}                 { return PLAIN_NUMBER; }
   {BOOLEAN}                      { return BOOLEAN; }
-  {TRIPLE_QUOTE}                 { return TRIPLE_QUOTE; }  // probably not working right now
    ","                           { return COMMA; }
+  {TRIPLE_QUOTE}                 { currentQuoteType = yycurrentChar(); yypushState(multiline_string); return TRIPLE_QUOTE; }
 }
 
 <hex_number> {

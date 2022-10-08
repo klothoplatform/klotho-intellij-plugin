@@ -161,15 +161,21 @@ tasks {
     runIde {
         // Absolute path to the installed targetIDE to use as IDE Development
         // Instance (the "Contents" directory is macOS specific):
-        ideDir.set(file("/Users/dave/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/222.4167.29/IntelliJ IDEA.app/Contents"))
+        ideDir.set(file("/Users/dave/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/222.4345.14/IntelliJ IDEA.app/Contents"))
     }
 }
 
 tasks.getByPath("compileJava").mustRunAfter("generateLexer", "generateParser")
 tasks.getByPath("spotlessApply").mustRunAfter("generateLexer", "generateParser")
 tasks.getByPath("buildPlugin").mustRunAfter("generateLexer", "generateParser", "spotlessApply")
+tasks.getByPath("runIde").mustRunAfter("generateLexer", "generateParser", "spotlessApply")
 
 task("buildKlothoPlugin") {
     dependsOn("generateLexer", "generateParser", "spotlessApply", "buildPlugin")
     logger.info("Klotho plugin build complete.")
+}
+
+task("runKlothoPlugin") {
+    dependsOn("generateLexer", "generateParser", "spotlessApply", "runIde")
+    logger.info("Klotho plugin run complete.")
 }
