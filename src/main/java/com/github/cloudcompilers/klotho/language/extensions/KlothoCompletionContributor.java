@@ -9,21 +9,22 @@ import org.jetbrains.annotations.NotNull;
 
 public class KlothoCompletionContributor extends CompletionContributor {
 
-  public KlothoCompletionContributor() {
-    extend(CompletionType.BASIC, PlatformPatterns.psiElement(KlothoTypes.CAPABILITY),
-            new CompletionProvider<>() {
-              public void addCompletions(@NotNull CompletionParameters parameters,
-                                         @NotNull ProcessingContext context,
-                                         @NotNull CompletionResultSet resultSet) {
-                resultSet.addElement(LookupElementBuilder.create("embed_assets"));
-                resultSet.addElement(LookupElementBuilder.create("execution_unit"));
-                resultSet.addElement(LookupElementBuilder.create("expose"));
-                resultSet.addElement(LookupElementBuilder.create("persist"));
-                resultSet.addElement(LookupElementBuilder.create("pubsub"));
-                resultSet.addElement(LookupElementBuilder.create("static_unit"));
-              }
-            }
-    );
-  }
-
+    public KlothoCompletionContributor() {
+        extend(
+                CompletionType.BASIC,
+                PlatformPatterns.psiElement(KlothoTypes.CAPABILITY),
+                new CompletionProvider<>() {
+                    public void addCompletions(
+                            @NotNull CompletionParameters parameters,
+                            @NotNull ProcessingContext context,
+                            @NotNull CompletionResultSet resultSet) {
+                        resultSet.addElement(LookupElementBuilder.create("embed_assets"));
+                        resultSet.addElement(LookupElementBuilder.create("execution_unit"));
+                        resultSet.addElement(LookupElementBuilder.create("expose"));
+                        resultSet.addElement(LookupElementBuilder.create("persist"));
+                        resultSet.addElement(LookupElementBuilder.create("pubsub"));
+                        resultSet.addElement(LookupElementBuilder.create("static_unit"));
+                    }
+                });
+    }
 }

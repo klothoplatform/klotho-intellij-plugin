@@ -7,13 +7,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class KlothoTokenType extends IElementType {
 
-  public KlothoTokenType(@NotNull @NonNls String debugName) {
-    super(debugName, KlothoLanguage.INSTANCE);
-  }
+    public KlothoTokenType(@NotNull @NonNls String debugName) {
+        super(debugName, KlothoLanguage.INSTANCE);
+    }
 
-  @Override
-  public String toString() {
-    return super.toString();
-  }
-
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

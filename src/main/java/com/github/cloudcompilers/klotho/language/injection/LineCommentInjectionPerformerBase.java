@@ -11,10 +11,9 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLanguageInjectionHost;
 import com.intellij.psi.PsiWhiteSpace;
 import com.intellij.psi.tree.IElementType;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class LineCommentInjectionPerformerBase implements LanguageInjectionPerformer {
 
@@ -23,7 +22,10 @@ public abstract class LineCommentInjectionPerformerBase implements LanguageInjec
     protected abstract IElementType getLineCommentType();
 
     @Override
-    public boolean performInjection(@NotNull MultiHostRegistrar registrar, @NotNull Injection injection, @NotNull PsiElement context) {
+    public boolean performInjection(
+            @NotNull MultiHostRegistrar registrar,
+            @NotNull Injection injection,
+            @NotNull PsiElement context) {
         List<InjectionLocation> locations = new ArrayList<>();
         locations.addAll(performMultilineInjection(registrar, injection, context));
         locations.addAll(performSingleLineInjection(registrar, injection, context));
@@ -39,35 +41,50 @@ public abstract class LineCommentInjectionPerformerBase implements LanguageInjec
         return true;
     }
 
-    protected abstract List<InjectionLocation> performMultilineInjection(@NotNull MultiHostRegistrar registrar, @NotNull Injection injection, @NotNull PsiElement context);
+    protected abstract List<InjectionLocation> performMultilineInjection(
+            @NotNull MultiHostRegistrar registrar,
+            @NotNull Injection injection,
+            @NotNull PsiElement context);
 
-    protected List<InjectionLocation> performSingleLineInjection(@NotNull MultiHostRegistrar registrar, @NotNull Injection injection, @NotNull PsiElement context) {
-        List<InjectionLocation > injectionLocations = new ArrayList<>();
+    protected List<InjectionLocation> performSingleLineInjection(
+            @NotNull MultiHostRegistrar registrar,
+            @NotNull Injection injection,
+            @NotNull PsiElement context) {
+        List<InjectionLocation> injectionLocations = new ArrayList<>();
         if (injection.getInjectedLanguage() == KlothoLanguage.INSTANCE
                 && context instanceof PsiComment
                 && ((PsiComment) context).getTokenType() == getLineCommentType()
                 && context.getText().contains("@klotho")
-                && context.getLanguage() == getLanguage()
-        ) {
+                && context.getLanguage() == getLanguage()) {
 
-            injectionLocations.add(new InjectionLocation(null, "\n", (PsiLanguageInjectionHost) context, TextRange.create(0, context.getTextLength())));
-
+            injectionLocations.add(
+                    new InjectionLocation(
+                            null,
+                            "\n",
+                            (PsiLanguageInjectionHost) context,
+                            TextRange.create(0, context.getTextLength())));
 
             List<PsiElement> siblings = nextSiblingsUnbrokenByEmptyLines(context);
-            siblings.forEach(e ->
-                    injectionLocations.add(new InjectionLocation(null, "\n", (PsiLanguageInjectionHost) e, TextRange.create(0, e.getTextLength())))
-            );
+            siblings.forEach(
+                    e ->
+                            injectionLocations.add(
+                                    new InjectionLocation(
+                                            null,
+                                            "\n",
+                                            (PsiLanguageInjectionHost) e,
+                                            TextRange.create(0, e.getTextLength()))));
         }
         return injectionLocations;
     }
 
-
     private List<PsiElement> nextSiblingsUnbrokenByEmptyLines(PsiElement context) {
         PsiElement next = context.getNextSibling();
         List<PsiElement> siblings = new ArrayList<>();
-        while (next instanceof PsiWhiteSpace || (next instanceof PsiComment && ((PsiComment) next).getTokenType() == getLineCommentType())) {
+        while (next instanceof PsiWhiteSpace
+                || (next instanceof PsiComment
+                        && ((PsiComment) next).getTokenType() == getLineCommentType())) {
             if (next.getText().chars().filter(ch -> ch == '\n').count() >= 2
-            || next.getText().contains("@klotho::")) {
+                    || next.getText().contains("@klotho::")) {
                 break;
             }
             if (next instanceof PsiWhiteSpace) {

@@ -6,13 +6,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class KlothoContext extends TemplateContextType {
 
-  protected KlothoContext() {
-    super("KLOTHO", "Klotho");
-  }
+    protected KlothoContext() {
+        super("KLOTHO", "Klotho");
+    }
 
-  @Override
-  public boolean isInContext(@NotNull TemplateActionContext templateActionContext) {
-    return templateActionContext.getFile().getName().endsWith(".klotho");
-  }
-
+    @Override
+    public boolean isInContext(@NotNull TemplateActionContext templateActionContext) {
+        return templateActionContext.getFile().getName().endsWith(".klotho");
+    }
 }

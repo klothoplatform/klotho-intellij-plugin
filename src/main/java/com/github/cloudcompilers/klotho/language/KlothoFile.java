@@ -8,19 +8,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class KlothoFile extends PsiFileBase {
 
-  public KlothoFile(@NotNull FileViewProvider viewProvider) {
-    super(viewProvider, KlothoLanguage.INSTANCE);
-  }
+    public KlothoFile(@NotNull FileViewProvider viewProvider) {
+        super(viewProvider, KlothoLanguage.INSTANCE);
+    }
 
-  @NotNull
-  @Override
-  public FileType getFileType() {
-    return KlothoFileType.INSTANCE;
-  }
+    @NotNull @Override
+    public FileType getFileType() {
+        return KlothoFileType.INSTANCE;
+    }
 
-  @Override
-  public String toString() {
-    return "Klotho File";
-  }
-
+    @Override
+    public String toString() {
+        return "Klotho File";
+    }
 }

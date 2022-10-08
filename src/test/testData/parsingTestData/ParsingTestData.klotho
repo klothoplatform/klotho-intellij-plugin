@@ -8,6 +8,11 @@
  *   x = [ -1, +1., 1.0, .12, 2, "3", [], ["123", +1],]
  *   z = { x = 1, y = 2, a = [] }
  *   z.2_xy-z = 1
+ *   multiline = """
+ *   "123 "\"""
+ *   lastline
+ *    """
+ *   x = 2
  * } #comment
  */
 
@@ -53,6 +58,11 @@ raw comment
 //   x = [ 1, 2, "3", [], ["123", 1],]
 //   z = { x = 1, y = 2, a = [] }
 //   z.2_xy-z = 1
+//   multiline = """
+//   "123 "\"""
+//   lastline
+//    """
+//   x = 2
 // } # comment
 
 raw comment
@@ -67,4 +77,9 @@ raw comment
 #   x = [ 1, 2, "3", [], ["123", 1],]
 #   z = { x = 1, y = 2, a = [] }
 #   z.2_xy-z = 1
+#   multiline = """
+#   "123 "\"""
+#   lastline
+#    """
+#   x = 2
 # } # comment

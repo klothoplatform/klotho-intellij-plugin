@@ -7,10 +7,9 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.IElementType;
 import com.jetbrains.python.PyTokenTypes;
 import com.jetbrains.python.PythonLanguage;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Collections;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public class PyInjectionPerformer extends LineCommentInjectionPerformerBase {
     @Override
@@ -29,7 +28,10 @@ public class PyInjectionPerformer extends LineCommentInjectionPerformerBase {
     }
 
     @Override
-    protected List<InjectionLocation> performMultilineInjection(@NotNull MultiHostRegistrar registrar, @NotNull Injection injection, @NotNull PsiElement context) {
+    protected List<InjectionLocation> performMultilineInjection(
+            @NotNull MultiHostRegistrar registrar,
+            @NotNull Injection injection,
+            @NotNull PsiElement context) {
         return Collections.emptyList();
     }
 }

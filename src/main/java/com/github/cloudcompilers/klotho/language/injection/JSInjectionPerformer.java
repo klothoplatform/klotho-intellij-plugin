@@ -11,10 +11,9 @@ import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLanguageInjectionHost;
 import com.intellij.psi.tree.IElementType;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Collections;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public class JSInjectionPerformer extends LineCommentInjectionPerformerBase {
     @Override
@@ -33,11 +32,20 @@ public class JSInjectionPerformer extends LineCommentInjectionPerformerBase {
     }
 
     @Override
-    protected List<InjectionLocation> performMultilineInjection(@NotNull MultiHostRegistrar registrar, @NotNull Injection injection, @NotNull PsiElement context) {
+    protected List<InjectionLocation> performMultilineInjection(
+            @NotNull MultiHostRegistrar registrar,
+            @NotNull Injection injection,
+            @NotNull PsiElement context) {
         if ((context instanceof JSDocComment
-                || JSTokenTypes.C_STYLE_COMMENT.equals(((PsiComment) context).getTokenType()))
+                        || JSTokenTypes.C_STYLE_COMMENT.equals(
+                                ((PsiComment) context).getTokenType()))
                 && context.getText().contains("@klotho::")) {
-            return List.of(new InjectionLocation(null, null, (PsiLanguageInjectionHost) context, TextRange.create(0, context.getTextLength())));
+            return List.of(
+                    new InjectionLocation(
+                            null,
+                            null,
+                            (PsiLanguageInjectionHost) context,
+                            TextRange.create(0, context.getTextLength())));
         }
 
         return Collections.emptyList();

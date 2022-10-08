@@ -8,10 +8,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class KlothoSyntaxHighlighterFactory extends SyntaxHighlighterFactory {
 
-  @NotNull
-  @Override
-  public SyntaxHighlighter getSyntaxHighlighter(Project project, VirtualFile virtualFile) {
-    return new KlothoSyntaxHighlighter();
-  }
-
+    @NotNull @Override
+    public SyntaxHighlighter getSyntaxHighlighter(Project project, VirtualFile virtualFile) {
+        return new KlothoSyntaxHighlighter();
+    }
 }

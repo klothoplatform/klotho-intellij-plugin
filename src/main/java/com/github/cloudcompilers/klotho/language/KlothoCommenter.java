@@ -4,7 +4,8 @@ import com.intellij.lang.Commenter;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * This only works in .klotho files. Injected languages don't seem to have the ability override the host's commenter for injected blocks.
+ * This only works in .klotho files. Injected languages don't seem to have the ability override the
+ * host's commenter for injected blocks.
  */
 public class KlothoCommenter implements Commenter {
     @Override

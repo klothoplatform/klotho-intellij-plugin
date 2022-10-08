@@ -11,15 +11,13 @@ import org.jetbrains.annotations.Nullable;
 
 public final class KlothoInjector implements LanguageInjectionContributor {
 
-@Override
-public @Nullable Injection getInjection(@NotNull PsiElement context) {
-    if (shouldInjectKlotho(context)) {
-        return new SimpleInjection(
-                KlothoLanguage.INSTANCE, "", "", null
-        );
+    @Override
+    public @Nullable Injection getInjection(@NotNull PsiElement context) {
+        if (shouldInjectKlotho(context)) {
+            return new SimpleInjection(KlothoLanguage.INSTANCE, "", "", null);
+        }
+        return null;
     }
-    return null;
-}
 
     private boolean shouldInjectKlotho(PsiElement context) {
         return context instanceof PsiComment && context.getText().contains("@klotho");

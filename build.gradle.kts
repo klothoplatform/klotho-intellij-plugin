@@ -1,4 +1,5 @@
 import org.jetbrains.changelog.markdownToHTML
+import org.jetbrains.grammarkit.tasks.GenerateLexerTask
 
 fun properties(key: String) = project.findProperty(key).toString()
 sourceSets["main"].java.srcDirs("src/main/gen")
@@ -16,6 +17,8 @@ plugins {
     id("org.jetbrains.qodana") version "0.1.13"
     // Gradle Grammar-Kit Plugin
     id("org.jetbrains.grammarkit") version "2021.2.2"
+    // Gradle Spotless Code Formatting Plugin
+    id("com.diffplug.spotless") version "6.11.0"
 }
 
 group = properties("pluginGroup")
@@ -29,7 +32,7 @@ repositories {
 // Set the JVM language level used to compile sources and generate files - Java 11 is required since 2020.3
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
@@ -73,6 +76,30 @@ grammarKit {
             pathToPsiRoot.set("com/github/cloudcompilers/klotho/language/psi")
             purgeOldFiles.set(true)
         }
+    }
+}
+
+spotless {
+    format("misc") {
+        // define the files to apply `misc` to
+        target("*.gradle", "*.md", ".gitignore")
+
+        // define the steps to apply to those files
+        trimTrailingWhitespace()
+        indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
+        endWithNewline()
+    }
+    java {
+        // don't need to set target, it is inferred from java
+        targetExclude("src/main/gen/com/github/cloudcompilers/klotho/language/psi/**")
+        // apply a specific flavor of google-java-format
+        googleJavaFormat("1.15.0").aosp().reflowLongStrings()
+        // fix formatting of type annotations
+        formatAnnotations()
+        // make sure every file has the following copyright header.
+        // optionally, Spotless can set copyright years by digging
+        // through git history (see "license" section below)
+        //  licenseHeader("/* (C)\$YEAR */")
     }
 }
 
@@ -136,4 +163,13 @@ tasks {
         // Instance (the "Contents" directory is macOS specific):
         ideDir.set(file("/Users/dave/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/222.4167.29/IntelliJ IDEA.app/Contents"))
     }
+}
+
+tasks.getByPath("compileJava").mustRunAfter("generateLexer", "generateParser")
+tasks.getByPath("spotlessApply").mustRunAfter("generateLexer", "generateParser")
+tasks.getByPath("buildPlugin").mustRunAfter("generateLexer", "generateParser", "spotlessApply")
+
+task("buildKlothoPlugin") {
+    dependsOn("generateLexer", "generateParser", "spotlessApply", "buildPlugin")
+    logger.info("Klotho plugin build complete.")
 }

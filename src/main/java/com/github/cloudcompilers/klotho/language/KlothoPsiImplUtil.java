@@ -1,10 +1,10 @@
-//package com.github.cloudcompilers.klotho.language;
+// package com.github.cloudcompilers.klotho.language;
 //
-//import com.github.cloudcompilers.klotho.language.psi.KlothoProperty;
-//import com.github.cloudcompilers.klotho.language.psi.KlothoTypes;
-//import com.intellij.lang.ASTNode;
+// import com.github.cloudcompilers.klotho.language.psi.KlothoProperty;
+// import com.github.cloudcompilers.klotho.language.psi.KlothoTypes;
+// import com.intellij.lang.ASTNode;
 //
-//public class KlothoPsiImplUtil {
+// public class KlothoPsiImplUtil {
 //  public static String getKey(KlothoProperty element) {
 //    ASTNode keyNode = element.getNode().findChildByType(KlothoTypes.KEY);
 //    if (keyNode != null) {
@@ -23,4 +23,4 @@
 //      return null;
 //    }
 //  }
-//}
+// }

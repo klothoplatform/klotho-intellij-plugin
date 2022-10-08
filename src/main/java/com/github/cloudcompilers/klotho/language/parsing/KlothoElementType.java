@@ -7,8 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class KlothoElementType extends IElementType {
 
-  public KlothoElementType(@NotNull @NonNls String debugName) {
-    super(debugName, KlothoLanguage.INSTANCE);
-  }
-
+    public KlothoElementType(@NotNull @NonNls String debugName) {
+        super(debugName, KlothoLanguage.INSTANCE);
+    }
 }

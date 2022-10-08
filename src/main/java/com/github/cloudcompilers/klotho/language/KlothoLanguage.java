@@ -4,10 +4,9 @@ import com.intellij.lang.Language;
 
 public class KlothoLanguage extends Language {
 
-  public static final KlothoLanguage INSTANCE = new KlothoLanguage();
+    public static final KlothoLanguage INSTANCE = new KlothoLanguage();
 
-  private KlothoLanguage() {
-    super("Klotho");
-  }
-
+    private KlothoLanguage() {
+        super("Klotho");
+    }
 }

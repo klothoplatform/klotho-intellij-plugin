@@ -1,25 +1,26 @@
-//package com.github.cloudcompilers.klotho.language;
+// package com.github.cloudcompilers.klotho.language;
 //
-//import com.github.cloudcompilers.klotho.language.psi.KlothoProperty;
-//import com.google.common.collect.Lists;
-//import com.intellij.openapi.project.Project;
-//import com.intellij.openapi.util.text.StringUtil;
-//import com.intellij.openapi.vfs.VirtualFile;
-//import com.intellij.psi.PsiComment;
-//import com.intellij.psi.PsiElement;
-//import com.intellij.psi.PsiManager;
-//import com.intellij.psi.PsiWhiteSpace;
-//import com.intellij.psi.search.FileTypeIndex;
-//import com.intellij.psi.search.GlobalSearchScope;
-//import com.intellij.psi.util.PsiTreeUtil;
-//import org.jetbrains.annotations.NotNull;
+// import com.github.cloudcompilers.klotho.language.psi.KlothoProperty;
+// import com.google.common.collect.Lists;
+// import com.intellij.openapi.project.Project;
+// import com.intellij.openapi.util.text.StringUtil;
+// import com.intellij.openapi.vfs.VirtualFile;
+// import com.intellij.psi.PsiComment;
+// import com.intellij.psi.PsiElement;
+// import com.intellij.psi.PsiManager;
+// import com.intellij.psi.PsiWhiteSpace;
+// import com.intellij.psi.search.FileTypeIndex;
+// import com.intellij.psi.search.GlobalSearchScope;
+// import com.intellij.psi.util.PsiTreeUtil;
+// import org.jetbrains.annotations.NotNull;
 //
-//import java.util.*;
+// import java.util.*;
 //
-//public class KlothoUtil {
+// public class KlothoUtil {
 //
 //  /**
-//   * Searches the entire project for Klotho language files with instances of the Klotho property with the given key.
+//   * Searches the entire project for Klotho language files with instances of the Klotho property
+// with the given key.
 //   *
 //   * @param project current project
 //   * @param key     to check
@@ -32,7 +33,8 @@
 //    for (VirtualFile virtualFile : virtualFiles) {
 //      KlothoFile klothoFile = (KlothoFile) PsiManager.getInstance(project).findFile(virtualFile);
 //      if (klothoFile != null) {
-//        KlothoProperty[] properties = PsiTreeUtil.getChildrenOfType(klothoFile, KlothoProperty.class);
+//        KlothoProperty[] properties = PsiTreeUtil.getChildrenOfType(klothoFile,
+// KlothoProperty.class);
 //        if (properties != null) {
 //          for (KlothoProperty property : properties) {
 //            if (key.equals(property.getKey())) {
@@ -52,7 +54,8 @@
 //    for (VirtualFile virtualFile : virtualFiles) {
 //      KlothoFile klothoFile = (KlothoFile) PsiManager.getInstance(project).findFile(virtualFile);
 //      if (klothoFile != null) {
-//        KlothoProperty[] properties = PsiTreeUtil.getChildrenOfType(klothoFile, KlothoProperty.class);
+//        KlothoProperty[] properties = PsiTreeUtil.getChildrenOfType(klothoFile,
+// KlothoProperty.class);
 //        if (properties != null) {
 //          Collections.addAll(result, properties);
 //        }
@@ -77,4 +80,4 @@
 //    return StringUtil.join(Lists.reverse(result),"\n ");
 //  }
 //
-//}
+// }

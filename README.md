@@ -19,20 +19,20 @@ This Fancy IntelliJ Platform Plugin is going to be your implementation of the br
 
 This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.
 
-To keep everything working, do not remove `<!-- ... -->` sections. 
+To keep everything working, do not remove `<!-- ... -->` sections.
 <!-- Plugin description end -->
 
 ## Installation
 
 - Using IDE built-in plugin system:
-  
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "klotho-intellij-plugin"</kbd> >
-  <kbd>Install Plugin</kbd>
-  
+
+<kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "klotho-intellij-plugin"</kbd> >
+<kbd>Install Plugin</kbd>
+
 - Manually:
 
-  Download the [latest release](https://github.com/DavidSeptimus-Klotho/klotho-intellij-plugin/releases/latest) and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+Download the [latest release](https://github.com/DavidSeptimus-Klotho/klotho-intellij-plugin/releases/latest) and install it manually using
+<kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 
 ---

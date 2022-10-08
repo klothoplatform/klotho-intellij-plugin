@@ -7,8 +7,8 @@ import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
 import static com.github.cloudcompilers.klotho.language.psi.KlothoTypes.*;
 
-// manual imports
 import java.util.Stack;
+
 
 %%
 
@@ -54,7 +54,7 @@ import java.util.Stack;
 
 EOL=[\R\r\n]
 WHITE_SPACE=[ \t]+
-PLAINTEXT=[^\r\n]
+//PLAINTEXT=[^\r\n]
 
 STRING=('(([^'\r\n][^'\r\n]|[^'\\\r\n])|\\.)*'|\"(([^\"\r\n][^\"\r\n]|[^\"\\\r\n])|\\.)*\")
 TRIPLE_QUOTE='''|\"\"\"
@@ -72,7 +72,6 @@ PY_COMMENT=#
 ID=[:letter:][a-zA-Z_0-9\-.]*
 HEADER_ID=[:letter:][a-zA-Z_0-9\-.]*
 CAPABILITY=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabilities
-SECTION_HEADER=[:letter:][a-zA-Z_0-9]*
 BOOLEAN=(true|false)
 
 DIG0_7=[0-7]+

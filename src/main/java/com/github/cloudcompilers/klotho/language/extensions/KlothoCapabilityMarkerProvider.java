@@ -7,20 +7,20 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider;
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Collection;
+import org.jetbrains.annotations.NotNull;
 
 public class KlothoCapabilityMarkerProvider extends RelatedItemLineMarkerProvider {
 
     @Override
-    protected void collectNavigationMarkers(@NotNull PsiElement element,
-                                            @NotNull Collection<? super RelatedItemLineMarkerInfo<?>> result) {
+    protected void collectNavigationMarkers(
+            @NotNull PsiElement element,
+            @NotNull Collection<? super RelatedItemLineMarkerInfo<?>> result) {
         // This must be a capability with an annotation expression as a parent
-        if (!(element instanceof ASTNode && ((ASTNode) element).getElementType() == KlothoTypes.CAPABILITY)) {
+        if (!(element instanceof ASTNode
+                && ((ASTNode) element).getElementType() == KlothoTypes.CAPABILITY)) {
             return;
         }
-
 
         // TODO: mention the capability ID once we have property support for annotation directives
         NavigationGutterIconBuilder<PsiElement> builder =
@@ -29,7 +29,5 @@ public class KlothoCapabilityMarkerProvider extends RelatedItemLineMarkerProvide
                         .setTooltipText(element.getText() + " capability");
 
         result.add(builder.createLineMarkerInfo(element));
-
     }
-
 }
