@@ -1,7 +1,57 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-  <g style="" transform="matrix(8.863832, 0, 0, 8.863832, -1965.95813, -1965.95813)">
-    <ellipse style="fill: rgb(109, 89, 149); paint-order: stroke; fill-rule: nonzero; stroke: rgb(41, 55, 71); stroke-linejoin: bevel; stroke-width: 2px;" cx="250" cy="250" rx="27.104" ry="27.104"/>
-    <text style="fill: rgb(255, 255, 255); font-family: Futura; font-size: 40px; stroke: rgb(41, 55, 71); text-transform: lowercase; white-space: pre;" x="240.038" y="265.625">K</text>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 500 500"
+   version="1.1"
+   id="svg22637"
+   sodipodi:docname="pluginIcon.svg"
+   inkscape:version="1.2.1 (9c6d41e, 2022-07-14)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs22641" />
+  <sodipodi:namedview
+     id="namedview22639"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="409.41483"
+     inkscape:cy="133.64318"
+     inkscape:window-width="1390"
+     inkscape:window-height="1027"
+     inkscape:window-x="50"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g22635" />
+  <g
+     style=""
+     transform="matrix(8.863832, 0, 0, 8.863832, -1965.95813, -1965.95813)"
+     id="g22635">
+    <circle
+       style="fill:#6d5995;fill-rule:nonzero;stroke:#293747;stroke-width:2px;stroke-linejoin:bevel;paint-order:stroke"
+       cx="250.00002"
+       cy="250.00002"
+       id="ellipse22631"
+       r="26.076324" />
+    <text
+       style="fill:#fff;stroke:#293747;stroke-width:1px;ont-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;font-family:Futura;-inkscape-font-specification:'Futura, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-transform:lowercase;white-space:pre;fill:#ffffff;stroke:#293747"
+       x="238.68166"
+       y="266.49414"
+       id="text22633"><tspan
+         sodipodi:role="line"
+         id="tspan22766"
+         x="238.68166"
+         y="266.49414">k</tspan><tspan
+         sodipodi:role="line"
+         id="tspan22768"
+         x="238.68166"
+         y="316.49414"></tspan></text>
   </g>
 </svg>
