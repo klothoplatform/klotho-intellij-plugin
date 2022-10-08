@@ -36,7 +36,7 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // StarPrefix '{' [EOL] AnnotationContent [EOL] StarPrefix '}' [EOL]
+  // StarPrefix '{' EOL * AnnotationContent  EOL * StarPrefix '}' EOL *
   public static boolean AnnotationBody(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "AnnotationBody")) return false;
     boolean result_, pinned_;
@@ -54,24 +54,36 @@ public class KlothoParser implements PsiParser, LightPsiParser {
     return result_ || pinned_;
   }
 
-  // [EOL]
+  // EOL *
   private static boolean AnnotationBody_2(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "AnnotationBody_2")) return false;
-    consumeToken(builder_, EOL);
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!consumeToken(builder_, EOL)) break;
+      if (!empty_element_parsed_guard_(builder_, "AnnotationBody_2", pos_)) break;
+    }
     return true;
   }
 
-  // [EOL]
+  // EOL *
   private static boolean AnnotationBody_4(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "AnnotationBody_4")) return false;
-    consumeToken(builder_, EOL);
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!consumeToken(builder_, EOL)) break;
+      if (!empty_element_parsed_guard_(builder_, "AnnotationBody_4", pos_)) break;
+    }
     return true;
   }
 
-  // [EOL]
+  // EOL *
   private static boolean AnnotationBody_7(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "AnnotationBody_7")) return false;
-    consumeToken(builder_, EOL);
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!consumeToken(builder_, EOL)) break;
+      if (!empty_element_parsed_guard_(builder_, "AnnotationBody_7", pos_)) break;
+    }
     return true;
   }
 
@@ -117,10 +129,27 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // AssignmentExpr | SectionHeader
+  // [AssignmentExpr | SectionHeader] EOL
   static boolean AnyExpr(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "AnyExpr")) return false;
-    if (!nextTokenIs(builder_, "", ID, LEFT_BRACKET)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = AnyExpr_0(builder_, level_ + 1);
+    result_ = result_ && consumeToken(builder_, EOL);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  // [AssignmentExpr | SectionHeader]
+  private static boolean AnyExpr_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "AnyExpr_0")) return false;
+    AnyExpr_0_0(builder_, level_ + 1);
+    return true;
+  }
+
+  // AssignmentExpr | SectionHeader
+  private static boolean AnyExpr_0_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "AnyExpr_0_0")) return false;
     boolean result_;
     result_ = AssignmentExpr(builder_, level_ + 1);
     if (!result_) result_ = SectionHeader(builder_, level_ + 1);
@@ -263,7 +292,7 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // MULTILINE_COMMENT_START (StarPrefix AnnotationExpr) + MULTILINE_COMMENT_END
+  // MULTILINE_COMMENT_START EOL * RawComment * (StarPrefix AnnotationExpr RawComment *) + MULTILINE_COMMENT_END
   public static boolean CStyleCommentBlock(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "CStyleCommentBlock")) return false;
     if (!nextTokenIs(builder_, MULTILINE_COMMENT_START)) return false;
@@ -271,35 +300,71 @@ public class KlothoParser implements PsiParser, LightPsiParser {
     Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, MULTILINE_COMMENT_START);
     result_ = result_ && CStyleCommentBlock_1(builder_, level_ + 1);
+    result_ = result_ && CStyleCommentBlock_2(builder_, level_ + 1);
+    result_ = result_ && CStyleCommentBlock_3(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, MULTILINE_COMMENT_END);
     exit_section_(builder_, marker_, C_STYLE_COMMENT_BLOCK, result_);
     return result_;
   }
 
-  // (StarPrefix AnnotationExpr) +
+  // EOL *
   private static boolean CStyleCommentBlock_1(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "CStyleCommentBlock_1")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!consumeToken(builder_, EOL)) break;
+      if (!empty_element_parsed_guard_(builder_, "CStyleCommentBlock_1", pos_)) break;
+    }
+    return true;
+  }
+
+  // RawComment *
+  private static boolean CStyleCommentBlock_2(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "CStyleCommentBlock_2")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!RawComment(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "CStyleCommentBlock_2", pos_)) break;
+    }
+    return true;
+  }
+
+  // (StarPrefix AnnotationExpr RawComment *) +
+  private static boolean CStyleCommentBlock_3(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "CStyleCommentBlock_3")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
-    result_ = CStyleCommentBlock_1_0(builder_, level_ + 1);
+    result_ = CStyleCommentBlock_3_0(builder_, level_ + 1);
     while (result_) {
       int pos_ = current_position_(builder_);
-      if (!CStyleCommentBlock_1_0(builder_, level_ + 1)) break;
-      if (!empty_element_parsed_guard_(builder_, "CStyleCommentBlock_1", pos_)) break;
+      if (!CStyleCommentBlock_3_0(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "CStyleCommentBlock_3", pos_)) break;
     }
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
-  // StarPrefix AnnotationExpr
-  private static boolean CStyleCommentBlock_1_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "CStyleCommentBlock_1_0")) return false;
+  // StarPrefix AnnotationExpr RawComment *
+  private static boolean CStyleCommentBlock_3_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "CStyleCommentBlock_3_0")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = StarPrefix(builder_, level_ + 1);
     result_ = result_ && AnnotationExpr(builder_, level_ + 1);
+    result_ = result_ && CStyleCommentBlock_3_0_2(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
+  }
+
+  // RawComment *
+  private static boolean CStyleCommentBlock_3_0_2(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "CStyleCommentBlock_3_0_2")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!RawComment(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "CStyleCommentBlock_3_0_2", pos_)) break;
+    }
+    return true;
   }
 
   /* ********************************************************** */
@@ -310,18 +375,6 @@ public class KlothoParser implements PsiParser, LightPsiParser {
     boolean result_;
     result_ = consumeToken(builder_, CAPABILITY);
     if (!result_) result_ = consumeToken(builder_, ID);
-    return result_;
-  }
-
-  /* ********************************************************** */
-  // ID
-  public static boolean HeaderId(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "HeaderId")) return false;
-    if (!nextTokenIs(builder_, ID)) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
-    result_ = consumeToken(builder_, ID);
-    exit_section_(builder_, marker_, HEADER_ID, result_);
     return result_;
   }
 
@@ -385,7 +438,7 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // JSDOC_COMMENT_START (StarPrefix AnnotationExpr) + MULTILINE_COMMENT_END
+  // JSDOC_COMMENT_START EOL * RawComment *  (StarPrefix AnnotationExpr RawComment *) + MULTILINE_COMMENT_END
   public static boolean JSDocCommentBlock(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "JSDocCommentBlock")) return false;
     if (!nextTokenIs(builder_, JSDOC_COMMENT_START)) return false;
@@ -393,35 +446,71 @@ public class KlothoParser implements PsiParser, LightPsiParser {
     Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, JSDOC_COMMENT_START);
     result_ = result_ && JSDocCommentBlock_1(builder_, level_ + 1);
+    result_ = result_ && JSDocCommentBlock_2(builder_, level_ + 1);
+    result_ = result_ && JSDocCommentBlock_3(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, MULTILINE_COMMENT_END);
     exit_section_(builder_, marker_, JS_DOC_COMMENT_BLOCK, result_);
     return result_;
   }
 
-  // (StarPrefix AnnotationExpr) +
+  // EOL *
   private static boolean JSDocCommentBlock_1(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "JSDocCommentBlock_1")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!consumeToken(builder_, EOL)) break;
+      if (!empty_element_parsed_guard_(builder_, "JSDocCommentBlock_1", pos_)) break;
+    }
+    return true;
+  }
+
+  // RawComment *
+  private static boolean JSDocCommentBlock_2(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "JSDocCommentBlock_2")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!RawComment(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "JSDocCommentBlock_2", pos_)) break;
+    }
+    return true;
+  }
+
+  // (StarPrefix AnnotationExpr RawComment *) +
+  private static boolean JSDocCommentBlock_3(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "JSDocCommentBlock_3")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
-    result_ = JSDocCommentBlock_1_0(builder_, level_ + 1);
+    result_ = JSDocCommentBlock_3_0(builder_, level_ + 1);
     while (result_) {
       int pos_ = current_position_(builder_);
-      if (!JSDocCommentBlock_1_0(builder_, level_ + 1)) break;
-      if (!empty_element_parsed_guard_(builder_, "JSDocCommentBlock_1", pos_)) break;
+      if (!JSDocCommentBlock_3_0(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "JSDocCommentBlock_3", pos_)) break;
     }
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
-  // StarPrefix AnnotationExpr
-  private static boolean JSDocCommentBlock_1_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "JSDocCommentBlock_1_0")) return false;
+  // StarPrefix AnnotationExpr RawComment *
+  private static boolean JSDocCommentBlock_3_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "JSDocCommentBlock_3_0")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = StarPrefix(builder_, level_ + 1);
     result_ = result_ && AnnotationExpr(builder_, level_ + 1);
+    result_ = result_ && JSDocCommentBlock_3_0_2(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
+  }
+
+  // RawComment *
+  private static boolean JSDocCommentBlock_3_0_2(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "JSDocCommentBlock_3_0_2")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!RawComment(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "JSDocCommentBlock_3_0_2", pos_)) break;
+    }
+    return true;
   }
 
   /* ********************************************************** */
@@ -520,7 +609,31 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (JSDocCommentBlock | CStyleCommentBlock | LineComment) +
+  // StarPrefix PLAINTEXT * EOL
+  public static boolean RawComment(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "RawComment")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, RAW_COMMENT, "<raw comment>");
+    result_ = StarPrefix(builder_, level_ + 1);
+    result_ = result_ && RawComment_1(builder_, level_ + 1);
+    result_ = result_ && consumeToken(builder_, EOL);
+    exit_section_(builder_, level_, marker_, result_, false, null);
+    return result_;
+  }
+
+  // PLAINTEXT *
+  private static boolean RawComment_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "RawComment_1")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!consumeToken(builder_, PLAINTEXT)) break;
+      if (!empty_element_parsed_guard_(builder_, "RawComment_1", pos_)) break;
+    }
+    return true;
+  }
+
+  /* ********************************************************** */
+  // (JSDocCommentBlock | CStyleCommentBlock | LineComment | RawComment) +
   static boolean Root(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Root")) return false;
     boolean result_;
@@ -535,27 +648,26 @@ public class KlothoParser implements PsiParser, LightPsiParser {
     return result_;
   }
 
-  // JSDocCommentBlock | CStyleCommentBlock | LineComment
+  // JSDocCommentBlock | CStyleCommentBlock | LineComment | RawComment
   private static boolean Root_0(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "Root_0")) return false;
     boolean result_;
     result_ = JSDocCommentBlock(builder_, level_ + 1);
     if (!result_) result_ = CStyleCommentBlock(builder_, level_ + 1);
     if (!result_) result_ = LineComment(builder_, level_ + 1);
+    if (!result_) result_ = RawComment(builder_, level_ + 1);
     return result_;
   }
 
   /* ********************************************************** */
-  // '[' HeaderId ']'
+  // '[' HEADER_ID ']'
   public static boolean SectionHeader(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "SectionHeader")) return false;
     if (!nextTokenIs(builder_, LEFT_BRACKET)) return false;
     boolean result_, pinned_;
     Marker marker_ = enter_section_(builder_, level_, _NONE_, SECTION_HEADER, null);
-    result_ = consumeToken(builder_, LEFT_BRACKET);
+    result_ = consumeTokens(builder_, 1, LEFT_BRACKET, HEADER_ID, RIGHT_BRACKET);
     pinned_ = result_; // pin = 1
-    result_ = result_ && report_error_(builder_, HeaderId(builder_, level_ + 1));
-    result_ = pinned_ && consumeToken(builder_, RIGHT_BRACKET) && result_;
     exit_section_(builder_, level_, marker_, result_, pinned_, null);
     return result_ || pinned_;
   }

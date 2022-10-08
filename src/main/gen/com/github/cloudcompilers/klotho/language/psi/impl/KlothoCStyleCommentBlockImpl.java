@@ -33,4 +33,10 @@ public class KlothoCStyleCommentBlockImpl extends ASTWrapperPsiElement implement
     return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoAnnotationExpr.class);
   }
 
+  @Override
+  @NotNull
+  public List<KlothoRawComment> getRawCommentList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoRawComment.class);
+  }
+
 }

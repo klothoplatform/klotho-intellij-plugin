@@ -19,6 +19,7 @@ public class KlothoColorSettingsPage implements ColorSettingsPage {
           new AttributesDescriptor("Comment prefix", KlothoSyntaxHighlighter.STAR),
           new AttributesDescriptor("Separator", KlothoSyntaxHighlighter.SEPARATOR),
           new AttributesDescriptor("Identifier", KlothoSyntaxHighlighter.ID),
+          new AttributesDescriptor("Section header", KlothoSyntaxHighlighter.HEADER_ID),
           new AttributesDescriptor("Capability", KlothoSyntaxHighlighter.CAPABILITY),
           new AttributesDescriptor("String", KlothoSyntaxHighlighter.STRING),
           new AttributesDescriptor("Number", KlothoSyntaxHighlighter.PLAIN_NUMBER),

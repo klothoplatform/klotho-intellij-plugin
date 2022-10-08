@@ -16,7 +16,6 @@ public interface KlothoTypes {
   IElementType ASSIGNMENT_EXPR = new KlothoElementType("ASSIGNMENT_EXPR");
   IElementType BIN_NUMBER = new KlothoElementType("BIN_NUMBER");
   IElementType C_STYLE_COMMENT_BLOCK = new KlothoElementType("C_STYLE_COMMENT_BLOCK");
-  IElementType HEADER_ID = new KlothoElementType("HEADER_ID");
   IElementType HEX_NUMBER = new KlothoElementType("HEX_NUMBER");
   IElementType INLINE_TABLE = new KlothoElementType("INLINE_TABLE");
   IElementType JS_DOC_COMMENT_BLOCK = new KlothoElementType("JS_DOC_COMMENT_BLOCK");
@@ -24,6 +23,7 @@ public interface KlothoTypes {
   IElementType LINE_COMMENT = new KlothoElementType("LINE_COMMENT");
   IElementType NUMBER = new KlothoElementType("NUMBER");
   IElementType OCT_NUMBER = new KlothoElementType("OCT_NUMBER");
+  IElementType RAW_COMMENT = new KlothoElementType("RAW_COMMENT");
   IElementType SECTION_HEADER = new KlothoElementType("SECTION_HEADER");
   IElementType STATEMENT = new KlothoElementType("STATEMENT");
 
@@ -35,8 +35,9 @@ public interface KlothoTypes {
   IElementType C_LINE_COMMENT = new KlothoTokenType("//");
   IElementType DIG0_1 = new KlothoTokenType("DIG0_1");
   IElementType DIG0_7 = new KlothoTokenType("DIG0_7");
-  IElementType EOL = new KlothoTokenType("\\r\\n");
+  IElementType EOL = new KlothoTokenType("[\\r\\n]");
   IElementType EQ = new KlothoTokenType("=");
+  IElementType HEADER_ID = new KlothoTokenType("HEADER_ID");
   IElementType HEX_DIG = new KlothoTokenType("HEX_DIG");
   IElementType HEX_PREFIX = new KlothoTokenType("0x");
   IElementType ID = new KlothoTokenType("ID");
@@ -47,6 +48,7 @@ public interface KlothoTypes {
   IElementType MULTILINE_COMMENT_START = new KlothoTokenType("/*");
   IElementType MULTILINE_STRING = new KlothoTokenType("MULTILINE_STRING");
   IElementType OCT_PREFIX = new KlothoTokenType("0o");
+  IElementType PLAINTEXT = new KlothoTokenType("PLAINTEXT");
   IElementType PLAIN_NUMBER = new KlothoTokenType("PLAIN_NUMBER");
   IElementType PY_COMMENT = new KlothoTokenType("#");
   IElementType RIGHT_BRACE = new KlothoTokenType("}");
@@ -77,9 +79,6 @@ public interface KlothoTypes {
       else if (type == C_STYLE_COMMENT_BLOCK) {
         return new KlothoCStyleCommentBlockImpl(node);
       }
-      else if (type == HEADER_ID) {
-        return new KlothoHeaderIdImpl(node);
-      }
       else if (type == HEX_NUMBER) {
         return new KlothoHexNumberImpl(node);
       }
@@ -100,6 +99,9 @@ public interface KlothoTypes {
       }
       else if (type == OCT_NUMBER) {
         return new KlothoOctNumberImpl(node);
+      }
+      else if (type == RAW_COMMENT) {
+        return new KlothoRawCommentImpl(node);
       }
       else if (type == SECTION_HEADER) {
         return new KlothoSectionHeaderImpl(node);

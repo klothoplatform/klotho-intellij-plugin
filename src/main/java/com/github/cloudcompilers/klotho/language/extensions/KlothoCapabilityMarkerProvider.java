@@ -24,7 +24,7 @@ public class KlothoCapabilityMarkerProvider extends RelatedItemLineMarkerProvide
 
         // TODO: mention the capability ID once we have property support for annotation directives
         NavigationGutterIconBuilder<PsiElement> builder =
-                NavigationGutterIconBuilder.create(KlothoIcons.FILE)
+                NavigationGutterIconBuilder.create(KlothoIcons.GUTTER)
                         .setTargets(element)
                         .setTooltipText(element.getText() + " capability");
 

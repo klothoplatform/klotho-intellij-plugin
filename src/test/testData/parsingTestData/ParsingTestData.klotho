@@ -11,6 +11,9 @@
  * } #comment
  */
 
+raw comment
+
+
 /* @klotho::expose {
  *   id = 1
  *   x = "2" # comment
@@ -20,7 +23,11 @@
  *   x = [ 1, 2, "3", [], ["123", 1],]
  *   z = { x = 1, y = 2, a = [] }
  *   z.2_xy-z = 1
+
+
+ *
  * } #comment
+ *
  */
 
 /* 
@@ -47,6 +54,8 @@
 //   z = { x = 1, y = 2, a = [] }
 //   z.2_xy-z = 1
 // } # comment
+
+raw comment
 
 
 # @klotho::expose {

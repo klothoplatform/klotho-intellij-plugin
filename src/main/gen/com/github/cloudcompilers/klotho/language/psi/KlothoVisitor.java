@@ -31,10 +31,6 @@ public class KlothoVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitHeaderId(@NotNull KlothoHeaderId o) {
-    visitPsiElement(o);
-  }
-
   public void visitHexNumber(@NotNull KlothoHexNumber o) {
     visitPsiElement(o);
   }
@@ -60,6 +56,10 @@ public class KlothoVisitor extends PsiElementVisitor {
   }
 
   public void visitOctNumber(@NotNull KlothoOctNumber o) {
+    visitPsiElement(o);
+  }
+
+  public void visitRawComment(@NotNull KlothoRawComment o) {
     visitPsiElement(o);
   }
 

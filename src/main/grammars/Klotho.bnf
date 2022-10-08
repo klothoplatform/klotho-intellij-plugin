@@ -15,7 +15,8 @@
 //  psiImplUtilClass="com.github.cloudcompilers.klotho.language.KlothoPsiImplUtil"
 
   tokens=[
-    EOL='\r\n'
+    PLAINTEXT
+    EOL='[\r\n]'
     LEFT_BRACE='{'
     RIGHT_BRACE='}'
     space='regexp:\s+'
@@ -44,6 +45,7 @@
     SEPARATOR='::'
 
     ID='regexp:\p{Alpha}[\w-.]*'
+    HEADER_ID='regexp:\p{Alpha}[\w-.]*'
     CAPABILITY='regexp:\p{Alpha}\w*'
 
     JSDOC_COMMENT_START='regexp:/\*\*\s?'
@@ -56,23 +58,23 @@
 
 // see Grammar Kit: https://github.com/JetBrains/Grammar-Kit
 
-Root ::= (JSDocCommentBlock | CStyleCommentBlock | LineComment) +
+Root ::= (JSDocCommentBlock | CStyleCommentBlock | LineComment | RawComment) +
 
-JSDocCommentBlock ::= JSDOC_COMMENT_START (StarPrefix AnnotationExpr) + MULTILINE_COMMENT_END
+JSDocCommentBlock ::= JSDOC_COMMENT_START EOL * RawComment *  (StarPrefix AnnotationExpr RawComment *) + MULTILINE_COMMENT_END
 
-CStyleCommentBlock ::= MULTILINE_COMMENT_START (StarPrefix AnnotationExpr) + MULTILINE_COMMENT_END
+CStyleCommentBlock ::= MULTILINE_COMMENT_START EOL * RawComment * (StarPrefix AnnotationExpr RawComment *) + MULTILINE_COMMENT_END
 
 LineComment ::= LineCommentPrefix AnnotationExpr
 
 AnnotationExpr ::= '@klotho' '::' Capability [ AnnotationBody ] {pin=3}
 
-AnnotationBody ::= StarPrefix '{' [EOL] AnnotationContent [EOL] StarPrefix '}' [EOL] {pin=2}
+AnnotationBody ::= StarPrefix '{' EOL * AnnotationContent  EOL * StarPrefix '}' EOL * {pin=2}
 
 private AnnotationContent ::=  [Statement *]
 
 Statement ::= StarPrefix ((AnyExpr [TOML_COMMENT]) | TOML_COMMENT)  [EOL]
 
-private AnyExpr ::=  AssignmentExpr | SectionHeader
+private AnyExpr ::=  [AssignmentExpr | SectionHeader] EOL
 
 AssignmentExpr ::= Key '=' Value {pin=2}
 
@@ -80,7 +82,7 @@ private StarPrefix ::=  ('*' + | LineCommentPrefix) *
 
 private LineCommentPrefix ::= '#' + | '//' +
 
-SectionHeader ::= '[' HeaderId ']' {pin=1}
+SectionHeader ::= '[' HEADER_ID ']' {pin=1}
 
 private Value ::= SimpleValue | Array | InlineTable
 
@@ -92,8 +94,6 @@ private SimpleValue ::=  Number | string | MULTILINE_STRING | BOOLEAN
 
 Key ::= ID
 
-HeaderId ::= ID
-
 // this just helps with the live preview. the lexer distinguishes between capability and id
 private Capability ::= CAPABILITY | ID
 
@@ -104,3 +104,5 @@ OctNumber ::= OCT_PREFIX DIG0_7 {pin=1}
 BinNumber ::= BIN_PREFIX DIG0_1 {pin=1}
 
 HexNumber ::= HEX_PREFIX HEX_DIG {pin=1}
+
+RawComment ::= StarPrefix PLAINTEXT * EOL

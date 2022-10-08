@@ -11,6 +11,9 @@ public interface KlothoJSDocCommentBlock extends PsiElement {
   List<KlothoAnnotationExpr> getAnnotationExprList();
 
   @NotNull
+  List<KlothoRawComment> getRawCommentList();
+
+  @NotNull
   PsiElement getJsdocCommentStart();
 
 }

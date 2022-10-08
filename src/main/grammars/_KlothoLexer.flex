@@ -18,6 +18,7 @@ import java.util.Stack;
   }
 
   private Stack<Integer> stack = new Stack<Integer>();
+  private boolean inAnnotation = false;
 
   public void yypushState(int newState) {
     stack.push(yystate());
@@ -41,21 +42,22 @@ import java.util.Stack;
 %type IElementType
 %unicode
 
-EOL=\R
-WHITE_SPACE=[^\S\R\r\n]+
+EOL=[\R\r\n]
+WHITE_SPACE=[ \t]+
+PLAINTEXT=[^\r\n]
 
-SPACE=[ \t\n\x0B\f\r]+
 STRING=('(([^'][^']|[^'\\])|\\.)*'|\"(([^\"][^\"]|[^\"\\])|\\.)*\")
 MULTILINE_STRING=('''|\"\"\")(.*?\r?\n?)*('''|\"\"\")
 PLAIN_NUMBER=(\+?|-?)((\d+\.?\d*)|(\.\d+))
 TOML_COMMENT=(#.*)
 CAPABILITY=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabilities
-JSDOC_COMMENT_START="/"\*\*\s?
+JSDOC_COMMENT_START="/\*\*"
 MULTILINE_COMMENT_START="/*"
-C_LINE_COMMENT=\s*\/\/
+C_LINE_COMMENT=\/\/
 PY_COMMENT=#
 // identifier variants
 ID=[:letter:][a-zA-Z_0-9\-.]*
+HEADER_ID=[:letter:][a-zA-Z_0-9\-.]*
 CAPABILITY=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabilities
 SECTION_HEADER=[:letter:][a-zA-Z_0-9]*
 BOOLEAN=(true|false)
@@ -65,7 +67,7 @@ DIG0_1=[0-1]+
 HEX_DIG=[A-Fa-f\d]+
 
 // states
-%state multiline_comment line_comment raw annotation_decl line_content inline_table assignment array
+%state multiline_comment line_comment raw annotation_decl line_content inline_table assignment array header
 %xstate capability_name bin_number oct_number hex_number
 
 %%
@@ -75,11 +77,12 @@ HEX_DIG=[A-Fa-f\d]+
   {MULTILINE_COMMENT_START}      { yypushState(multiline_comment); return MULTILINE_COMMENT_START; }
   {C_LINE_COMMENT}               { yypushState(line_comment); return C_LINE_COMMENT; }
   {PY_COMMENT}                   { yypushState(line_comment); return PY_COMMENT; }
+
 }
 
 <multiline_comment> {
   "*/"                           { yyresetState(YYINITIAL); return MULTILINE_COMMENT_END; }
-  "*"                            { yypushState(line_content); return STAR;}
+  "*"                            { if (inAnnotation) { yypushState(line_content); } return STAR;}
   {TOML_COMMENT}                 { return TOML_COMMENT; }
 }
 
@@ -88,23 +91,29 @@ HEX_DIG=[A-Fa-f\d]+
 }
 
 <line_comment> {
- {EOL}                           { yyresetState(YYINITIAL); return WHITE_SPACE;}
- {TOML_COMMENT}                 { return TOML_COMMENT; }
+ {EOL}                           { yyresetState(YYINITIAL); return EOL;}
+ {TOML_COMMENT}                  { return TOML_COMMENT; }
 }
 
+
+
 <multiline_comment, line_comment, line_content> {
-  "}"                            { return RIGHT_BRACE;}
-  "="                            { yypushState(assignment); return EQ; }
-  "["                            { return LEFT_BRACKET; } // section header start
-  "]"                            { return RIGHT_BRACKET; } // section header end
-  {TOML_COMMENT}                 { return TOML_COMMENT; }
-  {ID}                           { return ID; }
+  "}"                            { boolean wasInAnnotation = inAnnotation; inAnnotation = false; return wasInAnnotation ? RIGHT_BRACE : PLAINTEXT;}
+  "="                            { if (inAnnotation) { yypushState(assignment); return EQ; } return PLAINTEXT; }
+  "["                            { if (inAnnotation) { yypushState(header); return LEFT_BRACKET; } return PLAINTEXT; } // section header start
+  {TOML_COMMENT}                 { return inAnnotation ? TOML_COMMENT : PLAINTEXT; }
+  {ID}                           { return inAnnotation ? ID : PLAINTEXT; }
   "@klotho"                      { yypushState(annotation_decl); return ANNOTATION; }
+}
+
+<header> {
+  {HEADER_ID}                    { return HEADER_ID; }
+  "]"                            { yypopState(); return RIGHT_BRACKET; } // section header end
 }
 
 <annotation_decl> {
     "::"                         { yypushState(capability_name); return SEPARATOR; }
-    "{"                          { yypopState(); return LEFT_BRACE; }
+    "{"                          { yypopState(); inAnnotation = true; return LEFT_BRACE; }
   }
 
 // special handling for capability names since they match the same pattern as other identifiers
@@ -114,8 +123,8 @@ HEX_DIG=[A-Fa-f\d]+
 
 <assignment> {
     "{"                            { yypushState(inline_table); return LEFT_BRACE; }
-    "}"                            { return RIGHT_BRACE; } // end of annotation
-    {EOL}                          { yypopState(); switch (yystate()){ case line_comment:{ yyresetState(YYINITIAL); break;} case line_content:{yypopState(); break;}} return WHITE_SPACE; }
+    "}"                            { inAnnotation = false; return RIGHT_BRACE; } // end of annotation
+    {EOL}                          { yypopState(); switch (yystate()){ case line_comment:{ yyresetState(YYINITIAL); break;} case line_content:{yypopState(); break;}} return EOL; }
     {STRING}                       { yypopState(); return STRING; }
     {PLAIN_NUMBER}                 { yypopState(); return PLAIN_NUMBER; }
     {BOOLEAN}                      { yypopState(); return BOOLEAN; }
@@ -162,9 +171,11 @@ HEX_DIG=[A-Fa-f\d]+
   {DIG0_1}                      { yypopState(); return DIG0_1; }
 }
 
+
+
 // matches all states
-{EOL}                          { return WHITE_SPACE; }
+{EOL}                          { return EOL; }
 {WHITE_SPACE}                  { return WHITE_SPACE; }
 
 // fallback if nothing matches
-[^] { return BAD_CHARACTER; }
+[^] { return inAnnotation ? BAD_CHARACTER : PLAINTEXT; }

@@ -10,4 +10,7 @@ public interface KlothoCStyleCommentBlock extends PsiElement {
   @NotNull
   List<KlothoAnnotationExpr> getAnnotationExprList();
 
+  @NotNull
+  List<KlothoRawComment> getRawCommentList();
+
 }

@@ -5,9 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface KlothoHeaderId extends PsiElement {
-
-  @NotNull
-  PsiElement getId();
+public interface KlothoRawComment extends PsiElement {
 
 }

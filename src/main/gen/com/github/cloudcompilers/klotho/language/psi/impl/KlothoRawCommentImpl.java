@@ -11,26 +11,20 @@ import static com.github.cloudcompilers.klotho.language.psi.KlothoTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.cloudcompilers.klotho.language.psi.*;
 
-public class KlothoHeaderIdImpl extends ASTWrapperPsiElement implements KlothoHeaderId {
+public class KlothoRawCommentImpl extends ASTWrapperPsiElement implements KlothoRawComment {
 
-  public KlothoHeaderIdImpl(@NotNull ASTNode node) {
+  public KlothoRawCommentImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull KlothoVisitor visitor) {
-    visitor.visitHeaderId(this);
+    visitor.visitRawComment(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof KlothoVisitor) accept((KlothoVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getId() {
-    return findNotNullChildByType(ID);
   }
 
 }

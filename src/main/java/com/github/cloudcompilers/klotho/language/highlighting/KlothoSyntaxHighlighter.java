@@ -42,6 +42,8 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey ID =
             createTextAttributesKey("KLOTHO_ID", DefaultLanguageHighlighterColors.IDENTIFIER);
 
+    public static final TextAttributesKey HEADER_ID = createTextAttributesKey("HEADER_ID", ID);
+
     public static final TextAttributesKey CAPABILITY =
             createTextAttributesKey("KLOTHO_CAPABILITY", DefaultLanguageHighlighterColors.CLASS_NAME);
 
@@ -65,6 +67,8 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] SEPARATOR_KEYS = new TextAttributesKey[]{SEPARATOR};
 
     private static final TextAttributesKey[] ID_KEYS = new TextAttributesKey[]{ID};
+
+    private static final TextAttributesKey[] HEADER_ID_KEYS = new TextAttributesKey[]{HEADER_ID};
 
     private static final TextAttributesKey[] CAPABILITY_KEYS = new TextAttributesKey[]{CAPABILITY};
 
@@ -107,6 +111,8 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
             return CAPABILITY_KEYS;
         } else if (KlothoTypes.ID.equals(tokenType)) {
             return ID_KEYS;
+        } else if (KlothoTypes.HEADER_ID.equals(tokenType)) {
+            return HEADER_ID_KEYS;
         } else if (KlothoTypes.STRING.equals(tokenType) || KlothoTypes.MULTILINE_STRING.equals(tokenType)) {
             return STRING_KEYS;
         } else if (List.of(
@@ -116,7 +122,7 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
                 KlothoTypes.STAR
         ).contains(tokenType)) {
             return COMMENT_BLOCK_KEYS;
-        } else if (KlothoTypes.TOML_COMMENT.equals(tokenType)) {
+        } else if (KlothoTypes.RAW_COMMENT.equals(tokenType) || KlothoTypes.TOML_COMMENT.equals(tokenType)) {
             return TOML_COMMENT_KEYS;
         } else if (KlothoTypes.OCT_PREFIX.equals(tokenType) || KlothoTypes.DIG0_7.equals(tokenType)) {
             return OCT_NUMBER_KEYS;

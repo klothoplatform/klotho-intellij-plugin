@@ -35,6 +35,12 @@ public class KlothoJSDocCommentBlockImpl extends ASTWrapperPsiElement implements
 
   @Override
   @NotNull
+  public List<KlothoRawComment> getRawCommentList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, KlothoRawComment.class);
+  }
+
+  @Override
+  @NotNull
   public PsiElement getJsdocCommentStart() {
     return findNotNullChildByType(JSDOC_COMMENT_START);
   }
