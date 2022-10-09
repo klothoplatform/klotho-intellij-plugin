@@ -55,6 +55,10 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey STAR =
             createTextAttributesKey("KLOTHO_STAR", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
 
+    public static final TextAttributesKey DATE_TIME_LITERAL =
+            createTextAttributesKey(
+                    "KLOTHO_DATE_TIME_LITERAL", DefaultLanguageHighlighterColors.NUMBER);
+
     public static final TextAttributesKey BRACES =
             createTextAttributesKey("KLOTHO_BRACES", DefaultLanguageHighlighterColors.BRACES);
 
@@ -77,6 +81,9 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
 
     private static final TextAttributesKey[] ANNOTATION_KEYS = new TextAttributesKey[] {ANNOTATION};
     private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[] {STRING};
+
+    private static final TextAttributesKey[] DATE_TIME_LITERAL_KEYS =
+            new TextAttributesKey[] {DATE_TIME_LITERAL};
 
     private static final TextAttributesKey[] PLAIN_NUMBER_KEYS =
             new TextAttributesKey[] {PLAIN_NUMBER};
@@ -149,6 +156,13 @@ public class KlothoSyntaxHighlighter extends SyntaxHighlighterBase {
             return PLAIN_NUMBER_KEYS;
         } else if (KlothoTypes.BOOLEAN.equals(tokenType)) {
             return BOOLEAN_KEYS;
+        } else if (List.of(
+                        KlothoTypes.OFFSET_DATE_TIME,
+                        KlothoTypes.LOCAL_DATE_TIME,
+                        KlothoTypes.LOCAL_DATE,
+                        KlothoTypes.LOCAL_TIME)
+                .contains(tokenType)) {
+            return DATE_TIME_LITERAL_KEYS;
         } else if (KlothoTypes.LEFT_BRACE.equals(tokenType)
                 || KlothoTypes.RIGHT_BRACE.equals(tokenType)) {
             return BRACES_KEYS;

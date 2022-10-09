@@ -63,7 +63,6 @@ MULTILINE_LINE_SEPARATOR=([\r\n]|\r\n)+(\s*(#|\/\/|\*)?)
 
 PLAIN_NUMBER=(\+?|-?)((\d+\.?\d*)|(\.\d+))
 TOML_COMMENT=(#.*)
-CAPABILITY=[:letter:][a-zA-Z_0-9]* // could also be hardcored list of capabilities
 JSDOC_COMMENT_START="/\*\*"
 MULTILINE_COMMENT_START="/*"
 C_LINE_COMMENT=\/\/
@@ -77,6 +76,11 @@ BOOLEAN=(true|false)
 DIG0_7=[0-7]+
 DIG0_1=[0-1]+
 HEX_DIG=[A-Fa-f\d]+
+
+OFFSET_DATE_TIME=\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(\.\d+)?(Z|-\d{2}:\d{2})
+LOCAL_DATE_TIME=\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(\.\d+)?
+LOCAL_DATE=\d{4}-\d{2}-\d{2}
+LOCAL_TIME=\d{2}:\d{2}:\d{2}(\.\d+)?
 
 // states
 %state multiline_comment line_comment raw annotation_decl line_content inline_table assignment array header
@@ -144,6 +148,10 @@ HEX_DIG=[A-Fa-f\d]+
     "0x"                           { yybegin(hex_number); return HEX_PREFIX; }
     "0o"                           { yybegin(oct_number); return OCT_PREFIX; }
     "0b"                           { yybegin(bin_number); return BIN_PREFIX; }
+    {OFFSET_DATE_TIME}             { yypopState(); return OFFSET_DATE_TIME; }
+    {LOCAL_DATE_TIME}              { yypopState(); return LOCAL_DATE_TIME; }
+    {LOCAL_DATE}                   { yypopState(); return LOCAL_DATE; }
+    {LOCAL_TIME}                   { yypopState(); return LOCAL_TIME; }
 
     <array, inline_table> {
         "["                            { yypushState(array); return LEFT_BRACKET; } // array start
@@ -168,7 +176,7 @@ HEX_DIG=[A-Fa-f\d]+
 <inline_table> {
   {ID}                           { return ID; }
    "="                           { return EQ; }
-   "}"                           { yypopState(); yypopState(); return RIGHT_BRACE;} // end of expression
+   "}"                           { yypopState(); yypopState(); return RIGHT_BRACE; } // end of expression
 }
 
 <array, inline_table> {
@@ -178,6 +186,10 @@ HEX_DIG=[A-Fa-f\d]+
   {STRING}                       { return STRING; }
   {PLAIN_NUMBER}                 { return PLAIN_NUMBER; }
   {BOOLEAN}                      { return BOOLEAN; }
+  {OFFSET_DATE_TIME}             { return OFFSET_DATE_TIME; }
+  {LOCAL_DATE_TIME}              { return LOCAL_DATE_TIME; }
+  {LOCAL_DATE}                   { return LOCAL_DATE; }
+  {LOCAL_TIME}                   { return LOCAL_TIME; }
    ","                           { return COMMA; }
   {TRIPLE_QUOTE}                 { currentQuoteType = yycurrentChar(); yypushState(multiline_string); return TRIPLE_QUOTE; }
 }

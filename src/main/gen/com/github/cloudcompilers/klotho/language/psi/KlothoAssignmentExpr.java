@@ -26,6 +26,18 @@ public interface KlothoAssignmentExpr extends PsiElement {
   PsiElement getBoolean();
 
   @Nullable
+  PsiElement getLocalDate();
+
+  @Nullable
+  PsiElement getLocalDateTime();
+
+  @Nullable
+  PsiElement getLocalTime();
+
+  @Nullable
+  PsiElement getOffsetDateTime();
+
+  @Nullable
   PsiElement getString();
 
 }

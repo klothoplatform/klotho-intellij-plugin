@@ -45,11 +45,15 @@ public interface KlothoTypes {
   IElementType JSDOC_COMMENT_START = new KlothoTokenType("JSDOC_COMMENT_START");
   IElementType LEFT_BRACE = new KlothoTokenType("{");
   IElementType LEFT_BRACKET = new KlothoTokenType("[");
+  IElementType LOCAL_DATE = new KlothoTokenType("LOCAL_DATE");
+  IElementType LOCAL_DATE_TIME = new KlothoTokenType("LOCAL_DATE_TIME");
+  IElementType LOCAL_TIME = new KlothoTokenType("LOCAL_TIME");
   IElementType MULTILINE_COMMENT_END = new KlothoTokenType("*/");
   IElementType MULTILINE_COMMENT_START = new KlothoTokenType("/*");
   IElementType MULTILINE_LINE_SEPARATOR = new KlothoTokenType("MULTILINE_LINE_SEPARATOR");
   IElementType MULTILINE_STRING_CONTENT = new KlothoTokenType("MULTILINE_STRING_CONTENT");
   IElementType OCT_PREFIX = new KlothoTokenType("0o");
+  IElementType OFFSET_DATE_TIME = new KlothoTokenType("OFFSET_DATE_TIME");
   IElementType PLAINTEXT = new KlothoTokenType("PLAINTEXT");
   IElementType PLAIN_NUMBER = new KlothoTokenType("PLAIN_NUMBER");
   IElementType PY_COMMENT = new KlothoTokenType("#");

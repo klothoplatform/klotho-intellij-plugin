@@ -107,14 +107,13 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // '@klotho' '::' Capability [ AnnotationBody ]
+  // '@klotho' '::' CAPABILITY [ AnnotationBody ]
   public static boolean AnnotationExpr(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "AnnotationExpr")) return false;
     if (!nextTokenIs(builder_, ANNOTATION)) return false;
     boolean result_, pinned_;
     Marker marker_ = enter_section_(builder_, level_, _NONE_, ANNOTATION_EXPR, null);
-    result_ = consumeTokens(builder_, 0, ANNOTATION, SEPARATOR);
-    result_ = result_ && Capability(builder_, level_ + 1);
+    result_ = consumeTokens(builder_, 3, ANNOTATION, SEPARATOR, CAPABILITY);
     pinned_ = result_; // pin = 3
     result_ = result_ && AnnotationExpr_3(builder_, level_ + 1);
     exit_section_(builder_, level_, marker_, result_, pinned_, null);
@@ -368,13 +367,14 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CAPABILITY | ID
-  static boolean Capability(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "Capability")) return false;
-    if (!nextTokenIs(builder_, "", CAPABILITY, ID)) return false;
+  // OFFSET_DATE_TIME | LOCAL_DATE_TIME | LOCAL_DATE | LOCAL_TIME
+  static boolean DateTimeLiteral(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "DateTimeLiteral")) return false;
     boolean result_;
-    result_ = consumeToken(builder_, CAPABILITY);
-    if (!result_) result_ = consumeToken(builder_, ID);
+    result_ = consumeToken(builder_, OFFSET_DATE_TIME);
+    if (!result_) result_ = consumeToken(builder_, LOCAL_DATE_TIME);
+    if (!result_) result_ = consumeToken(builder_, LOCAL_DATE);
+    if (!result_) result_ = consumeToken(builder_, LOCAL_TIME);
     return result_;
   }
 
@@ -718,7 +718,7 @@ public class KlothoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Number | string | MultilineString | BOOLEAN
+  // Number | string  | MultilineString | BOOLEAN | DateTimeLiteral
   static boolean SimpleValue(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "SimpleValue")) return false;
     boolean result_;
@@ -726,6 +726,7 @@ public class KlothoParser implements PsiParser, LightPsiParser {
     if (!result_) result_ = consumeToken(builder_, STRING);
     if (!result_) result_ = MultilineString(builder_, level_ + 1);
     if (!result_) result_ = consumeToken(builder_, BOOLEAN);
+    if (!result_) result_ = DateTimeLiteral(builder_, level_ + 1);
     return result_;
   }
 

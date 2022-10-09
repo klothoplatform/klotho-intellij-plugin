@@ -65,6 +65,30 @@ public class KlothoAssignmentExprImpl extends ASTWrapperPsiElement implements Kl
 
   @Override
   @Nullable
+  public PsiElement getLocalDate() {
+    return findChildByType(LOCAL_DATE);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getLocalDateTime() {
+    return findChildByType(LOCAL_DATE_TIME);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getLocalTime() {
+    return findChildByType(LOCAL_TIME);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getOffsetDateTime() {
+    return findChildByType(OFFSET_DATE_TIME);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getString() {
     return findChildByType(STRING);
   }

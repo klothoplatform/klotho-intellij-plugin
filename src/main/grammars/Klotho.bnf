@@ -27,6 +27,11 @@
     COMMA=','
     BOOLEAN='regexp:(true|false)'
 
+    OFFSET_DATE_TIME
+    LOCAL_DATE_TIME
+    LOCAL_DATE
+    LOCAL_TIME
+
     TRIPLE_QUOTE
     MULTILINE_STRING_CONTENT
     MULTILINE_LINE_SEPARATOR
@@ -69,7 +74,7 @@ CStyleCommentBlock ::= MULTILINE_COMMENT_START EOL * RawComment * (StarPrefix An
 
 LineComment ::= LineCommentPrefix AnnotationExpr
 
-AnnotationExpr ::= '@klotho' '::' Capability [ AnnotationBody ] {pin=3}
+AnnotationExpr ::= '@klotho' '::' CAPABILITY [ AnnotationBody ] {pin=3}
 
 AnnotationBody ::= StarPrefix '{' EOL * AnnotationContent  EOL * StarPrefix '}' EOL * {pin=2}
 
@@ -93,12 +98,9 @@ InlineTable ::= '{' [AssignmentExpr] (',' AssignmentExpr) * '}' {pin(".*")=1}
 
 Array ::= '[' ([(Value ( [StarPrefix] ',' [StarPrefix] )) * [StarPrefix] [Value] !','] )  ']' {pin=2}
 
-private SimpleValue ::=  Number | string | MultilineString | BOOLEAN
+private SimpleValue ::=  Number | string  | MultilineString | BOOLEAN | DateTimeLiteral
 
 Key ::= ID
-
-// this just helps with the live preview. the lexer distinguishes between capability and id
-private Capability ::= CAPABILITY | ID
 
 Number ::= PLAIN_NUMBER | HexNumber | BinNumber | OctNumber
 
@@ -111,3 +113,5 @@ HexNumber ::= HEX_PREFIX HEX_DIG {pin=1}
 RawComment ::= StarPrefix PLAINTEXT * EOL
 
 MultilineString ::= TRIPLE_QUOTE (MULTILINE_LINE_SEPARATOR | MULTILINE_STRING_CONTENT) * TRIPLE_QUOTE
+
+private DateTimeLiteral ::= OFFSET_DATE_TIME | LOCAL_DATE_TIME | LOCAL_DATE | LOCAL_TIME
