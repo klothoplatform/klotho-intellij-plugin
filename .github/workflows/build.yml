@@ -31,6 +31,7 @@ jobs:
     outputs:
       version: ${{ steps.properties.outputs.version }}
       changelog: ${{ steps.properties.outputs.changelog }}
+      artifact: ${{ steps.artifact.outputs.filename }}
     steps:
 
       # Free GitHub Actions Environment Disk Space
@@ -126,7 +127,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.artifact.outputs.filename }}
-          path: ./build/distributions/content/*/*
+          path: |
+            ./build/distributions/content/*/*
+            ./build/distributions/*.zip
 
   # Prepare a draft release for GitHub Releases page for the manual verification
   # If accepted and published, release workflow would be triggered
@@ -152,6 +155,12 @@ jobs:
             --jq '.[] | select(.draft == true) | .id' \
             | xargs -I '{}' gh api -X DELETE repos/{owner}/{repo}/releases/{}
 
+      # Download the JAR build artrifact
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.build.outputs.artifact }}
+
       # Create new release draft - which is not publicly visible and requires manual acceptance
       - name: Create Release Draft
         env:
@@ -163,4 +172,5 @@ jobs:
             --notes "$(cat << 'EOM'
           ${{ needs.build.outputs.changelog }}
           EOM
-          )"
+          )" \
+          ${{ needs.build.outputs.artifact }}.zip

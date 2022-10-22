@@ -1,4 +1,4 @@
-# klotho-intellij-plugin
+# Klotho Intellij Plugin
 
 ![Build](https://github.com/DavidSeptimus-Klotho/klotho-intellij-plugin/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
