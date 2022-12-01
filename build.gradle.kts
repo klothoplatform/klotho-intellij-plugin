@@ -1,5 +1,4 @@
 import org.jetbrains.changelog.markdownToHTML
-import org.jetbrains.grammarkit.tasks.GenerateLexerTask
 
 fun properties(key: String) = project.findProperty(key).toString()
 sourceSets["main"].java.srcDirs("src/main/gen")
@@ -161,7 +160,7 @@ tasks {
     runIde {
         // Absolute path to the installed targetIDE to use as IDE Development
         // Instance (the "Contents" directory is macOS specific):
-        ideDir.set(file("/Users/dave/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/222.4345.14/IntelliJ IDEA.app/Contents"))
+//      //ideDir.set(file("<HOME>Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/<BUILD>/IntelliJ IDEA.app/Contents"))
     }
 }
 
