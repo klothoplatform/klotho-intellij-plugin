@@ -160,7 +160,7 @@ tasks {
     runIde {
         // Absolute path to the installed targetIDE to use as IDE Development
         // Instance (the "Contents" directory is macOS specific):
-//      //ideDir.set(file("<HOME>Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/<BUILD>/IntelliJ IDEA.app/Contents"))
+        // ideDir.set(file("<HOME>Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/<BUILD>/IntelliJ IDEA.app/Contents"))
     }
 }
 
