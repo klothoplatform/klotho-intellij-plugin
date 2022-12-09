@@ -1,0 +1,9 @@
+<idea-plugin>
+<extensions defaultExtensionNs="com.intellij">
+        <languageInjectionContributor language="go"
+                                      implementationClass="com.github.cloudcompilers.klotho.language.injection.KlothoInjector"/>
+        <languageInjectionPerformer language="go"
+                                    implementationClass="com.github.cloudcompilers.klotho.language.injection.GoInjectionPerformer"/>
+        <defaultLiveTemplates file="/liveTemplates/Klotho_Go.xml"/>
+    </extensions>
+</idea-plugin>

@@ -7,6 +7,9 @@
     <depends>com.intellij.modules.platform</depends>
     <depends optional="true" config-file="klotho-withJavaScript.xml">JavaScript</depends>
     <depends optional="true" config-file="klotho-withPython.xml">Pythonid</depends>
+    <depends optional="true" config-file="klotho-withGo.xml">org.jetbrains.plugins.go</depends>
+    <depends optional="true" config-file="klotho-withYaml.xml">org.jetbrains.plugins.yaml</depends>
+    <depends optional="true" config-file="klotho-withDocker.xml">Docker</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType
@@ -32,7 +35,7 @@
         <lang.commenter language="Klotho" implementationClass="com.github.cloudcompilers.klotho.language.KlothoCommenter"/>
         <defaultLiveTemplates file="/liveTemplates/Klotho.xml"/>
         <liveTemplateContext
-                implementation="com.github.cloudcompilers.klotho.language.context.KlothoContext"/>
+                implementation="com.github.cloudcompilers.klotho.language.context.KlothoContext" contextId="Klotho"/>
 <!--        <lang.formatter-->
 <!--                language="Klotho"-->
 <!--                implementationClass="com.github.cloudcompilers.klotho.language.formatting.KlothoFormattingModelBuilder"/>-->

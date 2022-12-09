@@ -1,0 +1,9 @@
+<idea-plugin>
+<extensions defaultExtensionNs="com.intellij">
+        <languageInjectionContributor language="yaml"
+                                      implementationClass="com.github.cloudcompilers.klotho.language.injection.KlothoInjector"/>
+        <languageInjectionPerformer language="yaml"
+                                    implementationClass="com.github.cloudcompilers.klotho.language.injection.YamlInjectionPerformer"/>
+        <defaultLiveTemplates file="/liveTemplates/Klotho_Dockerfile.xml"/>
+    </extensions>
+</idea-plugin>
