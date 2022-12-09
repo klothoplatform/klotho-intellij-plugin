@@ -5,5 +5,8 @@
         <languageInjectionPerformer language="Dockerfile"
                                     implementationClass="com.github.cloudcompilers.klotho.language.injection.DockerInjectionPerformer"/>
         <defaultLiveTemplates file="/liveTemplates/Klotho_Python.xml"/>
+        <liveTemplateContext
+                contextId="KLOTHO_DOCKERFILE"
+                implementation="com.github.cloudcompilers.klotho.language.livetemplates.DockerfileContext"/>
     </extensions>
 </idea-plugin>

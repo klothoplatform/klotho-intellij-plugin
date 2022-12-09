@@ -1,14 +1,18 @@
-<templateSet name="Klotho - Go">
+<templateSet group="Klotho - Go">
 
-<template name="@klotho" value="/**&#10; * @klotho::$CAPABILITY$ {&#10; *   id = &quot;$ID$&quot;&#10; * }&#10; */$END$" description="Creates a Klotho Capability Annotation" toReformat="true" toShortenFQNames="true">
-    <variable name="CAPABILITY" expression="enum(&quot;embed_assets&quot;, &quot;execution_unit&quot;, &quot;expose&quot;, &quot;persist&quot;, &quot;pubsub&quot;, &quot;static_unit&quot;)" defaultValue="" alwaysStopAt="true" />
-    <variable name="ID" expression="" defaultValue="" alwaysStopAt="true" />
-    <context>
-        <option name="GO" value="true" />
-        <option name="GOLANG" value="true" />
-        <option name="GO_EXPRESSION" value="false" />
-        <option name="GO_TAG" value="false" />
-        <option name="GO_TAG_LITERAL" value="false" />
-    </context>
-</template>
+    <template name="@klotho"
+              value="/**&#10; * @klotho::$CAPABILITY$ {&#10; *   id = &quot;$ID$&quot;&#10; * }&#10; */$END$"
+              description="Creates a Klotho Capability Annotation" toReformat="true" toShortenFQNames="true">
+        <variable name="CAPABILITY"
+                  expression="enum(&quot;embed_assets&quot;, &quot;execution_unit&quot;, &quot;expose&quot;, &quot;persist&quot;, &quot;pubsub&quot;, &quot;static_unit&quot;)"
+                  defaultValue="" alwaysStopAt="true"/>
+        <variable name="ID" expression="" defaultValue="" alwaysStopAt="true"/>
+        <context>
+            <option name="GO" value="true"/>
+            <option name="GOLANG" value="true"/>
+            <option name="GO_EXPRESSION" value="false"/>
+            <option name="GO_TAG" value="false"/>
+            <option name="GO_TAG_LITERAL" value="false"/>
+        </context>
+    </template>
 </templateSet>

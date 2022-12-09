@@ -1,7 +1,10 @@
-<templateSet name="Klotho - Python">
-    <template name="@klotho" value="# @klotho::$CAPABILITY$ {&#10;#   id = &quot;$ID$&quot;&#10;# }$END$" description="Creates a Klotho Capability Annotation" toReformat="true" toShortenFQNames="true">
-        <variable name="CAPABILITY" expression="enum(&quot;embed_assets&quot;, &quot;execution_unit&quot;, &quot;expose&quot;, &quot;persist&quot;, &quot;pubsub&quot;, &quot;static_unit&quot;)" defaultValue="" alwaysStopAt="true" />
-        <variable name="ID" expression="" defaultValue="" alwaysStopAt="true" />
+<templateSet group="Klotho - Python">
+    <template name="@klotho" value="# @klotho::$CAPABILITY$ {&#10;#   id = &quot;$ID$&quot;&#10;# }$END$"
+              description="Creates a Klotho Capability Annotation" toReformat="true" toShortenFQNames="true">
+        <variable name="CAPABILITY"
+                  expression="enum(&quot;embed_assets&quot;, &quot;execution_unit&quot;, &quot;expose&quot;, &quot;persist&quot;, &quot;pubsub&quot;, &quot;static_unit&quot;)"
+                  defaultValue="" alwaysStopAt="true"/>
+        <variable name="ID" expression="" defaultValue="" alwaysStopAt="true"/>
         <context>
             <option name="Python" value="true"/>
         </context>
