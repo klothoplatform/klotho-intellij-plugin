@@ -1,9 +1,14 @@
 <idea-plugin>
 <extensions defaultExtensionNs="com.intellij">
-        <languageInjectionContributor language="yaml"
-                                      implementationClass="com.github.cloudcompilers.klotho.language.injection.KlothoInjector"/>
-        <languageInjectionPerformer language="yaml"
-                                    implementationClass="com.github.cloudcompilers.klotho.language.injection.YamlInjectionPerformer"/>
-        <defaultLiveTemplates file="/liveTemplates/Klotho_Dockerfile.xml"/>
-    </extensions>
+    <languageInjectionContributor language="yaml"
+                                  implementationClass="com.github.cloudcompilers.klotho.language.injection.KlothoInjector"/>
+    <languageInjectionPerformer language="yaml"
+                                implementationClass="com.github.cloudcompilers.klotho.language.injection.YamlInjectionPerformer"/>
+    <defaultLiveTemplates file="/liveTemplates/Klotho_Yaml.xml"/>
+    <liveTemplateContext
+            contextId="KLOTHO_YAML"
+            implementation="com.github.cloudcompilers.klotho.language.livetemplates.YamlContext"/>
+    <psi.referenceContributor language="yaml"
+                              implementation="com.github.cloudcompilers.klotho.language.reference.KlothoYamlReferenceContributor"/>
+</extensions>
 </idea-plugin>

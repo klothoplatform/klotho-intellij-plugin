@@ -1,5 +1,4 @@
 <templateSet group="Klotho - Go">
-
     <template name="@klotho"
               value="/**&#10; * @klotho::$CAPABILITY$ {&#10; *   id = &quot;$ID$&quot;&#10; * }&#10; */$END$"
               description="Creates a Klotho Capability Annotation" toReformat="true" toShortenFQNames="true">

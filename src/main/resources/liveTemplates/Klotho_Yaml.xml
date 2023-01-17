@@ -1,4 +1,4 @@
-<templateSet group="Klotho - Dockerfile">
+<templateSet group="Klotho - Yaml">
     <template name="@klotho" value="# @klotho::$CAPABILITY$ {&#10;#   id = &quot;$ID$&quot;&#10;# }$END$"
               description="Creates a Klotho Capability Annotation" toReformat="true" toShortenFQNames="true">
         <variable name="CAPABILITY"
@@ -6,7 +6,7 @@
                   defaultValue="" alwaysStopAt="true"/>
         <variable name="ID" expression="" defaultValue="" alwaysStopAt="true"/>
         <context>
-            <option name="KLOTHO_DOCKERFILE" value="true"/>
+            <option name="KLOTHO_YAML" value="true"/>
         </context>
     </template>
 </templateSet>
