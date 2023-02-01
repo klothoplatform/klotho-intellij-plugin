@@ -8,7 +8,5 @@
     <liveTemplateContext
             contextId="KLOTHO_YAML"
             implementation="com.github.cloudcompilers.klotho.language.livetemplates.YamlContext"/>
-    <psi.referenceContributor language="yaml"
-                              implementation="com.github.cloudcompilers.klotho.language.reference.KlothoYamlReferenceContributor"/>
 </extensions>
 </idea-plugin>
